@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#FF0000" />
+    
+    <!-- Primary Meta Tags -->
+    <title>pdfcanada.ca - Free PDF Tools | Proudly Canadian 🇨🇦</title>
+    <meta name="title" content="pdfcanada.ca - Free PDF Tools | Proudly Canadian 🇨🇦">
+    <meta name="description" content="Proudly Canadian. The polite PDF editor that processes files locally on your device. Secure, free, and no signup required.">
+    <meta name="keywords" content="pdf tools, delete pdf pages, rotate pdf, heic to pdf, epub converter, free pdf editor, canada, secure pdf, local processing">
+    <meta name="author" content="pdfcanada.ca">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://pdfcanada.ca/">
+    <meta property="og:title" content="pdfcanada.ca - Free PDF Tools | Proudly Canadian 🇨🇦">
+    <meta property="og:description" content="Proudly Canadian. The polite PDF editor that processes files locally on your device. Secure, free, and no signup required.">
+    <meta property="og:image" content="https://pdfcanada.ca/og-image.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://pdfcanada.ca/">
+    <meta property="twitter:title" content="pdfcanada.ca - Free PDF Tools | Proudly Canadian 🇨🇦">
+    <meta property="twitter:description" content="Proudly Canadian. The polite PDF editor that processes files locally on your device. Secure, free, and no signup required.">
+    <meta property="twitter:image" content="https://pdfcanada.ca/og-image.png">
+
+    <!-- Performance & CDNs -->
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Tailwind CDN (Kept for simplicity) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            },
+            colors: {
+              canada: {
+                red: '#FF0000',
+                darkRed: '#C40000',
+                leaf: '#D80000'
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body {
+        background-color: #f8f9fa;
+      }
+      /* Custom scrollbar for page grid */
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 8px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: #f1f1f1; 
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #ccc; 
+        border-radius: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #aaa; 
+      }
+    </style>
+
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
