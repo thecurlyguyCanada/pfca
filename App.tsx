@@ -919,7 +919,7 @@ function App() {
   };
 
   const renderHome = () => (
-    <div className="w-full max-w-4xl mx-auto px-6 py-12 text-center">
+    <div className="w-full max-w-6xl mx-auto px-6 py-12">
       {hasSavedSession && (
         <div className="mb-8 p-4 bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-xl flex items-center justify-between shadow-sm animate-in fade-in slide-in-from-top-4">
           <div className="flex items-center gap-3">
@@ -940,38 +940,37 @@ function App() {
         </div>
       )}
 
-      <img
-        src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Beaming%20Face%20with%20Smiling%20Eyes.png"
-        alt="Friendly Face"
-        className="w-24 h-24 mx-auto mb-6 hover:scale-110 transition-transform duration-300"
-      />  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-100 dark:bg-red-900/30 border border-red-200 dark:border-red-800 text-canada-red text-xs font-bold uppercase tracking-wider shadow-sm">
-        <MapleLeaf className="w-4 h-4" />
-        {t.builtIn}
-      </div>
+      <div className="flex flex-col md:flex-row gap-12 items-center">
+        {/* Left Side: Hero Content */}
+        <div className="w-full md:w-1/2 space-y-6 text-center md:text-left">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-100 dark:bg-red-900/30 border border-red-200 dark:border-red-800 text-canada-red text-xs font-bold uppercase tracking-wider shadow-sm">
+            <MapleLeaf className="w-4 h-4" />
+            {t.builtIn}
+          </div>
 
-      <h1 className="text-5xl md:text-6xl font-extrabold leading-tight tracking-tight text-gray-900 dark:text-gray-100 drop-shadow-sm">
-        {t.title} <span className="text-canada-red">{t.subtitle}</span>
-      </h1>
+          <h1 className="text-5xl md:text-6xl font-extrabold leading-tight tracking-tight text-gray-900 dark:text-gray-100 drop-shadow-sm">
+            {t.title} <span className="text-canada-red">{t.subtitle}</span>
+          </h1>
 
-      <p className="text-xl text-gray-600 dark:text-gray-400 max-w-lg mx-auto md:mx-0 leading-relaxed font-medium">
-        {t.description}
-      </p>
+          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-lg leading-relaxed font-medium">
+            {t.description}
+          </p>
 
-      <div className="flex flex-col gap-4 max-w-md mx-auto md:mx-0">
-        <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur border border-gray-200 dark:border-gray-700 rounded-lg p-4 flex items-start gap-3 text-left shadow-sm">
-          <Shield className="w-5 h-5 text-canada-red mt-1 flex-shrink-0" />
-          <div>
-            <h4 className="font-bold text-gray-900 dark:text-gray-100 text-sm">{t.localProcessing}</h4>
-            <p className="text-gray-600 dark:text-gray-400 text-xs mt-1">
-              {t.localProcessingDesc}
-            </p>
+          <div className="flex flex-col gap-4 max-w-md">
+            <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur border border-gray-200 dark:border-gray-700 rounded-lg p-4 flex items-start gap-3 text-left shadow-sm">
+              <Shield className="w-5 h-5 text-canada-red mt-1 flex-shrink-0" />
+              <div>
+                <h4 className="font-bold text-gray-900 dark:text-gray-100 text-sm">{t.localProcessing}</h4>
+                <p className="text-gray-600 dark:text-gray-400 text-xs mt-1">
+                  {t.localProcessingDesc}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
 
-
-      {/* Right Side: Dashboard / Tool */}
-      <div className="w-full md:w-1/2 max-w-xl">
+        {/* Right Side: Dashboard / Tool */}
+        <div className="w-full md:w-1/2 max-w-xl">
         <div className="bg-white dark:bg-gray-900 rounded-[2rem] shadow-2xl shadow-gray-200/50 dark:shadow-gray-900/50 border border-gray-100 dark:border-gray-800 overflow-hidden relative min-h-[500px] flex flex-col transition-all duration-300">
 
           {/* --- DASHBOARD: SELECT TOOL --- */}
@@ -1063,14 +1062,15 @@ function App() {
 
         </div>
       </div>
+      </div>
 
       {/* Trust / Privacy Section (Below Hero) */}
-      <div className="max-w-3xl mx-auto text-center space-y-4">
+      <div className="max-w-3xl mx-auto text-center space-y-4 mt-16">
         <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">{t.builtIn}</h2>
         <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl mx-auto">{t.privacyText1}</p>
       </div>
 
-    </div >
+    </div>
   );
 
   const renderFeaturePage = () => {
