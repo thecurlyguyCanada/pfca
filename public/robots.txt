@@ -1,0 +1,9 @@
+# robots.txt for pdfcanada.ca
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://pdfcanada.ca/sitemap.xml
+
+# Crawl-delay (optional, be polite to servers)
+Crawl-delay: 1

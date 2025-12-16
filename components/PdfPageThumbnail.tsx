@@ -145,6 +145,8 @@ const PdfPageThumbnailComponent: React.FC<PdfPageThumbnailProps> = ({
         <canvas
           ref={canvasRef}
           className={`object-contain max-w-full max-h-full ${error ? 'hidden' : ''}`}
+          role="img"
+          aria-label={`Preview of PDF page ${pageIndex + 1}`}
         />
       </div>
 

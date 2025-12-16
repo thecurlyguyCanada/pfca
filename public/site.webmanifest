@@ -1,0 +1,26 @@
+{
+  "name": "pdfcanada.ca - Free PDF Tools",
+  "short_name": "PDF Canada",
+  "description": "Proudly Canadian. The polite PDF editor that processes files locally on your device.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8f9fa",
+  "theme_color": "#FF0000",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

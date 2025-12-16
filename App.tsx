@@ -396,6 +396,89 @@ function App() {
     };
   }, [downloadUrl]);
 
+  // Generate structured data for tool pages
+  const generateToolSchema = useCallback((tool: typeof tools[0], content: any) => {
+    const schemas: any[] = [];
+
+    // Breadcrumb Schema
+    schemas.push({
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://pdfcanada.ca/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": content.h1 || content.title,
+          "item": `https://pdfcanada.ca${tool.path}`
+        }
+      ]
+    });
+
+    // HowTo Schema (if steps exist)
+    if (content.steps && content.steps.length > 0) {
+      schemas.push({
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        "name": content.h1 || content.title,
+        "description": content.desc,
+        "step": content.steps.map((step: string, index: number) => ({
+          "@type": "HowToStep",
+          "position": index + 1,
+          "text": step
+        })),
+        "tool": {
+          "@type": "HowToTool",
+          "name": "Web Browser"
+        }
+      });
+    }
+
+    // FAQPage Schema (if FAQ exists)
+    if (content.faq && content.faq.length > 0) {
+      schemas.push({
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": content.faq.map((item: { question: string; answer: string }) => ({
+          "@type": "Question",
+          "name": item.question,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": item.answer
+          }
+        }))
+      });
+    }
+
+    // WebApplication Schema for the tool
+    schemas.push({
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": content.title,
+      "description": content.desc,
+      "url": `https://pdfcanada.ca${tool.path}`,
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "CAD"
+      },
+      "provider": {
+        "@type": "Organization",
+        "name": "pdfcanada.ca",
+        "url": "https://pdfcanada.ca"
+      }
+    });
+
+    return schemas;
+  }, []);
+
   // Structured Data for Home Page
   const softwareAppSchema = useMemo(() => ({
     "@context": "https://schema.org",
@@ -739,6 +822,7 @@ function App() {
     if (!currentTool) return null;
     const content = getToolContent(currentTool);
     const tool = tools.find(t => t.id === currentTool);
+    const toolSchemas = tool ? generateToolSchema(tool, content) : undefined;
 
     return (
       <div className="flex flex-col md:flex-row items-center justify-center w-full max-w-7xl mx-auto px-6 py-12 md:py-20 gap-12">
@@ -747,6 +831,8 @@ function App() {
           description={content.desc}
           lang={lang}
           canonicalPath={tool?.path}
+          ogType="website"
+          schema={toolSchemas}
         />
 
         <div className="w-full md:w-1/2 space-y-8 text-center md:text-left">

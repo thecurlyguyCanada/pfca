@@ -24,9 +24,21 @@ const PageLayout: React.FC<{ title: string; subtitle?: string; icon: React.React
 
 export const PricingPage: React.FC<PageProps> = ({ lang }) => {
   const t = translations[lang];
+  const pricingSchema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "pdfcanada.ca PDF Tools",
+    "description": t.seo.pricingDesc,
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "CAD",
+      "availability": "https://schema.org/InStock"
+    }
+  };
   return (
     <>
-      <SEO title={t.seo.pricingTitle} description={t.seo.pricingDesc} canonicalPath="/pricing" />
+      <SEO title={t.seo.pricingTitle} description={t.seo.pricingDesc} canonicalPath="/pricing" ogType="product" schema={pricingSchema} />
       <div className="max-w-5xl mx-auto px-6 py-12">
          <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">{t.pricingTitle}</h1>
@@ -74,9 +86,17 @@ export const PricingPage: React.FC<PageProps> = ({ lang }) => {
 
 export const PrivacyPage: React.FC<PageProps> = ({ lang }) => {
   const t = translations[lang];
+  const privacySchema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": t.seo.privacyTitle,
+    "description": t.seo.privacyDesc,
+    "url": "https://pdfcanada.ca/privacy",
+    "inLanguage": lang === 'fr' ? 'fr-CA' : 'en-CA'
+  };
   return (
     <>
-      <SEO title={t.seo.privacyTitle} description={t.seo.privacyDesc} canonicalPath="/privacy" />
+      <SEO title={t.seo.privacyTitle} description={t.seo.privacyDesc} canonicalPath="/privacy" schema={privacySchema} />
       <PageLayout title={t.privacyTitle} icon={<Shield size={32} />}>
         <div className="prose prose-lg max-w-none text-gray-600">
           <p className="mb-6">{t.privacyText1}</p>
@@ -96,9 +116,17 @@ export const PrivacyPage: React.FC<PageProps> = ({ lang }) => {
 
 export const TermsPage: React.FC<PageProps> = ({ lang }) => {
   const t = translations[lang];
+  const termsSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": t.seo.termsTitle,
+    "description": t.seo.termsDesc,
+    "url": "https://pdfcanada.ca/terms",
+    "inLanguage": lang === 'fr' ? 'fr-CA' : 'en-CA'
+  };
   return (
     <>
-      <SEO title={t.seo.termsTitle} description={t.seo.termsDesc} canonicalPath="/terms" />
+      <SEO title={t.seo.termsTitle} description={t.seo.termsDesc} canonicalPath="/terms" schema={termsSchema} />
       <PageLayout title={t.termsTitle} icon={<FileText size={32} />}>
         <div className="space-y-6 text-gray-600">
           <div className="flex gap-4">
@@ -145,9 +173,21 @@ export const SorryPolicyPage: React.FC<PageProps> = ({ lang }) => {
 
 export const HowToPage: React.FC<PageProps> = ({ lang }) => {
   const t = translations[lang];
+  const steps = [t.howtoStep1, t.howtoStep2, t.howtoStep3, t.howtoStep4];
+  const howtoSchema = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": t.howtoTitle,
+    "description": t.seo.howtoDesc,
+    "step": steps.map((step, index) => ({
+      "@type": "HowToStep",
+      "position": index + 1,
+      "text": step
+    }))
+  };
   return (
     <>
-      <SEO title={t.seo.howtoTitle} description={t.seo.howtoDesc} canonicalPath="/howto" />
+      <SEO title={t.seo.howtoTitle} description={t.seo.howtoDesc} canonicalPath="/howto" schema={howtoSchema} />
       <PageLayout title={t.howtoTitle} icon={<HelpCircle size={32} />}>
         <div className="grid gap-6">
           {[t.howtoStep1, t.howtoStep2, t.howtoStep3, t.howtoStep4].map((step, i) => (
@@ -166,9 +206,21 @@ export const HowToPage: React.FC<PageProps> = ({ lang }) => {
 
 export const MakePdfFillablePage: React.FC<PageProps> = ({ lang }) => {
   const t = translations[lang];
+  const fillableSchema = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": t.fillablePageTitle,
+    "description": t.seo.fillableDesc,
+    "step": [
+      { "@type": "HowToStep", "position": 1, "name": "Upload", "text": t.fillableStep1 },
+      { "@type": "HowToStep", "position": 2, "name": "Select", "text": t.fillableStep2 },
+      { "@type": "HowToStep", "position": 3, "name": "Fillify", "text": t.fillableStep3 },
+      { "@type": "HowToStep", "position": 4, "name": "Download", "text": t.fillableStep4 }
+    ]
+  };
   return (
     <>
-      <SEO title={t.seo.fillableTitle} description={t.seo.fillableDesc} canonicalPath="/how-to-make-a-pdf-fillable" />
+      <SEO title={t.seo.fillableTitle} description={t.seo.fillableDesc} canonicalPath="/how-to-make-a-pdf-fillable" schema={fillableSchema} />
       <PageLayout title={t.fillablePageTitle} subtitle={t.fillablePageSubtitle} icon={<PenTool size={32} />}>
         <div className="space-y-8 text-gray-700">
           <p className="text-lg font-medium">{t.fillableIntro}</p>
@@ -203,9 +255,22 @@ export const MakePdfFillablePage: React.FC<PageProps> = ({ lang }) => {
   );
 };
 
-export const SupportLocalPage: React.FC<PageProps> = ({ lang }) => (
+export const SupportLocalPage: React.FC<PageProps> = ({ lang }) => {
+  const supportSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "pdfcanada.ca",
+    "url": "https://pdfcanada.ca",
+    "description": translations[lang].seo.supportDesc,
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Toronto",
+      "addressCountry": "CA"
+    }
+  };
+  return (
     <>
-      <SEO title={translations[lang].seo.supportTitle} description={translations[lang].seo.supportDesc} canonicalPath="/support" />
+      <SEO title={translations[lang].seo.supportTitle} description={translations[lang].seo.supportDesc} canonicalPath="/support" schema={supportSchema} />
       <PageLayout title={translations[lang].navSupport} icon={<Coffee size={32} />}>
           <div className="text-center text-gray-600 space-y-6">
               <p className="text-lg">
@@ -222,4 +287,5 @@ export const SupportLocalPage: React.FC<PageProps> = ({ lang }) => (
           </div>
       </PageLayout>
     </>
-);
+  );
+};
