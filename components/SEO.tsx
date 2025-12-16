@@ -6,7 +6,8 @@ interface SEOProps {
   canonicalPath?: string;
   image?: string;
   lang?: string;
-  schema?: Record<string, any>;
+  schema?: Record<string, any> | Record<string, any>[];
+  ogType?: 'website' | 'article' | 'product';
 }
 
 export const SEO: React.FC<SEOProps> = ({
@@ -15,7 +16,8 @@ export const SEO: React.FC<SEOProps> = ({
   canonicalPath = '/',
   image = 'https://pdfcanada.ca/og-image.png',
   lang = 'en',
-  schema
+  schema,
+  ogType = 'website'
 }) => {
   // Memoize the setMeta helper function
   const setMeta = useCallback((attrName: string, attrValue: string, content: string) => {
@@ -39,17 +41,21 @@ export const SEO: React.FC<SEOProps> = ({
     setMeta('name', 'description', description);
 
     // 4. Update Open Graph
+    setMeta('property', 'og:type', ogType);
     setMeta('property', 'og:title', title);
     setMeta('property', 'og:description', description);
     setMeta('property', 'og:url', `https://pdfcanada.ca${canonicalPath}`);
     setMeta('property', 'og:image', image);
+    setMeta('property', 'og:image:alt', title);
     setMeta('property', 'og:locale', lang === 'fr' ? 'fr_CA' : 'en_CA');
+    setMeta('property', 'og:site_name', 'pdfcanada.ca');
 
     // 5. Update Twitter
-    setMeta('property', 'twitter:title', title);
-    setMeta('property', 'twitter:description', description);
-    setMeta('property', 'twitter:url', `https://pdfcanada.ca${canonicalPath}`);
-    setMeta('property', 'twitter:image', image);
+    setMeta('name', 'twitter:title', title);
+    setMeta('name', 'twitter:description', description);
+    setMeta('name', 'twitter:url', `https://pdfcanada.ca${canonicalPath}`);
+    setMeta('name', 'twitter:image', image);
+    setMeta('name', 'twitter:image:alt', title);
 
     // 6. Update Canonical Link
     let link = document.querySelector('link[rel="canonical"]');
@@ -64,20 +70,21 @@ export const SEO: React.FC<SEOProps> = ({
 
     // 7. Dynamic JSON-LD Structured Data
     // Remove existing dynamic schemas
-    const existingScript = document.getElementById('dynamic-schema');
-    if (existingScript) {
-        existingScript.remove();
-    }
+    document.querySelectorAll('script[data-dynamic-schema]').forEach(el => el.remove());
 
     if (schema) {
+      const schemas = Array.isArray(schema) ? schema : [schema];
+      schemas.forEach((schemaItem, index) => {
         const script = document.createElement('script');
-        script.id = 'dynamic-schema';
+        script.setAttribute('data-dynamic-schema', 'true');
+        script.id = `dynamic-schema-${index}`;
         script.type = 'application/ld+json';
-        script.textContent = JSON.stringify(schema);
+        script.textContent = JSON.stringify(schemaItem);
         document.head.appendChild(script);
+      });
     }
 
-  }, [title, description, canonicalPath, image, lang, schema, setMeta]);
+  }, [title, description, canonicalPath, image, lang, schema, ogType, setMeta]);
 
   return null;
 };
