@@ -122,7 +122,7 @@ const PdfPageThumbnailComponent: React.FC<PdfPageThumbnailProps> = ({
         renderTask.cancel();
       }
     };
-  }, [pdfJsDoc, pageIndex, isVisible]); // Depend on isVisible
+  }, [pdfJsDoc, pageIndex, isVisible, width]); // Depend on isVisible and width for zoom
 
   return (
     <div
@@ -209,5 +209,6 @@ export const PdfPageThumbnail = React.memo(PdfPageThumbnailComponent, (prevProps
     prevProps.isSelected === nextProps.isSelected &&
     prevProps.rotation === nextProps.rotation &&
     prevProps.pdfJsDoc === nextProps.pdfJsDoc &&
-    prevProps.mode === nextProps.mode;
+    prevProps.mode === nextProps.mode &&
+    prevProps.width === nextProps.width;
 });
