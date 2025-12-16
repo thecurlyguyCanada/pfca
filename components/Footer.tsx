@@ -35,12 +35,12 @@ const FooterComponent: React.FC<FooterProps> = ({ lang, onNavigate }) => {
                <div>
                   <h4 className="font-bold text-gray-900 dark:text-white mb-4">Tools</h4>
                   <ul className="space-y-2 text-sm">
-                     <li><button onClick={() => onNavigate('TOOL_PAGE', '/delete-pdf-pages')} className="hover:text-canada-red transition-colors">{t.toolDelete}</button></li>
-                     <li><button onClick={() => onNavigate('TOOL_PAGE', '/rotate-pdf')} className="hover:text-canada-red transition-colors">{t.toolRotate}</button></li>
-                     <li><button onClick={() => onNavigate('TOOL_PAGE', '/make-pdf-fillable')} className="hover:text-canada-red transition-colors">{t.toolMakeFillable}</button></li>
-                     <li><button onClick={() => onNavigate('TOOL_PAGE', '/heic-to-pdf')} className="hover:text-canada-red transition-colors">{t.toolHeic}</button></li>
-                     <li><button onClick={() => onNavigate('TOOL_PAGE', '/epub-to-pdf')} className="hover:text-canada-red transition-colors">{t.toolEpubToPdf}</button></li>
-                     <li><button onClick={() => onNavigate('TOOL_PAGE', '/pdf-to-epub')} className="hover:text-canada-red transition-colors">{t.toolPdfToEpub}</button></li>
+                     <li><button onClick={() => onNavigate('TOOL_PAGE', '/delete-pdf-pages')} className="hover:text-canada-red transition-colors focus:outline-none focus:text-canada-red focus:underline">{t.toolDelete}</button></li>
+                     <li><button onClick={() => onNavigate('TOOL_PAGE', '/rotate-pdf')} className="hover:text-canada-red transition-colors focus:outline-none focus:text-canada-red focus:underline">{t.toolRotate}</button></li>
+                     <li><button onClick={() => onNavigate('TOOL_PAGE', '/make-pdf-fillable')} className="hover:text-canada-red transition-colors focus:outline-none focus:text-canada-red focus:underline">{t.toolMakeFillable}</button></li>
+                     <li><button onClick={() => onNavigate('TOOL_PAGE', '/heic-to-pdf')} className="hover:text-canada-red transition-colors focus:outline-none focus:text-canada-red focus:underline">{t.toolHeic}</button></li>
+                     <li><button onClick={() => onNavigate('TOOL_PAGE', '/epub-to-pdf')} className="hover:text-canada-red transition-colors focus:outline-none focus:text-canada-red focus:underline">{t.toolEpubToPdf}</button></li>
+                     <li><button onClick={() => onNavigate('TOOL_PAGE', '/pdf-to-epub')} className="hover:text-canada-red transition-colors focus:outline-none focus:text-canada-red focus:underline">{t.toolPdfToEpub}</button></li>
                   </ul>
                </div>
 
@@ -48,10 +48,10 @@ const FooterComponent: React.FC<FooterProps> = ({ lang, onNavigate }) => {
                <div>
                   <h4 className="font-bold text-gray-900 dark:text-white mb-4">Company</h4>
                   <ul className="space-y-2 text-sm">
-                     <li><button onClick={() => onNavigate('HOW_TO')} className="hover:text-canada-red transition-colors">{t.navHowTo}</button></li>
-                     <li><button onClick={() => onNavigate('MAKE_FILLABLE_INFO')} className="hover:text-canada-red transition-colors">{t.makeFillableFooter}</button></li>
-                     <li><button onClick={() => onNavigate('SUPPORT')} className="hover:text-canada-red transition-colors">{t.navSupport}</button></li>
-                     <li><button onClick={() => onNavigate('SORRY')} className="hover:text-canada-red transition-colors">{t.sorryPolicy}</button></li>
+                     <li><button onClick={() => onNavigate('HOW_TO')} className="hover:text-canada-red transition-colors focus:outline-none focus:text-canada-red focus:underline">{t.navHowTo}</button></li>
+                     <li><button onClick={() => onNavigate('MAKE_FILLABLE_INFO')} className="hover:text-canada-red transition-colors focus:outline-none focus:text-canada-red focus:underline">{t.makeFillableFooter}</button></li>
+                     <li><button onClick={() => onNavigate('SUPPORT')} className="hover:text-canada-red transition-colors focus:outline-none focus:text-canada-red focus:underline">{t.navSupport}</button></li>
+                     <li><button onClick={() => onNavigate('SORRY')} className="hover:text-canada-red transition-colors focus:outline-none focus:text-canada-red focus:underline">{t.sorryPolicy}</button></li>
                   </ul>
                </div>
 
@@ -77,8 +77,8 @@ const FooterComponent: React.FC<FooterProps> = ({ lang, onNavigate }) => {
                <p>&copy; {year} pdfcanada.ca. {t.footerRights}</p>
 
                <div className="flex items-center gap-6">
-                  <button onClick={() => onNavigate('TERMS')} className="hover:text-canada-red transition-colors">{t.termsService}</button>
-                  <button onClick={() => onNavigate('PRIVACY')} className="hover:text-canada-red transition-colors">{t.privacy}</button>
+                  <button onClick={() => onNavigate('TERMS')} className="hover:text-canada-red transition-colors focus:outline-none focus:text-canada-red focus:underline">{t.termsService}</button>
+                  <button onClick={() => onNavigate('PRIVACY')} className="hover:text-canada-red transition-colors focus:outline-none focus:text-canada-red focus:underline">{t.privacy}</button>
                   <span className="flex items-center gap-1">
                      {t.footerMade} <Heart size={10} className="text-canada-red fill-current" /> in 🇨🇦
                   </span>

@@ -27,10 +27,10 @@ export const SortablePdfPageThumbnail: React.FC<SortablePdfPageThumbnailProps> =
 
     const style: React.CSSProperties = {
         transform: CSS.Transform.toString(transform),
-        transition,
+        transition: transition || 'transform 200ms ease',
         zIndex: isDragging ? 50 : 'auto',
-        opacity: isDragging ? 0.5 : 1,
-        cursor: 'grab',
+        opacity: isDragging ? 0.9 : 1,
+        cursor: isDragging ? 'grabbing' : 'grab',
         touchAction: 'none' // Required for pointer sensors
     };
 
@@ -42,12 +42,12 @@ export const SortablePdfPageThumbnail: React.FC<SortablePdfPageThumbnailProps> =
             style={style}
             {...attributes}
             {...listeners}
-            className={`relative rounded-xl border-2 ${isDragging ? 'border-canada-red shadow-2xl' : 'border-transparent'}`}
+            className={`relative rounded-xl border-2 transition-all duration-200 ${isDragging ? 'border-canada-red shadow-2xl scale-105 rotate-2' : 'border-transparent hover:border-gray-300 dark:hover:border-gray-600'}`}
         >
-            <div className="bg-white dark:bg-gray-800 p-2 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700" style={{ width: 'fit-content' }}>
+            <div className={`bg-white dark:bg-gray-800 p-2 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 transition-shadow ${isDragging ? 'shadow-xl' : ''}`} style={{ width: 'fit-content' }}>
                 <div className="flex justify-between items-center mb-2 px-1">
                     <span className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide">Page {pageIndex + 1}</span>
-                    <div className="cursor-grab text-gray-300 dark:text-gray-600 hover:text-gray-500 dark:hover:text-gray-400">
+                    <div className={`text-gray-300 dark:text-gray-600 hover:text-gray-500 dark:hover:text-gray-400 transition-colors ${isDragging ? 'text-canada-red' : ''}`}>
                         {/* Drag Handle Icon - Optional, whole card is draggable */}
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="12" r="1" /><circle cx="9" cy="5" r="1" /><circle cx="9" cy="19" r="1" /><circle cx="15" cy="12" r="1" /><circle cx="15" cy="5" r="1" /><circle cx="15" cy="19" r="1" /></svg>
                     </div>

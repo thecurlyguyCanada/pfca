@@ -59,7 +59,7 @@ export const PricingPage: React.FC<PageProps> = ({ lang }) => {
                                 </li>
                             ))}
                         </ul>
-                        <button className="w-full mt-8 bg-gray-900 dark:bg-gray-700 text-white py-3 rounded-xl font-bold hover:bg-black dark:hover:bg-gray-600 transition-colors">
+                        <button className="w-full mt-8 bg-gray-900 dark:bg-gray-700 text-white py-3 rounded-xl font-bold hover:bg-black dark:hover:bg-gray-600 transition-all focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900">
                             Start Now
                         </button>
                     </div>
@@ -90,7 +90,7 @@ export const PricingPage: React.FC<PageProps> = ({ lang }) => {
                             href="https://buy.stripe.com/8x228t4yIdCx2mE2ic6Zy04"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="w-full mt-8 bg-gradient-to-r from-amber-500 to-orange-500 text-white py-3.5 rounded-xl font-bold hover:from-amber-600 hover:to-orange-600 transition-all flex items-center justify-center gap-2 shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 hover:-translate-y-0.5"
+                            className="w-full mt-8 bg-gradient-to-r from-amber-500 to-orange-500 text-white py-3.5 rounded-xl font-bold hover:from-amber-600 hover:to-orange-600 transition-all flex items-center justify-center gap-2 shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2"
                         >
                             <span className="text-lg">🪙</span> {t.timbitsButton}
                         </a>
@@ -110,7 +110,7 @@ export const PricingPage: React.FC<PageProps> = ({ lang }) => {
                                 </li>
                             ))}
                         </ul>
-                        <button className="w-full mt-8 bg-canada-red text-white py-3 rounded-xl font-bold hover:bg-canada-darkRed transition-colors">
+                        <button className="w-full mt-8 bg-canada-red text-white py-3 rounded-xl font-bold hover:bg-canada-darkRed transition-all focus:outline-none focus:ring-2 focus:ring-canada-red focus:ring-offset-2 dark:focus:ring-offset-gray-900">
                             Contact Sales (Jk it's free)
                         </button>
                     </div>

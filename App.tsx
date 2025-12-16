@@ -788,10 +788,10 @@ function App() {
                       </>
                     )}
 
-                    <button onClick={() => setPreviewZoom(z => Math.max(0.5, z - 0.25))} className="p-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-canada-red focus:ring-offset-1" title="Zoom Out" aria-label="Zoom Out">
+                    <button onClick={() => setPreviewZoom(z => Math.max(0.5, z - 0.25))} disabled={previewZoom <= 0.5} className="p-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-canada-red focus:ring-offset-1 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white dark:disabled:hover:bg-gray-800 transition-colors" title="Zoom Out" aria-label="Zoom Out">
                       <ZoomOut size={16} />
                     </button>
-                    <button onClick={() => setPreviewZoom(z => Math.min(3, z + 0.25))} className="p-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-canada-red focus:ring-offset-1" title="Zoom In" aria-label="Zoom In">
+                    <button onClick={() => setPreviewZoom(z => Math.min(3, z + 0.25))} disabled={previewZoom >= 3} className="p-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-canada-red focus:ring-offset-1 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white dark:disabled:hover:bg-gray-800 transition-colors" title="Zoom In" aria-label="Zoom In">
                       <ZoomIn size={16} />
                     </button>
                   </div>
@@ -811,11 +811,11 @@ function App() {
 
                     {/* Zoom Controls Shared */}
                     <div className="flex items-center gap-1 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 p-1">
-                      <button onClick={() => setPreviewZoom(z => Math.max(0.5, z - 0.25))} className="p-1 hover:bg-white dark:hover:bg-gray-600 rounded transition-colors text-gray-500 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-canada-red" aria-label="Zoom Out">
+                      <button onClick={() => setPreviewZoom(z => Math.max(0.5, z - 0.25))} disabled={previewZoom <= 0.5} className="p-1 hover:bg-white dark:hover:bg-gray-600 rounded transition-colors text-gray-500 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-canada-red disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent" aria-label="Zoom Out">
                         <ZoomOut size={14} />
                       </button>
-                      <span className="text-xs font-mono w-8 text-center text-gray-400">{Math.round(previewZoom * 100)}%</span>
-                      <button onClick={() => setPreviewZoom(z => Math.min(3, z + 0.25))} className="p-1 hover:bg-white dark:hover:bg-gray-600 rounded transition-colors text-gray-500 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-canada-red" aria-label="Zoom In">
+                      <span className="text-xs font-mono w-10 text-center text-gray-500 dark:text-gray-300">{Math.round(previewZoom * 100)}%</span>
+                      <button onClick={() => setPreviewZoom(z => Math.min(3, z + 0.25))} disabled={previewZoom >= 3} className="p-1 hover:bg-white dark:hover:bg-gray-600 rounded transition-colors text-gray-500 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-canada-red disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent" aria-label="Zoom In">
                         <ZoomIn size={14} />
                       </button>
                     </div>
@@ -930,8 +930,8 @@ function App() {
             </div>
           </div>
           <div className="flex gap-2">
-            <button onClick={clearAutosave} className="px-4 py-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 font-medium text-sm">Dismiss</button>
-            <button onClick={handleResume} className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-bold shadow-md transition-colors">
+            <button onClick={clearAutosave} className="px-4 py-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 font-medium text-sm focus:outline-none focus:text-canada-red focus:underline transition-colors">Dismiss</button>
+            <button onClick={handleResume} className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-bold shadow-md transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900">
               Resume Work
             </button>
           </div>
@@ -1225,15 +1225,17 @@ function App() {
             <div className="flex items-center gap-1 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 p-1">
               <button
                 onClick={() => setOcrZoom(z => Math.max(0.5, z - 0.25))}
-                className="p-1 text-gray-500 dark:text-gray-400 hover:text-canada-red hover:bg-red-50 dark:hover:bg-red-900/30 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-canada-red"
+                disabled={ocrZoom <= 0.5}
+                className="p-1 text-gray-500 dark:text-gray-400 hover:text-canada-red hover:bg-red-50 dark:hover:bg-red-900/30 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-canada-red disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-gray-500"
                 aria-label="Zoom Out"
               >
                 <ZoomOut size={16} />
               </button>
-              <span className="text-xs font-mono w-8 text-center text-gray-600 dark:text-gray-400">{Math.round(ocrZoom * 100)}%</span>
+              <span className="text-xs font-mono w-10 text-center text-gray-600 dark:text-gray-300">{Math.round(ocrZoom * 100)}%</span>
               <button
                 onClick={() => setOcrZoom(z => Math.min(3, z + 0.25))}
-                className="p-1 text-gray-500 dark:text-gray-400 hover:text-canada-red hover:bg-red-50 dark:hover:bg-red-900/30 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-canada-red"
+                disabled={ocrZoom >= 3}
+                className="p-1 text-gray-500 dark:text-gray-400 hover:text-canada-red hover:bg-red-50 dark:hover:bg-red-900/30 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-canada-red disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-gray-500"
                 aria-label="Zoom In"
               >
                 <ZoomIn size={16} />
@@ -1439,21 +1441,21 @@ function App() {
 
             <div className="h-6 w-px bg-gray-200 dark:bg-gray-700 mx-2"></div>
 
-            <button onClick={undo} disabled={historyIndex <= 0} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg text-gray-600 dark:text-gray-400 disabled:opacity-30 disabled:cursor-not-allowed" title="Undo">
+            <button onClick={undo} disabled={historyIndex <= 0} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-gray-600 dark:text-gray-400 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent dark:disabled:hover:bg-transparent focus:outline-none focus:ring-2 focus:ring-canada-red transition-colors" title="Undo" aria-label="Undo">
               <Undo2 size={18} />
             </button>
-            <button onClick={redo} disabled={historyIndex >= history.length - 1} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg text-gray-600 dark:text-gray-400 disabled:opacity-30 disabled:cursor-not-allowed" title="Redo">
+            <button onClick={redo} disabled={historyIndex >= history.length - 1} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-gray-600 dark:text-gray-400 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent dark:disabled:hover:bg-transparent focus:outline-none focus:ring-2 focus:ring-canada-red transition-colors" title="Redo" aria-label="Redo">
               <Redo2 size={18} />
             </button>
 
             <div className="h-6 w-px bg-gray-200 dark:bg-gray-700 mx-2"></div>
 
             <div className="flex items-center gap-2">
-              <button onClick={() => setFormZoom(z => Math.max(0.5, z - 0.25))} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-canada-red" aria-label="Zoom Out">
+              <button onClick={() => setFormZoom(z => Math.max(0.5, z - 0.25))} disabled={formZoom <= 0.5} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-canada-red disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent transition-colors" aria-label="Zoom Out">
                 <ZoomOut size={18} />
               </button>
-              <span className="text-sm font-medium text-gray-500 dark:text-gray-400 w-12 text-center">{Math.round(formZoom * 100)}%</span>
-              <button onClick={() => setFormZoom(z => Math.min(2.0, z + 0.25))} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-canada-red" aria-label="Zoom In">
+              <span className="text-sm font-medium text-gray-600 dark:text-gray-300 w-12 text-center">{Math.round(formZoom * 100)}%</span>
+              <button onClick={() => setFormZoom(z => Math.min(2.0, z + 0.25))} disabled={formZoom >= 2.0} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-canada-red disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent transition-colors" aria-label="Zoom In">
                 <ZoomIn size={18} />
               </button>
             </div>

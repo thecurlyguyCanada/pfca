@@ -37,7 +37,7 @@ export const FormPropertiesPanel: React.FC<FormPropertiesPanelProps> = ({ field,
                         className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-canada-red focus:border-transparent outline-none transition-all text-sm font-medium font-mono bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                         placeholder="e.g. client_name"
                     />
-                    <p className="text-[10px] text-gray-400">Unique identifier for data mapping.</p>
+                    <p className="text-[10px] text-gray-500 dark:text-gray-400">Unique identifier for data mapping.</p>
                 </div>
 
                 {/* Label / Tooltip */}
