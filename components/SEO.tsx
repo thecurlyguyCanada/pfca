@@ -46,6 +46,9 @@ export const SEO: React.FC<SEOProps> = ({
     setMeta('property', 'og:description', description);
     setMeta('property', 'og:url', `https://pdfcanada.ca${canonicalPath}`);
     setMeta('property', 'og:image', image);
+    setMeta('property', 'og:image:width', '1200');
+    setMeta('property', 'og:image:height', '630');
+    setMeta('property', 'og:image:type', 'image/png');
     setMeta('property', 'og:image:alt', title);
     setMeta('property', 'og:locale', lang === 'fr' ? 'fr_CA' : 'en_CA');
     setMeta('property', 'og:site_name', 'pdfcanada.ca');
