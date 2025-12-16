@@ -288,6 +288,15 @@ export const translations = {
     enterpriseFeature2: "We say 'Sorry' twice as much",
     enterpriseFeature3: "Priority maple syrup delivery (optional)",
 
+    // Timbits Support Tier
+    timbitsPlan: "The 'Timbits' Tip",
+    timbitsCost: "$1 CAD",
+    timbitsDesc: "A small way to say thanks, eh?",
+    timbitsFeature1: "Support Canadian developers",
+    timbitsFeature2: "Feel warm and fuzzy inside",
+    timbitsFeature3: "Our eternal gratitude",
+    timbitsButton: "Buy us a Timbit",
+
     privacyTitle: "Privacy Policy",
     privacyText1: "At pdfcanada.ca, we believe that your business is your business. Because we process files locally on your device using WebAssembly technology, your documents never actually upload to our servers.",
     privacyText2: "We don't use cookies to track you across the web. We don't sell your data. We don't even ask for your email. It's just you and your PDF.",
@@ -527,6 +536,15 @@ export const translations = {
     enterpriseFeature1: "Tout du plan de base",
     enterpriseFeature2: "On s'excuse deux fois plus",
     enterpriseFeature3: "Livraison de sirop prioritaire (optionnel)",
+
+    // Timbits Support Tier
+    timbitsPlan: "Le pourboire 'Timbits'",
+    timbitsCost: "1 $ CAD",
+    timbitsDesc: "Une petite façon de dire merci.",
+    timbitsFeature1: "Soutenir les développeurs canadiens",
+    timbitsFeature2: "Se sentir bien en dedans",
+    timbitsFeature3: "Notre gratitude éternelle",
+    timbitsButton: "Nous offrir un Timbit",
 
     privacyTitle: "Politique de Confidentialité",
     privacyText1: "Chez pdfcanada.ca, vos affaires sont vos affaires. Parce qu'on traite les fichiers localement, vos documents ne sont jamais envoyés sur nos serveurs.",

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Shield, Heart, HelpCircle, FileText, CheckCircle2, AlertTriangle, Coffee, PenTool } from 'lucide-react';
+import { Shield, Heart, HelpCircle, FileText, CheckCircle2, AlertTriangle, Coffee, PenTool, Sparkles } from 'lucide-react';
 import { translations, Language } from '../utils/i18n';
 import { SEO } from './SEO';
 
@@ -45,7 +45,8 @@ export const PricingPage: React.FC<PageProps> = ({ lang }) => {
           <p className="text-xl text-gray-500">{t.pricingSubtitle}</p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-3 gap-6">
+          {/* Free Tier */}
           <div className="bg-white rounded-3xl p-8 shadow-lg border-2 border-gray-100 hover:border-canada-red/30 transition-all">
             <h3 className="text-2xl font-bold text-gray-800 mb-2">{t.freePlan}</h3>
             <div className="text-4xl font-bold text-canada-red mb-6">{t.freeCost}</div>
@@ -62,6 +63,33 @@ export const PricingPage: React.FC<PageProps> = ({ lang }) => {
             </button>
           </div>
 
+          {/* Timbits Tip Tier - Featured */}
+          <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-3xl p-8 shadow-xl border-2 border-amber-300 relative overflow-hidden transform md:-translate-y-2 md:scale-105">
+            <div className="absolute top-4 right-4 bg-amber-500 text-white text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
+              <Sparkles size={12} /> TIP JAR
+            </div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-2">{t.timbitsPlan}</h3>
+            <div className="text-4xl font-bold text-amber-600 mb-2">{t.timbitsCost}</div>
+            <p className="text-sm text-amber-700 mb-6">{t.timbitsDesc}</p>
+            <ul className="space-y-4">
+              {[t.timbitsFeature1, t.timbitsFeature2, t.timbitsFeature3].map((f, i) => (
+                <li key={i} className="flex items-center gap-3 text-gray-600">
+                  <Heart className="text-amber-500 shrink-0" size={20} />
+                  {f}
+                </li>
+              ))}
+            </ul>
+            <a
+              href="https://buy.stripe.com/8x228t4yIdCx2mE2ic6Zy04"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full mt-8 bg-amber-500 text-white py-3 rounded-xl font-bold hover:bg-amber-600 transition-colors flex items-center justify-center gap-2"
+            >
+              <Heart size={18} className="fill-current" /> {t.timbitsButton}
+            </a>
+          </div>
+
+          {/* Enterprise Tier */}
           <div className="bg-gradient-to-br from-red-50 to-white rounded-3xl p-8 shadow-lg border-2 border-canada-red/20 relative overflow-hidden">
             <div className="absolute top-4 right-4 bg-canada-red text-white text-xs font-bold px-3 py-1 rounded-full">MOST POLITE</div>
             <h3 className="text-2xl font-bold text-gray-800 mb-2">{t.enterprisePlan}</h3>
