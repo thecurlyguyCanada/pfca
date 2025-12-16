@@ -73,6 +73,7 @@ function App() {
   // Form Builder State
   const [formFields, setFormFields] = useState<FormField[]>([]);
   const [currentFormPage, setCurrentFormPage] = useState<number>(0);
+  const [formZoom, setFormZoom] = useState<number>(1);
 
   // Tool Specific State
   const [selectedPages, setSelectedPages] = useState<Set<number>>(new Set());
@@ -1218,6 +1219,14 @@ function App() {
 
     // Filter fields for current page
     const pageFields = formFields.filter(f => f.pageIndex === currentFormPage);
+    const baseWidth = 800;
+    const currentWidth = baseWidth * formZoom;
+    // Aspect ratio approximation (Letter). 
+    // Ideally we get this from the PDF page itself, but PdfPageThumbnail handles internal aspect. 
+    // We just need a consistent height for the % calc loop.
+    // Let's assume consistent aspect for the Rnd container scaling.
+    const approxAspectRatio = 1.414;
+    const currentHeight = currentWidth * approxAspectRatio;
 
     return (
       <div className="w-full max-w-7xl mx-auto px-6 py-12 flex flex-col h-[85vh]">
@@ -1232,6 +1241,18 @@ function App() {
             <button onClick={() => addField('checkbox')} className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-medium transition-colors">
               <CheckCircle2 size={18} /> {t.fbAddCheckbox}
             </button>
+
+            <div className="h-6 w-px bg-gray-200 mx-2"></div>
+
+            <div className="flex items-center gap-2">
+              <button onClick={() => setFormZoom(z => Math.max(0.5, z - 0.25))} className="p-2 hover:bg-gray-100 rounded-lg text-gray-600" title="Zoom Out">
+                <ZoomOut size={18} />
+              </button>
+              <span className="text-sm font-medium text-gray-500 w-12 text-center">{Math.round(formZoom * 100)}%</span>
+              <button onClick={() => setFormZoom(z => Math.min(2.0, z + 0.25))} className="p-2 hover:bg-gray-100 rounded-lg text-gray-600" title="Zoom In">
+                <ZoomIn size={18} />
+              </button>
+            </div>
           </div>
 
           <div className="flex items-center gap-2">
@@ -1264,11 +1285,11 @@ function App() {
             <div className="relative shadow-2xl bg-white" style={{ width: 'fit-content' }}>
               {/* The Background PDF Page */}
               {/* We need a fixed width for the editor canvas to make percentage calc easy? 
-                        Actually, PdfPageThumbnail renders canvas. We can set a large width, e.g. 800px.
-                        And the Rnd will be relative to this container.
+                        No, we use currentWidth for rendering, but percentage is relative to parent.
+                        Since parent width IS currentWidth, Rnd calc is straightforward.
                     */}
-              <div className="relative" style={{ width: 800 }}>
-                <PdfPageThumbnail pdfJsDoc={pdfJsDoc} pageIndex={currentFormPage} width={800} isSelected={false} onClick={() => { }} />
+              <div className="relative" style={{ width: currentWidth }}>
+                <PdfPageThumbnail pdfJsDoc={pdfJsDoc} pageIndex={currentFormPage} width={currentWidth} isSelected={false} onClick={() => { }} />
 
                 {/* Overlay Fields */}
                 {pageFields.map(field => (
@@ -1276,38 +1297,19 @@ function App() {
                     key={field.id}
                     bounds="parent"
                     size={{ width: `${field.width}%`, height: `${field.height}%` }}
-                    position={{ x: (field.x / 100) * 800, y: (field.y / 100) * (800 * (1.414)) }} // Approx 1.414 aspect ratio, but we should rely on %
-                    // Actually Rnd position is absolute pixels. We need to convert back and forth or just Use default position logic.
-                    // Better: Use Rnd's `default` prop for initial, and onDragStop/onResizeStop to update state in %.
-                    // But we need controlled component for re-renders?
-                    // Let's use controlled position/size.
-                    // We need to know the height of the container to translate % y to pixels.
-                    // The container height depends on the aspect ratio of the PDF page.
-                    // For now, let's assume standard Letter aspect roughly, or better, calculate from width.
-                    // Since PdfPageThumbnail renders canvas with unknown aspect ratio until loaded... 
-                    // We can use a simpler approach: Just let Rnd handle pixels, and convert to % only on save?
-                    // No, we need state to persist between page swaps.
-                    // Let's Assume 800px width.
-
-                    default={{
-                      x: (field.x / 100) * 800,
-                      y: (field.y / 100) * 1131, // Approx letter height for 800px width (800 * 1.414)
-                      width: (field.width / 100) * 800,
-                      height: (field.height / 100) * 1131
+                    position={{
+                      x: (field.x / 100) * currentWidth,
+                      y: (field.y / 100) * currentHeight
                     }}
                     onDragStop={(e, d) => {
-                      const parentWidth = 800;
-                      const parentHeight = 1131; // Estimate
-                      updateField(field.id, { x: (d.x / parentWidth) * 100, y: (d.y / parentHeight) * 100 });
+                      updateField(field.id, { x: (d.x / currentWidth) * 100, y: (d.y / currentHeight) * 100 });
                     }}
                     onResizeStop={(e, direction, ref, delta, position) => {
-                      const parentWidth = 800;
-                      const parentHeight = 1131;
                       updateField(field.id, {
-                        width: (parseFloat(ref.style.width) / parentWidth) * 100,
-                        height: (parseFloat(ref.style.height) / parentHeight) * 100,
-                        x: (position.x / parentWidth) * 100,
-                        y: (position.y / parentHeight) * 100
+                        width: (parseFloat(ref.style.width) / currentWidth) * 100,
+                        height: (parseFloat(ref.style.height) / currentHeight) * 100,
+                        x: (position.x / currentWidth) * 100,
+                        y: (position.y / currentHeight) * 100
                       });
                     }}
                     style={{ zIndex: 10 }}
