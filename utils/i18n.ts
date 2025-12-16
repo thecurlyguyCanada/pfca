@@ -106,6 +106,19 @@ export const translations = {
           "Click 'Auto-Detect & Fill'. We will calculate where the fields should be.",
           "Download your interactive PDF form."
         ]
+      },
+      ocr: {
+        title: "OCR PDF - Extract Text from Scanned PDFs | pdfcanada.ca",
+        desc: "Extract text from scanned PDFs and images using OCR. Free, local, and private.",
+        h1: "OCR - Extract Text from PDFs",
+        subtitle: "Read text from scanned documents, eh.",
+        content: "Got a scanned PDF or image-based document? Our OCR tool uses Tesseract technology to recognize and extract text from your pages. Perfect for digitizing old documents or making scanned PDFs searchable.",
+        steps: [
+          "Upload your scanned PDF document.",
+          "Select which pages you want to run OCR on.",
+          "Click 'Extract Text' to start the recognition process.",
+          "Download the extracted text or get a searchable PDF."
+        ]
       }
     },
 
@@ -122,6 +135,8 @@ export const translations = {
     toolPdfToEpubDesc: "Convert for e-readers.",
     toolMakeFillable: "Make PDF Fillable",
     toolMakeFillableDesc: "Auto-add fields to pages.",
+    toolOcr: "OCR PDF",
+    toolOcrDesc: "Extract text from scans.",
 
     // Actions
     uploadTitle: "Upload File",
@@ -141,12 +156,16 @@ export const translations = {
     rotateAllRight: "Rotate All Right",
     resetRotations: "Reset",
     selectPagesToFill: "Select pages to scan for fields:",
+    selectPagesForOcr: "Select pages to extract text from:",
+    ocrProgress: "Recognizing text...",
 
     // Buttons
     btnRemove: "Remove Pages",
     btnRotate: "Apply Rotation",
     btnConvert: "Convert File",
     btnMakeFillable: "Auto-Detect & Fill",
+    btnExtractText: "Extract Text",
+    btnSearchablePdf: "Make Searchable PDF",
 
     working: "Working on it...",
     workingDesc: "Scanning for fields and fixing that up for you, eh.",
@@ -335,6 +354,19 @@ export const translations = {
           "Cliquez sur 'Détecter et Remplir'. Nous calculerons où les champs devraient être.",
           "Téléchargez votre formulaire PDF interactif."
         ]
+      },
+      ocr: {
+        title: "OCR PDF - Extraire Texte des Scans | pdfcanada.ca",
+        desc: "Extrayez le texte des PDF numérisés avec OCR. Gratuit, local et privé.",
+        h1: "OCR - Extraire du Texte",
+        subtitle: "Lire le texte des documents numérisés.",
+        content: "Vous avez un PDF numérisé ou un document basé sur des images ? Notre outil OCR utilise la technologie Tesseract pour reconnaître et extraire le texte de vos pages.",
+        steps: [
+          "Téléversez votre document PDF numérisé.",
+          "Sélectionnez les pages sur lesquelles vous voulez exécuter l'OCR.",
+          "Cliquez sur 'Extraire le Texte' pour démarrer le processus de reconnaissance.",
+          "Téléchargez le texte extrait ou obtenez un PDF recherchable."
+        ]
       }
     },
 
@@ -350,6 +382,8 @@ export const translations = {
     toolPdfToEpubDesc: "Convertir pour liseuses.",
     toolMakeFillable: "Rendre PDF Remplissable",
     toolMakeFillableDesc: "Ajouter des zones de texte auto.",
+    toolOcr: "OCR PDF",
+    toolOcrDesc: "Extraire texte des scans.",
 
     uploadTitle: "Téléverser",
     uploadDesc: "ou glisser un fichier ici",
@@ -367,11 +401,15 @@ export const translations = {
     rotateAllRight: "Tout Pivoter Droite",
     resetRotations: "Réinitialiser",
     selectPagesToFill: "Sélectionnez les pages à scanner :",
+    selectPagesForOcr: "Sélectionnez les pages pour l'OCR :",
+    ocrProgress: "Reconnaissance du texte...",
 
     btnRemove: "Supprimer",
     btnRotate: "Appliquer",
     btnConvert: "Convertir",
     btnMakeFillable: "Détecter et Remplir",
+    btnExtractText: "Extraire le Texte",
+    btnSearchablePdf: "Créer PDF Recherchable",
 
     working: "On y travaille...",
     workingDesc: "On scanne pour les champs et on arrange ça.",

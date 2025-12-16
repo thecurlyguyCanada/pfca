@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Download, FileText, X, AlertCircle, CheckCircle2, Shield, Trash2, RotateCw, Image, BookOpen, ArrowLeft, PenTool, RotateCcw, RefreshCcw } from 'lucide-react';
+import { Download, FileText, X, AlertCircle, CheckCircle2, Shield, Trash2, RotateCw, Image, BookOpen, ArrowLeft, PenTool, RotateCcw, RefreshCcw, ScanLine } from 'lucide-react';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { MapleLeaf } from './components/MapleLeaf';
 import { PricingPage, PrivacyPage, TermsPage, SorryPolicyPage, HowToPage, SupportLocalPage, MakePdfFillablePage } from './components/StaticPages';
 import { PdfPageThumbnail } from './components/PdfPageThumbnail';
-import { loadPdfDocument, getPdfJsDocument, deletePagesFromPdf, rotatePdfPages, convertHeicToPdf, convertPdfToEpub, convertEpubToPdf, formatFileSize, makePdfFillable, initPdfWorker } from './utils/pdfUtils';
+import { loadPdfDocument, getPdfJsDocument, deletePagesFromPdf, rotatePdfPages, convertHeicToPdf, convertPdfToEpub, convertEpubToPdf, formatFileSize, makePdfFillable, initPdfWorker, extractTextWithOcr, makeSearchablePdf } from './utils/pdfUtils';
 
 // Initialize PDF.js worker early to ensure thumbnails can render
 initPdfWorker();
@@ -28,7 +28,8 @@ enum ToolType {
   HEIC_TO_PDF = 'HEIC_TO_PDF',
   EPUB_TO_PDF = 'EPUB_TO_PDF',
   PDF_TO_EPUB = 'PDF_TO_EPUB',
-  MAKE_FILLABLE = 'MAKE_FILLABLE'
+  MAKE_FILLABLE = 'MAKE_FILLABLE',
+  OCR = 'OCR'
 }
 
 // Helper to safely update history without crashing in sandboxed environments
@@ -111,6 +112,7 @@ function App() {
     if (path === '/epub-to-pdf') return ToolType.EPUB_TO_PDF;
     if (path === '/pdf-to-epub') return ToolType.PDF_TO_EPUB;
     if (path === '/make-pdf-fillable') return ToolType.MAKE_FILLABLE;
+    if (path === '/ocr-pdf') return ToolType.OCR;
     return null;
   };
 
@@ -159,6 +161,7 @@ function App() {
     { id: ToolType.DELETE, icon: Trash2, title: t.toolDelete, desc: t.toolDeleteDesc, accept: '.pdf', path: '/delete-pdf-pages' },
     { id: ToolType.ROTATE, icon: RotateCw, title: t.toolRotate, desc: t.toolRotateDesc, accept: '.pdf', path: '/rotate-pdf' },
     { id: ToolType.MAKE_FILLABLE, icon: PenTool, title: t.toolMakeFillable, desc: t.toolMakeFillableDesc, accept: '.pdf', path: '/make-pdf-fillable' },
+    { id: ToolType.OCR, icon: ScanLine, title: t.toolOcr, desc: t.toolOcrDesc, accept: '.pdf', path: '/ocr-pdf' },
     { id: ToolType.HEIC_TO_PDF, icon: Image, title: t.toolHeic, desc: t.toolHeicDesc, accept: '.heic', path: '/heic-to-pdf' },
     { id: ToolType.EPUB_TO_PDF, icon: BookOpen, title: t.toolEpubToPdf, desc: t.toolEpubToPdfDesc, accept: '.epub', path: '/epub-to-pdf' },
     { id: ToolType.PDF_TO_EPUB, icon: FileText, title: t.toolPdfToEpub, desc: t.toolPdfToEpubDesc, accept: '.pdf', path: '/pdf-to-epub' },
@@ -200,7 +203,7 @@ function App() {
       setErrorKey(null);
       setFile(uploadedFile);
 
-      if (currentTool === ToolType.DELETE || currentTool === ToolType.ROTATE || currentTool === ToolType.MAKE_FILLABLE) {
+      if (currentTool === ToolType.DELETE || currentTool === ToolType.ROTATE || currentTool === ToolType.MAKE_FILLABLE || currentTool === ToolType.OCR) {
         try {
           const { pageCount } = await loadPdfDocument(uploadedFile);
           setPageCount(pageCount);
@@ -275,6 +278,11 @@ function App() {
           resultBlob = await convertPdfToEpub(file);
           outName = file.name.replace(/\.[^/.]+$/, "") + '_converted_eh.epub';
           break;
+        case ToolType.OCR:
+          // For OCR, we create a searchable PDF by adding invisible text layer
+          resultBlob = await makeSearchablePdf(file, Array.from(selectedPages));
+          outName = file.name.replace(/\.pdf$/i, '_searchable_eh.pdf');
+          break;
       }
 
       if (resultBlob) {
@@ -304,7 +312,7 @@ function App() {
   };
 
   const togglePageSelection = (e: React.MouseEvent, pageIndex: number) => {
-    if (currentTool === ToolType.DELETE || currentTool === ToolType.MAKE_FILLABLE) {
+    if (currentTool === ToolType.DELETE || currentTool === ToolType.MAKE_FILLABLE || currentTool === ToolType.OCR) {
       const newSelection = new Set(selectedPages);
       const isRange = e.shiftKey;
 
@@ -406,6 +414,7 @@ function App() {
       case ToolType.EPUB_TO_PDF: return t.features.epubToPdf;
       case ToolType.PDF_TO_EPUB: return t.features.pdfToEpub;
       case ToolType.MAKE_FILLABLE: return t.features.fillable;
+      case ToolType.OCR: return t.features.ocr;
       default: return t.features.delete; // Fallback
     }
   };
@@ -449,12 +458,13 @@ function App() {
       );
     }
 
-    const isVisualTool = currentTool === ToolType.DELETE || currentTool === ToolType.ROTATE || currentTool === ToolType.MAKE_FILLABLE;
+    const isVisualTool = currentTool === ToolType.DELETE || currentTool === ToolType.ROTATE || currentTool === ToolType.MAKE_FILLABLE || currentTool === ToolType.OCR;
 
     let headerText = '';
     if (currentTool === ToolType.DELETE) headerText = t.selectPagesHeader;
     else if (currentTool === ToolType.ROTATE) headerText = ''; // Render custom toolbar instead
     else if (currentTool === ToolType.MAKE_FILLABLE) headerText = t.selectPagesToFill;
+    else if (currentTool === ToolType.OCR) headerText = t.selectPagesForOcr;
 
     return (
       <div className="flex flex-col h-[600px]">
@@ -501,7 +511,7 @@ function App() {
                     <p className="text-sm font-medium text-gray-600">
                       {headerText}
                     </p>
-                    {(currentTool === ToolType.DELETE || currentTool === ToolType.MAKE_FILLABLE) && (
+                    {(currentTool === ToolType.DELETE || currentTool === ToolType.MAKE_FILLABLE || currentTool === ToolType.OCR) && (
                       <span className="text-xs font-bold bg-canada-red text-white px-2 py-1 rounded-full shadow-sm">
                         {selectedPages.size} {t.selected}
                       </span>
@@ -518,7 +528,7 @@ function App() {
                     pageIndex={idx}
                     isSelected={selectedPages.has(idx)}
                     rotation={rotations[idx] || 0}
-                    mode={currentTool === ToolType.DELETE || currentTool === ToolType.MAKE_FILLABLE ? 'delete' : 'rotate'}
+                    mode={currentTool === ToolType.DELETE || currentTool === ToolType.MAKE_FILLABLE || currentTool === ToolType.OCR ? 'delete' : 'rotate'}
                     onClick={(e) => togglePageSelection(e, idx)}
                   />
                 ))}
@@ -543,10 +553,10 @@ function App() {
         <div className="p-4 border-t border-gray-100 bg-white">
           <button
             onClick={handleAction}
-            disabled={(currentTool === ToolType.DELETE || currentTool === ToolType.MAKE_FILLABLE) && selectedPages.size === 0}
+            disabled={(currentTool === ToolType.DELETE || currentTool === ToolType.MAKE_FILLABLE || currentTool === ToolType.OCR) && selectedPages.size === 0}
             className={`
               w-full py-4 rounded-xl font-bold shadow-lg transition-all flex items-center justify-center gap-2
-              ${((currentTool === ToolType.DELETE || currentTool === ToolType.MAKE_FILLABLE) && selectedPages.size === 0)
+              ${((currentTool === ToolType.DELETE || currentTool === ToolType.MAKE_FILLABLE || currentTool === ToolType.OCR) && selectedPages.size === 0)
                 ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                 : 'bg-canada-red hover:bg-canada-darkRed text-white shadow-red-500/30 hover:-translate-y-0.5'}
             `}
@@ -561,6 +571,12 @@ function App() {
               <>
                 <PenTool size={20} />
                 {selectedPages.size === 0 ? t.selectPagesToFill : `${t.btnMakeFillable}`}
+              </>
+            )}
+            {currentTool === ToolType.OCR && (
+              <>
+                <ScanLine size={20} />
+                {selectedPages.size === 0 ? t.selectPagesForOcr : `${t.btnSearchablePdf}`}
               </>
             )}
             {currentTool === ToolType.ROTATE && <><RotateCw size={20} /> {t.btnRotate}</>}

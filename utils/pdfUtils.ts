@@ -2,6 +2,7 @@ import { PDFDocument, degrees, StandardFonts, rgb } from 'pdf-lib';
 import * as pdfjsLibModule from 'pdfjs-dist';
 import JSZip from 'jszip';
 import heic2any from 'heic2any';
+import Tesseract from 'tesseract.js';
 
 // Robustly resolve the library object
 const pdfjsLib = (pdfjsLibModule as any).default || pdfjsLibModule;
@@ -324,4 +325,144 @@ export const formatFileSize = (bytes: number): string => {
   const sizes = ['Bytes', 'KB', 'MB', 'GB'];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+};
+
+// OCR function using Tesseract.js
+export const extractTextWithOcr = async (
+  file: File,
+  pageIndices: number[],
+  onProgress?: (progress: number, status: string) => void
+): Promise<string> => {
+  initPdfWorker();
+
+  const pdfJsDoc = await getPdfJsDocument(file);
+  let fullText = '';
+
+  for (let i = 0; i < pageIndices.length; i++) {
+    const pageIndex = pageIndices[i];
+    const pageNum = pageIndex + 1;
+
+    onProgress?.(
+      Math.round((i / pageIndices.length) * 100),
+      `Processing page ${pageNum}...`
+    );
+
+    try {
+      const page = await pdfJsDoc.getPage(pageNum);
+      const viewport = page.getViewport({ scale: 2 }); // Higher scale for better OCR
+
+      // Create canvas to render PDF page
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext('2d');
+      canvas.height = viewport.height;
+      canvas.width = viewport.width;
+
+      if (!context) continue;
+
+      await page.render({
+        canvasContext: context,
+        viewport: viewport,
+      }).promise;
+
+      // Convert canvas to blob for Tesseract
+      const blob = await new Promise<Blob>((resolve) => {
+        canvas.toBlob((b) => resolve(b!), 'image/png');
+      });
+
+      // Run OCR on the rendered page
+      const result = await Tesseract.recognize(blob, 'eng+fra', {
+        logger: (m) => {
+          if (m.status === 'recognizing text') {
+            const pageProgress = Math.round((i / pageIndices.length) * 100);
+            const subProgress = Math.round(m.progress * (100 / pageIndices.length));
+            onProgress?.(pageProgress + subProgress, `OCR on page ${pageNum}...`);
+          }
+        }
+      });
+
+      fullText += `--- Page ${pageNum} ---\n${result.data.text}\n\n`;
+
+    } catch (err) {
+      console.error(`OCR failed for page ${pageNum}:`, err);
+      fullText += `--- Page ${pageNum} ---\n[OCR failed for this page]\n\n`;
+    }
+  }
+
+  onProgress?.(100, 'Complete!');
+  return fullText.trim();
+};
+
+// OCR to searchable PDF - adds text layer to scanned PDF
+export const makeSearchablePdf = async (
+  file: File,
+  pageIndices: number[],
+  onProgress?: (progress: number, status: string) => void
+): Promise<Uint8Array> => {
+  initPdfWorker();
+
+  const arrayBuffer = await file.arrayBuffer();
+  const doc = await PDFDocument.load(arrayBuffer);
+  const pdfJsDoc = await getPdfJsDocument(arrayBuffer);
+  const font = await doc.embedFont(StandardFonts.Helvetica);
+
+  for (let i = 0; i < pageIndices.length; i++) {
+    const pageIndex = pageIndices[i];
+    const pageNum = pageIndex + 1;
+
+    onProgress?.(
+      Math.round((i / pageIndices.length) * 100),
+      `OCR on page ${pageNum}...`
+    );
+
+    try {
+      const pdfJsPage = await pdfJsDoc.getPage(pageNum);
+      const viewport = pdfJsPage.getViewport({ scale: 2 });
+
+      // Render to canvas
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext('2d');
+      canvas.height = viewport.height;
+      canvas.width = viewport.width;
+
+      if (!context) continue;
+
+      await pdfJsPage.render({
+        canvasContext: context,
+        viewport: viewport,
+      }).promise;
+
+      // OCR
+      const blob = await new Promise<Blob>((resolve) => {
+        canvas.toBlob((b) => resolve(b!), 'image/png');
+      });
+
+      const result = await Tesseract.recognize(blob, 'eng+fra');
+
+      // Add invisible text layer to PDF page
+      const pdfLibPage = doc.getPage(pageIndex);
+      const { width: pageWidth, height: pageHeight } = pdfLibPage.getSize();
+      const scaleX = pageWidth / viewport.width;
+      const scaleY = pageHeight / viewport.height;
+
+      for (const word of (result.data as any).words) {
+        const x = word.bbox.x0 * scaleX;
+        const y = pageHeight - (word.bbox.y1 * scaleY); // Flip Y axis
+        const fontSize = Math.max(6, (word.bbox.y1 - word.bbox.y0) * scaleY * 0.8);
+
+        pdfLibPage.drawText(word.text, {
+          x,
+          y,
+          size: fontSize,
+          font,
+          opacity: 0, // Invisible text for searchability
+        });
+      }
+
+    } catch (err) {
+      console.error(`OCR failed for page ${pageNum}:`, err);
+    }
+  }
+
+  onProgress?.(100, 'Complete!');
+  return await doc.save();
 };
