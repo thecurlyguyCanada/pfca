@@ -17,7 +17,8 @@ enum AppState {
   SELECTING,
   PROCESSING,
   DONE,
-  ERROR
+  ERROR,
+  EDITING_OCR
 }
 
 type CurrentView = 'HOME' | 'PRICING' | 'PRIVACY' | 'TERMS' | 'SORRY' | 'HOW_TO' | 'SUPPORT' | 'MAKE_FILLABLE_INFO' | 'TOOL_PAGE';
@@ -52,6 +53,9 @@ function App() {
   const [file, setFile] = useState<File | null>(null);
   const [pageCount, setPageCount] = useState<number>(0);
   const [pdfJsDoc, setPdfJsDoc] = useState<any>(null);
+
+  // OCR specific state
+  const [ocrText, setOcrText] = useState<string>('');
 
   // Tool Specific State
   const [selectedPages, setSelectedPages] = useState<Set<number>>(new Set());
@@ -282,10 +286,24 @@ function App() {
           outName = file.name.replace(/\.[^/.]+$/, "") + '_converted_eh.epub';
           break;
         case ToolType.OCR:
-          // For OCR, we create a searchable PDF by adding invisible text layer
-          resultBlob = await makeSearchablePdf(file, Array.from(selectedPages));
-          outName = file.name.replace(/\.pdf$/i, '_searchable_eh.pdf');
-          break;
+          setOcrText(''); // Clear previous text
+          setAppState(AppState.EDITING_OCR);
+          // Start streaming OCR
+          await extractTextWithOcr(
+            file,
+            Array.from(selectedPages),
+            (progress, status) => {
+              // We can still use the generic progress bar if we want, or just rely on the text appearing
+              // For now, let's keep the PROCESSING generic indicator active if we were using it, 
+              // but we switched to EDITING_OCR, so the processing overlay is gone.
+              // We could show a small toast or localized spinner in the editor.
+            },
+            (pageIndex, text) => {
+              setOcrText(prev => prev + `--- Page ${pageIndex + 1} ---\n${text}\n\n`);
+            }
+          );
+          // We stay in EDITING_OCR mode
+          return;
       }
 
       if (resultBlob) {
@@ -945,6 +963,96 @@ function App() {
     );
   };
 
+  const renderOcrEditor = () => {
+    if (!file || !pdfJsDoc) return null;
+
+    const downloadTxt = () => {
+      const blob = new Blob([ocrText], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = file.name.replace(/\.pdf$/i, '_extracted.txt');
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    };
+
+    return (
+      <div className="w-full max-w-7xl mx-auto px-6 py-12 flex flex-col md:flex-row gap-8 h-[85vh]">
+        {/* Left Column: Visuals */}
+        <div className="w-full md:w-1/3 bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden flex flex-col">
+          <div className="p-4 bg-gray-50 border-b border-gray-100 flex justify-between items-center">
+            <h3 className="font-bold text-gray-700">Source PDF</h3>
+            <span className="text-xs bg-red-100 text-canada-red px-2 py-1 rounded-full font-bold">LIVE</span>
+          </div>
+          <div className="flex-grow overflow-y-auto p-4 space-y-4 custom-scrollbar bg-gray-50/50">
+            {Array.from(selectedPages).length === 0 ? (
+              <p className="text-center text-gray-500 italic mt-10">Select pages first, eh?</p>
+            ) : (
+              Array.from(selectedPages).sort((a, b) => a - b).map(idx => (
+                <div key={idx} className="bg-white p-2 rounded-xl shadow-sm border border-gray-200">
+                  <div className="text-xs font-bold text-gray-400 mb-2 uppercase tracking-wide">Page {idx + 1}</div>
+                  <div className="rounded-lg overflow-hidden border border-gray-100">
+                    <PdfPageThumbnail
+                      pdfJsDoc={pdfJsDoc}
+                      pageIndex={idx}
+                      isSelected={false}
+                      onClick={() => { }}
+                      mode="rotate"
+                    />
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+
+        {/* Right Column: Editor */}
+        <div className="w-full md:w-2/3 bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden flex flex-col">
+          <div className="p-4 bg-gray-50 border-b border-gray-100 flex justify-between items-center">
+            <div className="flex items-center gap-2">
+              <FileText size={20} className="text-gray-500" />
+              <h3 className="font-bold text-gray-700">Extracted Text</h3>
+            </div>
+            <div className="flex gap-2">
+              <button
+                onClick={handleReset}
+                className="px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-lg transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={downloadTxt}
+                className="px-4 py-2 text-sm font-bold text-white bg-canada-red hover:bg-canada-darkRed rounded-lg shadow-lg shadow-red-500/20 transition-all hover:-translate-y-0.5"
+              >
+                Download .txt
+              </button>
+            </div>
+          </div>
+
+          <div className="flex-grow relative">
+            <textarea
+              className="w-full h-full p-6 resize-none focus:outline-none focus:ring-2 focus:ring-inset focus:ring-canada-red/10 font-mono text-sm leading-relaxed text-gray-700"
+              value={ocrText}
+              onChange={(e) => setOcrText(e.target.value)}
+              placeholder="Text will appear here as we process your PDF..."
+              spellCheck={false}
+            />
+            {ocrText.length === 0 && (
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div className="flex items-center gap-2 text-gray-400 animate-pulse">
+                  <ScanLine size={20} />
+                  <span>Initializing OCR engine...</span>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="min-h-screen flex flex-col font-sans text-gray-800 bg-gray-50">
       <Header lang={lang} setLang={setLang} onNavigate={handleNavigation} />
@@ -961,7 +1069,8 @@ function App() {
             {renderHome()}
           </>
         )}
-        {view === 'TOOL_PAGE' && renderFeaturePage()}
+        {view === 'TOOL_PAGE' && appState !== AppState.EDITING_OCR && renderFeaturePage()}
+        {appState === AppState.EDITING_OCR && renderOcrEditor()}
         {view === 'PRICING' && <PricingPage lang={lang} />}
         {view === 'PRIVACY' && <PrivacyPage lang={lang} />}
         {view === 'TERMS' && <TermsPage lang={lang} />}

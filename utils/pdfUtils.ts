@@ -331,7 +331,8 @@ export const formatFileSize = (bytes: number): string => {
 export const extractTextWithOcr = async (
   file: File,
   pageIndices: number[],
-  onProgress?: (progress: number, status: string) => void
+  onProgress?: (progress: number, status: string) => void,
+  onPageComplete?: (pageIndex: number, text: string) => void
 ): Promise<string> => {
   initPdfWorker();
 
@@ -385,11 +386,16 @@ export const extractTextWithOcr = async (
         // Run OCR on the rendered page using the persistent worker
         const result = await worker.recognize(blob);
 
-        fullText += `--- Page ${pageNum} ---\n${result.data.text}\n\n`;
+        const pageText = result.data.text;
+        fullText += `--- Page ${pageNum} ---\n${pageText}\n\n`;
+
+        // Notify streaming callback
+        onPageComplete?.(pageIndex, pageText);
 
       } catch (err) {
         console.error(`OCR failed for page ${pageNum}:`, err);
         fullText += `--- Page ${pageNum} ---\n[OCR failed for this page]\n\n`;
+        onPageComplete?.(pageIndex, "[OCR failed for this page]");
       } finally {
         // Cleanup canvas to prevent memory leaks
         if (context) {
