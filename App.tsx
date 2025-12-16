@@ -2,13 +2,14 @@ import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 import { Download, FileText, X, AlertCircle, CheckCircle2, Shield, Trash2, RotateCw, Image, BookOpen, ArrowLeft, PenTool, RotateCcw, RefreshCcw, ScanLine, ZoomIn, ZoomOut, Move } from 'lucide-react';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent } from '@dnd-kit/core';
 import { arrayMove, SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
+import { Rnd } from 'react-rnd';
 import { SortablePdfPageThumbnail } from './components/SortablePdfPageThumbnail';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { MapleLeaf } from './components/MapleLeaf';
 import { PricingPage, PrivacyPage, TermsPage, SorryPolicyPage, HowToPage, SupportLocalPage, MakePdfFillablePage } from './components/StaticPages';
 import { PdfPageThumbnail } from './components/PdfPageThumbnail';
-import { loadPdfDocument, getPdfJsDocument, deletePagesFromPdf, rotatePdfPages, convertHeicToPdf, convertPdfToEpub, convertEpubToPdf, formatFileSize, makePdfFillable, initPdfWorker, extractTextWithOcr, makeSearchablePdf, reorderPdfPages } from './utils/pdfUtils';
+import { loadPdfDocument, getPdfJsDocument, deletePagesFromPdf, rotatePdfPages, convertHeicToPdf, convertPdfToEpub, convertEpubToPdf, formatFileSize, makePdfFillable, initPdfWorker, extractTextWithOcr, makeSearchablePdf, reorderPdfPages, saveFormFieldsToPdf, FormField } from './utils/pdfUtils';
 
 // Initialize PDF.js worker early to ensure thumbnails can render
 initPdfWorker();
@@ -21,7 +22,8 @@ enum AppState {
   PROCESSING,
   DONE,
   ERROR,
-  EDITING_OCR
+  EDITING_OCR,
+  EDITING_FORM
 }
 
 type CurrentView = 'HOME' | 'PRICING' | 'PRIVACY' | 'TERMS' | 'SORRY' | 'HOW_TO' | 'SUPPORT' | 'MAKE_FILLABLE_INFO' | 'TOOL_PAGE';
@@ -67,6 +69,10 @@ function App() {
 
   // Organize State
   const [items, setItems] = useState<number[]>([]); // Array of page indices in order
+
+  // Form Builder State
+  const [formFields, setFormFields] = useState<FormField[]>([]);
+  const [currentFormPage, setCurrentFormPage] = useState<number>(0);
 
   // Tool Specific State
   const [selectedPages, setSelectedPages] = useState<Set<number>>(new Set());
@@ -302,9 +308,11 @@ function App() {
           outName = file.name.replace(/\.pdf$/i, '_rotated_eh.pdf');
           break;
         case ToolType.MAKE_FILLABLE:
-          resultBlob = await makePdfFillable(file, Array.from(selectedPages));
-          outName = file.name.replace(/\.pdf$/i, '_fillable_eh.pdf');
-          break;
+          // Switch to Form Builder Mode instead of auto-processing
+          setFormFields([]);
+          setCurrentFormPage(0);
+          setAppState(AppState.EDITING_FORM);
+          return;
         case ToolType.HEIC_TO_PDF:
           resultBlob = await convertHeicToPdf(file);
           outName = file.name.replace(/\.[^/.]+$/, "") + "_converted_eh.pdf";
@@ -1170,6 +1178,162 @@ function App() {
     );
   };
 
+  const renderFormEditor = () => {
+    if (!file || !pdfJsDoc) return null;
+
+    const addField = (type: 'text' | 'checkbox') => {
+      const newField: FormField = {
+        id: `${type}_${Date.now()}`,
+        type,
+        pageIndex: currentFormPage,
+        x: 40, // Default 40% from left
+        y: 40, // Default 40% from top
+        width: type === 'checkbox' ? 5 : 20,
+        height: type === 'checkbox' ? 3 : 5,
+      };
+      setFormFields([...formFields, newField]);
+    };
+
+    const updateField = (id: string, updates: Partial<FormField>) => {
+      setFormFields(fields => fields.map(f => f.id === id ? { ...f, ...updates } : f));
+    };
+
+    const removeField = (id: string) => {
+      setFormFields(fields => fields.filter(f => f.id !== id));
+    };
+
+    const downloadForm = async () => {
+      // Generate PDF with fields
+      // Show processing state locally if needed, or just do it
+      const blob = await saveFormFieldsToPdf(file, formFields);
+      const url = URL.createObjectURL(new Blob([blob as BlobPart], { type: 'application/pdf' }));
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = file.name.replace(/\.pdf$/i, '_fillable.pdf');
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    };
+
+    // Filter fields for current page
+    const pageFields = formFields.filter(f => f.pageIndex === currentFormPage);
+
+    return (
+      <div className="w-full max-w-7xl mx-auto px-6 py-12 flex flex-col h-[85vh]">
+        {/* Toolbar */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 mb-6 flex justify-between items-center">
+          <div className="flex items-center gap-4">
+            <h2 className="text-xl font-bold text-gray-700">{t.fbTitle}</h2>
+            <div className="h-6 w-px bg-gray-200"></div>
+            <button onClick={() => addField('text')} className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-medium transition-colors">
+              <FileText size={18} /> {t.fbAddText}
+            </button>
+            <button onClick={() => addField('checkbox')} className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-medium transition-colors">
+              <CheckCircle2 size={18} /> {t.fbAddCheckbox}
+            </button>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button onClick={handleReset} className="px-4 py-2 text-gray-500 hover:text-gray-700 font-medium">{t.fbCancel}</button>
+            <button onClick={downloadForm} className="px-6 py-2 bg-canada-red hover:bg-canada-darkRed text-white rounded-lg font-bold shadow-lg shadow-red-500/20 transition-all hover:-translate-y-0.5">
+              {t.fbDownload}
+            </button>
+          </div>
+        </div>
+
+        <div className="flex-grow flex gap-6 overflow-hidden">
+          {/* Left Sidebar: Thumbnails */}
+          <div className="w-48 flex-shrink-0 bg-white rounded-xl border border-gray-200 overflow-y-auto custom-scrollbar p-2 space-y-2">
+            {Array.from({ length: pageCount }).map((_, idx) => (
+              <div
+                key={idx}
+                onClick={() => setCurrentFormPage(idx)}
+                className={`p-2 rounded-lg cursor-pointer border-2 transition-all ${currentFormPage === idx ? 'border-canada-red bg-red-50' : 'border-transparent hover:border-gray-200'}`}
+              >
+                <div className="pointer-events-none">
+                  <PdfPageThumbnail pdfJsDoc={pdfJsDoc} pageIndex={idx} width={150} isSelected={false} onClick={() => { }} />
+                </div>
+                <div className="text-center text-xs font-bold text-gray-500 mt-1">{t.fbPage} {idx + 1}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Main Canvas */}
+          <div className="flex-grow bg-gray-100 rounded-xl overflow-auto flex items-start justify-center p-8 relative">
+            <div className="relative shadow-2xl bg-white" style={{ width: 'fit-content' }}>
+              {/* The Background PDF Page */}
+              {/* We need a fixed width for the editor canvas to make percentage calc easy? 
+                        Actually, PdfPageThumbnail renders canvas. We can set a large width, e.g. 800px.
+                        And the Rnd will be relative to this container.
+                    */}
+              <div className="relative" style={{ width: 800 }}>
+                <PdfPageThumbnail pdfJsDoc={pdfJsDoc} pageIndex={currentFormPage} width={800} isSelected={false} onClick={() => { }} />
+
+                {/* Overlay Fields */}
+                {pageFields.map(field => (
+                  <Rnd
+                    key={field.id}
+                    bounds="parent"
+                    size={{ width: `${field.width}%`, height: `${field.height}%` }}
+                    position={{ x: (field.x / 100) * 800, y: (field.y / 100) * (800 * (1.414)) }} // Approx 1.414 aspect ratio, but we should rely on %
+                    // Actually Rnd position is absolute pixels. We need to convert back and forth or just Use default position logic.
+                    // Better: Use Rnd's `default` prop for initial, and onDragStop/onResizeStop to update state in %.
+                    // But we need controlled component for re-renders?
+                    // Let's use controlled position/size.
+                    // We need to know the height of the container to translate % y to pixels.
+                    // The container height depends on the aspect ratio of the PDF page.
+                    // For now, let's assume standard Letter aspect roughly, or better, calculate from width.
+                    // Since PdfPageThumbnail renders canvas with unknown aspect ratio until loaded... 
+                    // We can use a simpler approach: Just let Rnd handle pixels, and convert to % only on save?
+                    // No, we need state to persist between page swaps.
+                    // Let's Assume 800px width.
+
+                    default={{
+                      x: (field.x / 100) * 800,
+                      y: (field.y / 100) * 1131, // Approx letter height for 800px width (800 * 1.414)
+                      width: (field.width / 100) * 800,
+                      height: (field.height / 100) * 1131
+                    }}
+                    onDragStop={(e, d) => {
+                      const parentWidth = 800;
+                      const parentHeight = 1131; // Estimate
+                      updateField(field.id, { x: (d.x / parentWidth) * 100, y: (d.y / parentHeight) * 100 });
+                    }}
+                    onResizeStop={(e, direction, ref, delta, position) => {
+                      const parentWidth = 800;
+                      const parentHeight = 1131;
+                      updateField(field.id, {
+                        width: (parseFloat(ref.style.width) / parentWidth) * 100,
+                        height: (parseFloat(ref.style.height) / parentHeight) * 100,
+                        x: (position.x / parentWidth) * 100,
+                        y: (position.y / parentHeight) * 100
+                      });
+                    }}
+                    style={{ zIndex: 10 }}
+                  >
+                    <div className={`w-full h-full border-2 border-canada-red bg-red-50/50 flex items-center justify-center relative group`}>
+                      {field.type === 'text' && <span className="text-xs font-bold text-canada-red opacity-50">Text Field</span>}
+                      {field.type === 'checkbox' && <span className="text-xs font-bold text-canada-red opacity-50">Check</span>}
+
+                      <button
+                        onClick={(e) => { e.stopPropagation(); removeField(field.id); }}
+                        className="absolute -top-3 -right-3 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <X size={12} />
+                      </button>
+                      <div className="absolute bottom-0 right-0 w-3 h-3 bg-red-500/20 cursor-se-resize"></div>
+                    </div>
+                  </Rnd>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="min-h-screen flex flex-col font-sans text-gray-800 bg-gray-50">
       <Header lang={lang} setLang={setLang} onNavigate={handleNavigation} />
@@ -1186,8 +1350,9 @@ function App() {
             {renderHome()}
           </>
         )}
-        {view === 'TOOL_PAGE' && appState !== AppState.EDITING_OCR && renderFeaturePage()}
+        {view === 'TOOL_PAGE' && appState !== AppState.EDITING_OCR && appState !== AppState.EDITING_FORM && renderFeaturePage()}
         {appState === AppState.EDITING_OCR && renderOcrEditor()}
+        {appState === AppState.EDITING_FORM && renderFormEditor()}
         {view === 'PRICING' && <PricingPage lang={lang} />}
         {view === 'PRIVACY' && <PrivacyPage lang={lang} />}
         {view === 'TERMS' && <TermsPage lang={lang} />}

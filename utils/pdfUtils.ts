@@ -195,6 +195,54 @@ export const makePdfFillable = async (originalFile: File, pageIndicesToFill: num
   return await doc.save();
 };
 
+export interface FormField {
+  id: string;
+  type: 'text' | 'checkbox';
+  pageIndex: number;
+  x: number; // Percentage 0-100
+  y: number; // Percentage 0-100
+  width: number; // Percentage
+  height: number; // Percentage
+  label?: string;
+}
+
+export const saveFormFieldsToPdf = async (originalFile: File, fields: FormField[]): Promise<Uint8Array> => {
+  const arrayBuffer = await originalFile.arrayBuffer();
+  const doc = await PDFDocument.load(arrayBuffer);
+  const form = doc.getForm();
+
+  for (const field of fields) {
+    try {
+      const page = doc.getPage(field.pageIndex);
+      const { width: pageWidth, height: pageHeight } = page.getSize();
+
+      // Convert percentages to points
+      // x is from left, y is from TOP (usually UI) but PDF is from BOTTOM.
+      // However, usually UI overlay overlays the element.
+      // If we assume x,y are top-left percentage relative to page:
+      const x = (field.x / 100) * pageWidth;
+      // PDF y starts at bottom. So top-left y in PDF coords is:
+      // pageHeight - (y_percentage / 100 * pageHeight) - height_in_points
+
+      const w = (field.width / 100) * pageWidth;
+      const h = (field.height / 100) * pageHeight;
+      const y = pageHeight - ((field.y / 100) * pageHeight) - h;
+
+      if (field.type === 'text') {
+        const textField = form.createTextField(field.id);
+        textField.addToPage(page, { x, y, width: w, height: h, borderWidth: 1, borderColor: rgb(0, 0, 0) });
+      } else if (field.type === 'checkbox') {
+        const checkBox = form.createCheckBox(field.id);
+        checkBox.addToPage(page, { x, y, width: w, height: h, borderWidth: 1, borderColor: rgb(0, 0, 0) });
+      }
+    } catch (e) {
+      console.warn("Failed to add field", field, e);
+    }
+  }
+
+  return await doc.save();
+};
+
 export const convertHeicToPdf = async (file: File): Promise<Uint8Array> => {
   // Convert HEIC to JPEG blob
   const convertedBlobOrBlobs = await heic2any({

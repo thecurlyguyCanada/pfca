@@ -289,6 +289,14 @@ export const translations = {
     selectPagesForOcr: "Select pages to extract text from:",
     ocrProgress: "Recognizing text...",
 
+    // Form Builder
+    fbTitle: "Form Builder",
+    fbAddText: "Add Text Box",
+    fbAddCheckbox: "Add Checkbox",
+    fbCancel: "Cancel",
+    fbDownload: "Download Form",
+    fbPage: "Page",
+
     // Buttons
     btnRemove: "Remove Pages",
     btnRotate: "Apply Rotation",
@@ -617,6 +625,14 @@ export const translations = {
     timbitsFeature3: "Soutenir des devs canadiens",
     timbitsFeature4: "Recevoir nos remerciements",
     timbitsButton: "Donner un Huard",
+
+    // Form Builder
+    fbTitle: "Créateur de Formulaire",
+    fbAddText: "Ajouter Texte",
+    fbAddCheckbox: "Ajouter Case",
+    fbCancel: "Annuler",
+    fbDownload: "Télécharger",
+    fbPage: "Page",
 
     privacyTitle: "Politique de Confidentialité",
     privacyText1: "Chez pdfcanada.ca, vos affaires sont vos affaires. Parce qu'on traite les fichiers localement, vos documents ne sont jamais envoyés sur nos serveurs.",
