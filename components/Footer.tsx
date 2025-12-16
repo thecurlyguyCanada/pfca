@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Heart, ShieldCheck, MapPin } from 'lucide-react';
 import { translations, Language } from '../utils/i18n';
 
@@ -8,9 +8,9 @@ interface FooterProps {
    onNavigate: (view: any, path?: string) => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ lang, onNavigate }) => {
+const FooterComponent: React.FC<FooterProps> = ({ lang, onNavigate }) => {
    const t = translations[lang];
-   const year = new Date().getFullYear();
+   const year = useMemo(() => new Date().getFullYear(), []);
 
    return (
       <footer className="mt-auto bg-gray-50 text-gray-600 border-t-4 border-canada-red">
@@ -88,3 +88,5 @@ export const Footer: React.FC<FooterProps> = ({ lang, onNavigate }) => {
       </footer>
    );
 };
+
+export const Footer = React.memo(FooterComponent);
