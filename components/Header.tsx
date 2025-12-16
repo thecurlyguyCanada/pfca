@@ -7,7 +7,7 @@ interface HeaderProps {
   onNavigate: (view: any, path?: string) => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ lang, setLang, onNavigate }) => {
+const HeaderComponent: React.FC<HeaderProps> = ({ lang, setLang, onNavigate }) => {
   const t = translations[lang];
 
   return (
@@ -34,3 +34,5 @@ export const Header: React.FC<HeaderProps> = ({ lang, setLang, onNavigate }) => 
     </header>
   );
 };
+
+export const Header = React.memo(HeaderComponent);

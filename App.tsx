@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { Download, FileText, X, AlertCircle, CheckCircle2, Shield, Trash2, RotateCw, Image, BookOpen, ArrowLeft, PenTool, RotateCcw, RefreshCcw, ScanLine } from 'lucide-react';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
@@ -64,6 +64,9 @@ function App() {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const t = translations[lang];
+
+  // Memoize page indices array to avoid recreating on every render
+  const pageIndices = useMemo(() => Array.from({ length: pageCount }, (_, i) => i), [pageCount]);
 
   // Routing Logic
   const syncStateFromUrl = () => {
@@ -157,7 +160,7 @@ function App() {
     window.scrollTo(0, 0);
   };
 
-  const tools = [
+  const tools = useMemo(() => [
     { id: ToolType.DELETE, icon: Trash2, title: t.toolDelete, desc: t.toolDeleteDesc, accept: '.pdf', path: '/delete-pdf-pages' },
     { id: ToolType.ROTATE, icon: RotateCw, title: t.toolRotate, desc: t.toolRotateDesc, accept: '.pdf', path: '/rotate-pdf' },
     { id: ToolType.MAKE_FILLABLE, icon: PenTool, title: t.toolMakeFillable, desc: t.toolMakeFillableDesc, accept: '.pdf', path: '/make-pdf-fillable' },
@@ -165,7 +168,7 @@ function App() {
     { id: ToolType.HEIC_TO_PDF, icon: Image, title: t.toolHeic, desc: t.toolHeicDesc, accept: '.heic', path: '/heic-to-pdf' },
     { id: ToolType.EPUB_TO_PDF, icon: BookOpen, title: t.toolEpubToPdf, desc: t.toolEpubToPdfDesc, accept: '.epub', path: '/epub-to-pdf' },
     { id: ToolType.PDF_TO_EPUB, icon: FileText, title: t.toolPdfToEpub, desc: t.toolPdfToEpubDesc, accept: '.pdf', path: '/pdf-to-epub' },
-  ];
+  ], [t]);
 
   const selectTool = (toolId: ToolType) => {
     const tool = tools.find(t => t.id === toolId);
@@ -184,7 +187,7 @@ function App() {
     }
   };
 
-  const processFile = async (uploadedFile: File) => {
+  const processFile = useCallback(async (uploadedFile: File) => {
     const fileName = uploadedFile.name.toLowerCase();
     const tool = tools.find(x => x.id === currentTool);
 
@@ -241,9 +244,9 @@ function App() {
       setErrorKey('readErr');
       setAppState(AppState.ERROR);
     }
-  };
+  }, [tools, currentTool]);
 
-  const handleAction = async () => {
+  const handleAction = useCallback(async () => {
     if (!file) return;
 
     try {
@@ -309,9 +312,9 @@ function App() {
       }
       setAppState(AppState.ERROR);
     }
-  };
+  }, [file, currentTool, selectedPages, rotations]);
 
-  const togglePageSelection = (e: React.MouseEvent, pageIndex: number) => {
+  const togglePageSelection = useCallback((e: React.MouseEvent, pageIndex: number) => {
     if (currentTool === ToolType.DELETE || currentTool === ToolType.MAKE_FILLABLE || currentTool === ToolType.OCR) {
       const newSelection = new Set(selectedPages);
       const isRange = e.shiftKey;
@@ -340,9 +343,9 @@ function App() {
         [pageIndex]: ((prev[pageIndex] || 0) + 90) % 360
       }));
     }
-  };
+  }, [currentTool, selectedPages]);
 
-  const rotateAll = (direction: 'left' | 'right') => {
+  const rotateAll = useCallback((direction: 'left' | 'right') => {
     const newRotations = { ...rotations };
     for (let i = 0; i < pageCount; i++) {
       const current = newRotations[i] || 0;
@@ -350,13 +353,13 @@ function App() {
       newRotations[i] = (current + delta + 360) % 360;
     }
     setRotations(newRotations);
-  };
+  }, [rotations, pageCount]);
 
-  const resetRotations = () => {
+  const resetRotations = useCallback(() => {
     setRotations({});
-  };
+  }, []);
 
-  const handleReset = () => {
+  const handleReset = useCallback(() => {
     // Return to landing page state for the tool, not home
     if (currentTool) {
       setFile(null);
@@ -374,18 +377,27 @@ function App() {
       setView('HOME');
       safePushState({}, '', '/');
     }
-  };
+  }, [currentTool, downloadUrl]);
 
-  const handleSoftReset = () => {
+  const handleSoftReset = useCallback(() => {
     setFile(null);
     setAppState(AppState.SELECTING);
     if (downloadUrl) URL.revokeObjectURL(downloadUrl);
     setDownloadUrl(null);
     lastSelectedPageRef.current = null;
-  };
+  }, [downloadUrl]);
+
+  // Cleanup blob URL on unmount or when downloadUrl changes
+  useEffect(() => {
+    return () => {
+      if (downloadUrl) {
+        URL.revokeObjectURL(downloadUrl);
+      }
+    };
+  }, [downloadUrl]);
 
   // Structured Data for Home Page
-  const softwareAppSchema = {
+  const softwareAppSchema = useMemo(() => ({
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     "name": "pdfcanada.ca",
@@ -404,7 +416,7 @@ function App() {
       "name": "pdfcanada.ca",
       "url": "https://pdfcanada.ca"
     }
-  };
+  }), [t, tools]);
 
   const getToolContent = (tool: ToolType) => {
     switch (tool) {
@@ -521,7 +533,7 @@ function App() {
               </div>
 
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 w-full">
-                {Array.from({ length: pageCount }).map((_, idx) => (
+                {pageIndices.map((idx) => (
                   <PdfPageThumbnail
                     key={idx}
                     pdfJsDoc={pdfJsDoc}

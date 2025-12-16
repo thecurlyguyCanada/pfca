@@ -10,7 +10,7 @@ interface PdfPageThumbnailProps {
   mode?: 'delete' | 'rotate';
 }
 
-export const PdfPageThumbnail: React.FC<PdfPageThumbnailProps> = ({
+const PdfPageThumbnailComponent: React.FC<PdfPageThumbnailProps> = ({
   pdfJsDoc,
   pageIndex,
   isSelected,
@@ -197,3 +197,13 @@ export const PdfPageThumbnail: React.FC<PdfPageThumbnailProps> = ({
     </div>
   );
 };
+
+// Memoize component to prevent unnecessary re-renders
+export const PdfPageThumbnail = React.memo(PdfPageThumbnailComponent, (prevProps, nextProps) => {
+  // Custom comparison - only re-render if these specific props change
+  return prevProps.pageIndex === nextProps.pageIndex &&
+    prevProps.isSelected === nextProps.isSelected &&
+    prevProps.rotation === nextProps.rotation &&
+    prevProps.pdfJsDoc === nextProps.pdfJsDoc &&
+    prevProps.mode === nextProps.mode;
+});

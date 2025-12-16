@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 
 interface SEOProps {
   title: string;
@@ -9,31 +9,31 @@ interface SEOProps {
   schema?: Record<string, any>;
 }
 
-export const SEO: React.FC<SEOProps> = ({ 
-  title, 
-  description, 
-  canonicalPath = '/', 
+export const SEO: React.FC<SEOProps> = ({
+  title,
+  description,
+  canonicalPath = '/',
   image = 'https://pdfcanada.ca/og-image.png',
   lang = 'en',
   schema
 }) => {
+  // Memoize the setMeta helper function
+  const setMeta = useCallback((attrName: string, attrValue: string, content: string) => {
+    let element = document.querySelector(`meta[${attrName}="${attrValue}"]`);
+    if (!element) {
+      element = document.createElement('meta');
+      element.setAttribute(attrName, attrValue);
+      document.head.appendChild(element);
+    }
+    element.setAttribute('content', content);
+  }, []);
+
   useEffect(() => {
     // 1. Update Title
     document.title = title;
 
     // 2. Update HTML Lang Attribute
     document.documentElement.lang = lang;
-
-    // Helper to update or create meta tags
-    const setMeta = (attrName: string, attrValue: string, content: string) => {
-      let element = document.querySelector(`meta[${attrName}="${attrValue}"]`);
-      if (!element) {
-        element = document.createElement('meta');
-        element.setAttribute(attrName, attrValue);
-        document.head.appendChild(element);
-      }
-      element.setAttribute('content', content);
-    };
 
     // 3. Update Meta Description
     setMeta('name', 'description', description);
@@ -77,7 +77,7 @@ export const SEO: React.FC<SEOProps> = ({
         document.head.appendChild(script);
     }
 
-  }, [title, description, canonicalPath, image, lang, schema]);
+  }, [title, description, canonicalPath, image, lang, schema, setMeta]);
 
   return null;
 };

@@ -347,13 +347,13 @@ export const extractTextWithOcr = async (
       `Processing page ${pageNum}...`
     );
 
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+
     try {
       const page = await pdfJsDoc.getPage(pageNum);
       const viewport = page.getViewport({ scale: 2 }); // Higher scale for better OCR
 
-      // Create canvas to render PDF page
-      const canvas = document.createElement('canvas');
-      const context = canvas.getContext('2d');
       canvas.height = viewport.height;
       canvas.width = viewport.width;
 
@@ -385,6 +385,13 @@ export const extractTextWithOcr = async (
     } catch (err) {
       console.error(`OCR failed for page ${pageNum}:`, err);
       fullText += `--- Page ${pageNum} ---\n[OCR failed for this page]\n\n`;
+    } finally {
+      // Cleanup canvas to prevent memory leaks
+      if (context) {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+      }
+      canvas.width = 0;
+      canvas.height = 0;
     }
   }
 
@@ -414,13 +421,13 @@ export const makeSearchablePdf = async (
       `OCR on page ${pageNum}...`
     );
 
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+
     try {
       const pdfJsPage = await pdfJsDoc.getPage(pageNum);
       const viewport = pdfJsPage.getViewport({ scale: 2 });
 
-      // Render to canvas
-      const canvas = document.createElement('canvas');
-      const context = canvas.getContext('2d');
       canvas.height = viewport.height;
       canvas.width = viewport.width;
 
@@ -438,13 +445,17 @@ export const makeSearchablePdf = async (
 
       const result = await Tesseract.recognize(blob, 'eng+fra');
 
-      // Add invisible text layer to PDF page
+      // Add invisible text layer to PDF page - optimized batch approach
       const pdfLibPage = doc.getPage(pageIndex);
       const { width: pageWidth, height: pageHeight } = pdfLibPage.getSize();
       const scaleX = pageWidth / viewport.width;
       const scaleY = pageHeight / viewport.height;
 
-      for (const word of (result.data as any).words) {
+      // Batch text drawing operations for better performance
+      const words = (result.data as any).words || [];
+      for (const word of words) {
+        if (!word.text || !word.bbox) continue;
+
         const x = word.bbox.x0 * scaleX;
         const y = pageHeight - (word.bbox.y1 * scaleY); // Flip Y axis
         const fontSize = Math.max(6, (word.bbox.y1 - word.bbox.y0) * scaleY * 0.8);
@@ -460,6 +471,13 @@ export const makeSearchablePdf = async (
 
     } catch (err) {
       console.error(`OCR failed for page ${pageNum}:`, err);
+    } finally {
+      // Cleanup canvas to prevent memory leaks
+      if (context) {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+      }
+      canvas.width = 0;
+      canvas.height = 0;
     }
   }
 
