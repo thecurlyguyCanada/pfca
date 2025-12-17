@@ -316,11 +316,6 @@ export const DeletePdfPagesGuide: React.FC<GuideProps> = ({ lang, onNavigate }) 
                 "@type": "Offer",
                 "price": "0",
                 "priceCurrency": "CAD"
-            },
-            "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.8",
-                "ratingCount": "1250"
             }
         }
     ];

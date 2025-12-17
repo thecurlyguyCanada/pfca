@@ -68,9 +68,62 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
+  <!-- Preload critical fonts for better LCP -->
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" as="style">
+
   <!-- Tailwind CDN (Kept for simplicity) -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Static Structured Data for SEO (visible without JavaScript) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "pdfcanada.ca",
+    "url": "https://pdfcanada.ca",
+    "description": "Free, secure, and privacy-focused PDF tools built in Canada. Delete pages, rotate PDFs, convert HEIC to PDF, and more.",
+    "inLanguage": ["en-CA", "fr-CA"],
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://pdfcanada.ca/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "pdfcanada.ca",
+    "url": "https://pdfcanada.ca",
+    "logo": "https://pdfcanada.ca/android-chrome-512x512.png",
+    "description": "Free, secure, and privacy-focused PDF tools built in Canada. All processing happens locally in your browser.",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Toronto",
+      "addressRegion": "Ontario",
+      "addressCountry": "CA"
+    },
+    "sameAs": ["https://twitter.com/pdfcanada"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "pdfcanada.ca - Free PDF Tools",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web Browser",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "CAD"
+    },
+    "description": "Free PDF tools including delete pages, rotate PDF, HEIC to PDF converter, EPUB converter, OCR, and more. 100% local processing.",
+    "featureList": "Delete PDF Pages, Rotate PDF, Make PDF Fillable, Organize PDF, OCR PDF, HEIC to PDF, EPUB to PDF, PDF to EPUB"
+  }
+  </script>
 
   <script>
     tailwind.config = {
@@ -128,6 +181,66 @@
 
 <body class="bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-200">
   <div id="root"></div>
+
+  <!-- SEO Fallback for non-JS crawlers and users -->
+  <noscript>
+    <div style="max-width: 1200px; margin: 0 auto; padding: 40px 20px; font-family: Inter, sans-serif;">
+      <header style="text-align: center; margin-bottom: 40px;">
+        <h1 style="font-size: 2.5rem; font-weight: bold; color: #1a1a1a;">pdfcanada.ca - Free PDF Tools</h1>
+        <p style="font-size: 1.25rem; color: #666; margin-top: 10px;">Proudly Canadian. The polite PDF editor that processes files locally on your device.</p>
+      </header>
+
+      <main>
+        <section style="margin-bottom: 40px;">
+          <h2 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 20px;">Our Free PDF Tools</h2>
+          <nav>
+            <ul style="list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+              <li><a href="/delete-pdf-pages" style="color: #FF0000; text-decoration: none;">Delete PDF Pages</a> - Remove unwanted pages from PDF documents</li>
+              <li><a href="/rotate-pdf" style="color: #FF0000; text-decoration: none;">Rotate PDF</a> - Rotate PDF pages and save permanently</li>
+              <li><a href="/organize-pdf" style="color: #FF0000; text-decoration: none;">Organize PDF</a> - Reorder and rearrange PDF pages</li>
+              <li><a href="/make-pdf-fillable" style="color: #FF0000; text-decoration: none;">Make PDF Fillable</a> - Add form fields to any PDF</li>
+              <li><a href="/ocr-pdf" style="color: #FF0000; text-decoration: none;">OCR PDF</a> - Extract text from scanned documents</li>
+              <li><a href="/heic-to-pdf" style="color: #FF0000; text-decoration: none;">HEIC to PDF</a> - Convert iPhone photos to PDF</li>
+              <li><a href="/epub-to-pdf" style="color: #FF0000; text-decoration: none;">EPUB to PDF</a> - Convert ebooks to PDF format</li>
+              <li><a href="/pdf-to-epub" style="color: #FF0000; text-decoration: none;">PDF to EPUB</a> - Convert PDFs to ebook format</li>
+            </ul>
+          </nav>
+        </section>
+
+        <section style="margin-bottom: 40px;">
+          <h2 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 15px;">Why Choose pdfcanada.ca?</h2>
+          <ul style="line-height: 1.8;">
+            <li><strong>100% Secure:</strong> Your files never leave your device. All processing happens locally in your browser.</li>
+            <li><strong>Completely Free:</strong> No hidden fees, no signup required, unlimited usage.</li>
+            <li><strong>Privacy First:</strong> We don't upload, store, or access your files. Ever.</li>
+            <li><strong>Works Everywhere:</strong> Compatible with Windows, Mac, Linux, iPhone, iPad, and Android.</li>
+          </ul>
+        </section>
+
+        <section style="margin-bottom: 40px;">
+          <h2 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 15px;">Guides & How-To</h2>
+          <ul style="line-height: 1.8;">
+            <li><a href="/guides/delete-pdf-pages" style="color: #FF0000;">How to Delete Pages from PDF</a></li>
+            <li><a href="/guides/rotate-pdf" style="color: #FF0000;">How to Rotate PDF and Save Permanently</a></li>
+            <li><a href="/guides/convertir-epub-en-pdf" style="color: #FF0000;">Convert EPUB to PDF Guide</a></li>
+            <li><a href="/guides/convertir-pdf-en-epub" style="color: #FF0000;">Convert PDF to EPUB Guide</a></li>
+            <li><a href="/how-to-make-a-pdf-fillable" style="color: #FF0000;">How to Make a PDF Fillable</a></li>
+          </ul>
+        </section>
+      </main>
+
+      <footer style="text-align: center; padding-top: 30px; border-top: 1px solid #eee; color: #666;">
+        <p>pdfcanada.ca - Made with love in Toronto, Canada</p>
+        <nav style="margin-top: 15px;">
+          <a href="/privacy" style="color: #666; margin: 0 10px;">Privacy Policy</a>
+          <a href="/terms" style="color: #666; margin: 0 10px;">Terms of Service</a>
+          <a href="/support" style="color: #666; margin: 0 10px;">Support</a>
+          <a href="/pricing" style="color: #666; margin: 0 10px;">Pricing</a>
+        </nav>
+      </footer>
+    </div>
+  </noscript>
+
   <script type="module" src="/index.tsx"></script>
 </body>
 

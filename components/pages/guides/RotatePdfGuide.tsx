@@ -392,11 +392,6 @@ export const RotatePdfGuide: React.FC<GuideProps> = ({ lang, onNavigate }) => {
                 "@type": "Offer",
                 "price": "0",
                 "priceCurrency": "CAD"
-            },
-            "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.9",
-                "ratingCount": "2150"
             }
         }
     ];
