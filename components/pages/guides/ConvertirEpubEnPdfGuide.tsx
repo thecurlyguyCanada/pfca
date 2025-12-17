@@ -6,7 +6,7 @@ import { PageLayout } from '../../PageLayout';
 
 interface GuideProps {
     lang: Language;
-    onNavigate: (view: string, path?: string) => void;
+    onNavigate: (view: any, path?: string) => void;
 }
 
 const guideContent = {
