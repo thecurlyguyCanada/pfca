@@ -14,6 +14,8 @@ import { SorryPage as SorryPolicyPage } from './components/pages/SorryPage';
 import { HowToPage } from './components/pages/HowToPage';
 import { SupportPage as SupportLocalPage } from './components/pages/SupportPage';
 import { MakePdfFillablePage } from './components/pages/MakePdfFillablePage';
+import { ConvertirEpubEnPdfGuide } from './components/pages/guides/ConvertirEpubEnPdfGuide';
+import { ConvertirPdfEnEpubGuide } from './components/pages/guides/ConvertirPdfEnEpubGuide';
 import { PdfPageThumbnail } from './components/PdfPageThumbnail';
 import { loadPdfDocument, getPdfJsDocument, deletePagesFromPdf, rotatePdfPages, convertHeicToPdf, convertPdfToEpub, convertEpubToPdf, formatFileSize, makePdfFillable, initPdfWorker, extractTextWithOcr, makeSearchablePdf, reorderPdfPages, saveFormFieldsToPdf, FormField } from './utils/pdfUtils';
 import { saveSession, loadSession, clearSession, AppSessionState } from './utils/storageUtils';
@@ -34,7 +36,7 @@ enum AppState {
   EDITING_FORM
 }
 
-type CurrentView = 'HOME' | 'PRICING' | 'PRIVACY' | 'TERMS' | 'SORRY' | 'HOW_TO' | 'SUPPORT' | 'MAKE_FILLABLE_INFO' | 'TOOL_PAGE';
+type CurrentView = 'HOME' | 'PRICING' | 'PRIVACY' | 'TERMS' | 'SORRY' | 'HOW_TO' | 'SUPPORT' | 'MAKE_FILLABLE_INFO' | 'TOOL_PAGE' | 'GUIDE_EPUB_TO_PDF' | 'GUIDE_PDF_TO_EPUB';
 
 enum ToolType {
   DELETE = 'DELETE',
@@ -234,6 +236,8 @@ function App() {
     else if (path === '/support') setView('SUPPORT');
     else if (path === '/how-to-make-a-pdf-fillable') setView('MAKE_FILLABLE_INFO');
     else if (path === '/sorry') setView('SORRY');
+    else if (path === '/guides/convertir-epub-en-pdf') setView('GUIDE_EPUB_TO_PDF');
+    else if (path === '/guides/convertir-pdf-en-epub') setView('GUIDE_PDF_TO_EPUB');
     else {
       // Default to Home if root or unknown
       setView('HOME');
@@ -281,6 +285,8 @@ function App() {
         case 'SUPPORT': path = '/support'; break;
         case 'MAKE_FILLABLE_INFO': path = '/how-to-make-a-pdf-fillable'; break;
         case 'SORRY': path = '/sorry'; break;
+        case 'GUIDE_EPUB_TO_PDF': path = '/guides/convertir-epub-en-pdf'; break;
+        case 'GUIDE_PDF_TO_EPUB': path = '/guides/convertir-pdf-en-epub'; break;
         // Tools usually come with an explicit path or are handled below
       }
     }
@@ -1599,6 +1605,8 @@ function App() {
         {view === 'HOW_TO' && <HowToPage lang={lang} />}
         {view === 'SUPPORT' && <SupportLocalPage lang={lang} />}
         {view === 'MAKE_FILLABLE_INFO' && <MakePdfFillablePage lang={lang} />}
+        {view === 'GUIDE_EPUB_TO_PDF' && <ConvertirEpubEnPdfGuide lang={lang} onNavigate={handleNavigation} />}
+        {view === 'GUIDE_PDF_TO_EPUB' && <ConvertirPdfEnEpubGuide lang={lang} onNavigate={handleNavigation} />}
       </main>
 
       <Footer lang={lang} onNavigate={handleNavigation} />
