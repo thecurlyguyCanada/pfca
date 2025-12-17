@@ -104,6 +104,14 @@
   </url>
 
   <url>
+    <loc>https://pdfcanada.ca/guides/rotate-pdf</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pdfcanada.ca/guides/rotate-pdf"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://pdfcanada.ca/guides/rotate-pdf?lang=fr"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
     <loc>https://pdfcanada.ca/guides/convertir-epub-en-pdf</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://pdfcanada.ca/guides/convertir-epub-en-pdf"/>
     <xhtml:link rel="alternate" hreflang="fr" href="https://pdfcanada.ca/guides/convertir-epub-en-pdf?lang=fr"/>
