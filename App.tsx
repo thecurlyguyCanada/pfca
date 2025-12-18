@@ -68,6 +68,14 @@ function App() {
   // Apply system theme preference automatically
   useSystemTheme();
 
+  // Remove the initial HTML skeleton once React is ready
+  useEffect(() => {
+    const skeleton = document.getElementById('loading-skeleton');
+    if (skeleton) {
+      skeleton.remove();
+    }
+  }, []);
+
   const [lang, setLang] = useState<Language>('en');
   const [view, setView] = useState<CurrentView>('HOME');
   const [appState, setAppState] = useState<AppState>(AppState.HOME);
