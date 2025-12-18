@@ -7,17 +7,20 @@ import { SortablePdfPageThumbnail } from './components/SortablePdfPageThumbnail'
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { MapleLeaf } from './components/MapleLeaf';
-import { PricingPage } from './components/pages/PricingPage';
-import { PrivacyPage } from './components/pages/PrivacyPage';
-import { TermsPage } from './components/pages/TermsPage';
-import { SorryPage as SorryPolicyPage } from './components/pages/SorryPage';
-import { HowToPage } from './components/pages/HowToPage';
-import { SupportPage as SupportLocalPage } from './components/pages/SupportPage';
-import { MakePdfFillablePage } from './components/pages/MakePdfFillablePage';
-import { ConvertirEpubEnPdfGuide } from './components/pages/guides/ConvertirEpubEnPdfGuide';
-import { ConvertirPdfEnEpubGuide } from './components/pages/guides/ConvertirPdfEnEpubGuide';
-import { DeletePdfPagesGuide } from './components/pages/guides/DeletePdfPagesGuide';
-import { RotatePdfGuide } from './components/pages/guides/RotatePdfGuide';
+// Lazy load non-critical pages and guides
+const PricingPage = React.lazy(() => import('./components/pages/PricingPage').then(m => ({ default: m.PricingPage })));
+const PrivacyPage = React.lazy(() => import('./components/pages/PrivacyPage').then(m => ({ default: m.PrivacyPage })));
+const TermsPage = React.lazy(() => import('./components/pages/TermsPage').then(m => ({ default: m.TermsPage })));
+const SorryPolicyPage = React.lazy(() => import('./components/pages/SorryPage').then(m => ({ default: m.SorryPage })));
+const HowToPage = React.lazy(() => import('./components/pages/HowToPage').then(m => ({ default: m.HowToPage })));
+const SupportLocalPage = React.lazy(() => import('./components/pages/SupportPage').then(m => ({ default: m.SupportPage })));
+const MakePdfFillablePage = React.lazy(() => import('./components/pages/MakePdfFillablePage').then(m => ({ default: m.MakePdfFillablePage })));
+
+const ConvertirEpubEnPdfGuide = React.lazy(() => import('./components/pages/guides/ConvertirEpubEnPdfGuide').then(m => ({ default: m.ConvertirEpubEnPdfGuide })));
+const ConvertirPdfEnEpubGuide = React.lazy(() => import('./components/pages/guides/ConvertirPdfEnEpubGuide').then(m => ({ default: m.ConvertirPdfEnEpubGuide })));
+const DeletePdfPagesGuide = React.lazy(() => import('./components/pages/guides/DeletePdfPagesGuide').then(m => ({ default: m.DeletePdfPagesGuide })));
+const RotatePdfGuide = React.lazy(() => import('./components/pages/guides/RotatePdfGuide').then(m => ({ default: m.RotatePdfGuide })));
+
 import { PdfPageThumbnail } from './components/PdfPageThumbnail';
 import { loadPdfDocument, getPdfJsDocument, deletePagesFromPdf, rotatePdfPages, convertHeicToPdf, convertPdfToEpub, convertEpubToPdf, formatFileSize, makePdfFillable, initPdfWorker, extractTextWithOcr, makeSearchablePdf, reorderPdfPages, saveFormFieldsToPdf, FormField } from './utils/pdfUtils';
 import { saveSession, loadSession, clearSession, AppSessionState } from './utils/storageUtils';
@@ -1635,20 +1638,29 @@ function App() {
             {renderHome()}
           </>
         )}
-        {view === 'TOOL_PAGE' && appState !== AppState.EDITING_OCR && appState !== AppState.EDITING_FORM && renderFeaturePage()}
+        {view === 'TOOL_PAGE' && appState !== AppState.EDITING_OCR && appState !== AppState.EDITING_FORM && (
+          <React.Suspense fallback={<div className="flex items-center justify-center p-20 animate-pulse text-gray-400">Loading tool...</div>}>
+            {renderFeaturePage()}
+          </React.Suspense>
+        )}
         {appState === AppState.EDITING_OCR && renderOcrEditor()}
         {appState === AppState.EDITING_FORM && renderFormEditor()}
-        {view === 'PRICING' && <PricingPage lang={lang} />}
-        {view === 'PRIVACY' && <PrivacyPage lang={lang} />}
-        {view === 'TERMS' && <TermsPage lang={lang} />}
-        {view === 'SORRY' && <SorryPolicyPage lang={lang} />}
-        {view === 'HOW_TO' && <HowToPage lang={lang} />}
-        {view === 'SUPPORT' && <SupportLocalPage lang={lang} />}
-        {view === 'MAKE_FILLABLE_INFO' && <MakePdfFillablePage lang={lang} />}
-        {view === 'GUIDE_EPUB_TO_PDF' && <ConvertirEpubEnPdfGuide lang={lang} onNavigate={handleNavigation} />}
-        {view === 'GUIDE_PDF_TO_EPUB' && <ConvertirPdfEnEpubGuide lang={lang} onNavigate={handleNavigation} />}
-        {view === 'GUIDE_DELETE_PDF_PAGES' && <DeletePdfPagesGuide lang={lang} onNavigate={handleNavigation} />}
-        {view === 'GUIDE_ROTATE_PDF' && <RotatePdfGuide lang={lang} onNavigate={handleNavigation} />}
+
+        <React.Suspense fallback={<div className="flex items-center justify-center p-20 animate-pulse text-gray-400">Loading page...</div>}>
+          {view === 'PRICING' && <PricingPage lang={lang} />}
+          {view === 'PRIVACY' && <PrivacyPage lang={lang} />}
+          {view === 'TERMS' && <TermsPage lang={lang} />}
+          {view === 'SORRY' && <SorryPolicyPage lang={lang} />}
+          {view === 'HOW_TO' && <HowToPage lang={lang} />}
+          {view === 'SUPPORT' && <SupportLocalPage lang={lang} />}
+          {view === 'MAKE_FILLABLE_INFO' && <MakePdfFillablePage lang={lang} />}
+
+          {/* Guides */}
+          {view === 'GUIDE_EPUB_TO_PDF' && <ConvertirEpubEnPdfGuide lang={lang} onNavigate={handleNavigation} />}
+          {view === 'GUIDE_PDF_TO_EPUB' && <ConvertirPdfEnEpubGuide lang={lang} onNavigate={handleNavigation} />}
+          {view === 'GUIDE_DELETE_PDF_PAGES' && <DeletePdfPagesGuide lang={lang} onNavigate={handleNavigation} />}
+          {view === 'GUIDE_ROTATE_PDF' && <RotatePdfGuide lang={lang} onNavigate={handleNavigation} />}
+        </React.Suspense>
       </main>
 
       <Footer lang={lang} onNavigate={handleNavigation} />

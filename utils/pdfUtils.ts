@@ -1,28 +1,31 @@
-import { PDFDocument, degrees, StandardFonts, rgb } from 'pdf-lib';
-import * as pdfjsLibModule from 'pdfjs-dist';
-import pdfWorkerSrc from 'pdfjs-dist/build/pdf.worker.min.js?url';
-import JSZip from 'jszip';
-import heic2any from 'heic2any';
-import { createWorker } from 'tesseract.js';
-
-// Robustly resolve the library object
-const pdfjsLib = (pdfjsLibModule as any).default || pdfjsLibModule;
+// Utility for dynamic imports of heavy libraries
+const loadPdfLib = () => import('pdf-lib');
+const loadPdfJs = () => import('pdfjs-dist');
+const loadJsZip = () => import('jszip');
+const loadHeic2Any = () => import('heic2any');
+const loadTesseract = () => import('tesseract.js');
 
 let workerInitialized = false;
 
-export const initPdfWorker = () => {
-  if (!workerInitialized && typeof window !== 'undefined') {
-    if (pdfjsLib.GlobalWorkerOptions) {
-      // Prefer the locally-bundled worker to avoid remote loading failures in sandboxed environments
-      pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorkerSrc || 'https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
-      workerInitialized = true;
-    }
+export const initPdfWorker = async () => {
+  if (workerInitialized || typeof window === 'undefined') return;
+
+  const { default: pdfjsLibModule } = await loadPdfJs();
+  const pdfjsLib = (pdfjsLibModule as any).default || pdfjsLibModule;
+  const { default: pdfWorkerSrc } = await import('pdfjs-dist/build/pdf.worker.min.js?url' as any);
+
+  if (pdfjsLib.GlobalWorkerOptions) {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorkerSrc || 'https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
+    workerInitialized = true;
   }
 };
 
 export const getPdfJsDocument = async (source: File | ArrayBuffer) => {
   try {
-    initPdfWorker();
+    const { default: pdfjsLibModule } = await loadPdfJs();
+    const pdfjsLib = (pdfjsLibModule as any).default || pdfjsLibModule;
+    await initPdfWorker();
+
     const data = source instanceof File ? await source.arrayBuffer() : source;
 
     const loadingTask = pdfjsLib.getDocument({
@@ -34,29 +37,25 @@ export const getPdfJsDocument = async (source: File | ArrayBuffer) => {
 
     return loadingTask.promise;
   } catch (error) {
-    // Re-throw raw error for App.tsx to analyze (e.g. PasswordException)
     throw error;
   }
 };
 
-export const loadPdfDocument = async (file: File): Promise<{ doc: PDFDocument; pageCount: number }> => {
+export const loadPdfDocument = async (file: File): Promise<{ doc: any; pageCount: number }> => {
+  const { PDFDocument } = await loadPdfLib();
   const arrayBuffer = await file.arrayBuffer();
-  // PDFDocument.load will throw if encrypted or corrupt
   const doc = await PDFDocument.load(arrayBuffer);
   return { doc, pageCount: doc.getPageCount() };
 };
 
 export const reorderPdfPages = async (originalFile: File, newOrder: number[]): Promise<Uint8Array> => {
+  const { PDFDocument } = await loadPdfLib();
   const arrayBuffer = await originalFile.arrayBuffer();
   const doc = await PDFDocument.load(arrayBuffer);
-
-  // Create a new document
   const newDoc = await PDFDocument.create();
-
-  // Copy pages in the new order
   const copiedPages = await newDoc.copyPages(doc, newOrder);
 
-  copiedPages.forEach((page) => {
+  copiedPages.forEach((page: any) => {
     newDoc.addPage(page);
   });
 
@@ -64,6 +63,7 @@ export const reorderPdfPages = async (originalFile: File, newOrder: number[]): P
 };
 
 export const deletePagesFromPdf = async (originalFile: File, pageIndicesToDelete: number[]): Promise<Uint8Array> => {
+  const { PDFDocument } = await loadPdfLib();
   const arrayBuffer = await originalFile.arrayBuffer();
   const doc = await PDFDocument.load(arrayBuffer);
 
@@ -79,11 +79,12 @@ export const deletePagesFromPdf = async (originalFile: File, pageIndicesToDelete
 };
 
 export const rotatePdfPages = async (originalFile: File, rotations: Record<number, number>): Promise<Uint8Array> => {
+  const { PDFDocument, degrees } = await loadPdfLib();
   const arrayBuffer = await originalFile.arrayBuffer();
   const doc = await PDFDocument.load(arrayBuffer);
   const pages = doc.getPages();
 
-  pages.forEach((page, index) => {
+  pages.forEach((page: any, index: number) => {
     const rotationToAdd = rotations[index] || 0;
     if (rotationToAdd !== 0) {
       const currentRotation = page.getRotation().angle;
@@ -95,14 +96,12 @@ export const rotatePdfPages = async (originalFile: File, rotations: Record<numbe
 };
 
 export const makePdfFillable = async (originalFile: File, pageIndicesToFill: number[]): Promise<Uint8Array> => {
-  // Initialize worker for text analysis
-  initPdfWorker();
+  const [{ PDFDocument, rgb }, pdfJsDocModule] = await Promise.all([loadPdfLib(), loadPdfJs()]);
+  await initPdfWorker();
 
   const arrayBuffer = await originalFile.arrayBuffer();
   const doc = await PDFDocument.load(arrayBuffer);
   const form = doc.getForm();
-
-  // Load PDF.js document for text analysis
   const pdfJsDoc = await getPdfJsDocument(arrayBuffer);
 
   let fieldCount = 0;
@@ -114,44 +113,37 @@ export const makePdfFillable = async (originalFile: File, pageIndicesToFill: num
     const pdfLibPage = doc.getPage(pageIndex);
     const { width: pageWidth, height: pageHeight } = pdfLibPage.getSize();
 
-    // Analyze page text to find underscores ____ or brackets [ ]
     let pageHasFields = false;
 
     try {
-      const pdfJsPage = await pdfJsDoc.getPage(pageIndex + 1); // PDF.js is 1-based
+      const pdfJsPage = await pdfJsDoc.getPage(pageIndex + 1);
       const textContent = await pdfJsPage.getTextContent();
 
       for (const item of textContent.items as any[]) {
         const str = item?.str || '';
         if (!str) continue;
 
-        // Heuristic 1: Lines/Underscores (_____)
-        // Looks for 3 or more underscores
         if (/__{3,}/.test(str)) {
           if (!item.transform) continue;
           const tx = item.transform[4];
           const ty = item.transform[5];
           const w = item.width || 0;
-          // Use transform[3] (scaleY) as proxy for font height if height is missing
           const h = item.height || item.transform[3] || 12;
 
           const fieldName = `txt_${pageIndex}_${fieldCount++}`;
           const textField = form.createTextField(fieldName);
 
-          // Align the text field over the underscores
           textField.addToPage(pdfLibPage, {
             x: tx,
-            y: ty - 2, // Slight adjustment to cover baseline
+            y: ty - 2,
             width: w,
-            height: h + 4, // Slightly taller for comfort
+            height: h + 4,
             borderColor: rgb(0.9, 0.9, 0.9),
-            borderWidth: 0, // No border, just fill over
+            borderWidth: 0,
           });
 
           pageHasFields = true;
-        }
-        // Heuristic 2: Checkboxes ([ ] or [x] or similar)
-        else if (/\[\s*\]/.test(str) || /☐/.test(str)) {
+        } else if (/\[\s*\]/.test(str) || /☐/.test(str)) {
           if (!item.transform) continue;
           const tx = item.transform[4];
           const ty = item.transform[5];
@@ -174,7 +166,6 @@ export const makePdfFillable = async (originalFile: File, pageIndicesToFill: num
       console.warn(`Smart detection failed for page ${pageIndex}, falling back to manual mode.`, e);
     }
 
-    // Fallback: If no smart fields detected on this page, add the "General Notes" field
     if (!pageHasFields) {
       const margin = 50;
       const textField = form.createTextField(`notes_${pageIndex}_${timestamp}`);
@@ -185,11 +176,10 @@ export const makePdfFillable = async (originalFile: File, pageIndicesToFill: num
         width: pageWidth - (margin * 2),
         height: pageHeight - (margin * 2),
         borderWidth: 1,
-        borderColor: rgb(0.8, 0.8, 0.8), // Light gray border
+        borderColor: rgb(0.8, 0.8, 0.8),
       });
 
       textField.enableMultiline();
-      // Polite placeholder
       textField.setText("Enter your notes here...");
     }
   }
@@ -213,6 +203,7 @@ export interface FormField {
 }
 
 export const saveFormFieldsToPdf = async (originalFile: File, fields: FormField[]): Promise<Uint8Array> => {
+  const { PDFDocument, rgb } = await loadPdfLib();
   const arrayBuffer = await originalFile.arrayBuffer();
   const doc = await PDFDocument.load(arrayBuffer);
   const form = doc.getForm();
@@ -222,20 +213,16 @@ export const saveFormFieldsToPdf = async (originalFile: File, fields: FormField[
       const page = doc.getPage(field.pageIndex);
       const { width: pageWidth, height: pageHeight } = page.getSize();
 
-      // Convert percentages to points
       const x = (field.x / 100) * pageWidth;
       const w = (field.width / 100) * pageWidth;
       const h = (field.height / 100) * pageHeight;
       const y = pageHeight - ((field.y / 100) * pageHeight) - h;
 
-      const fieldName = field.name || field.id; // Use custom name if provided
+      const fieldName = field.name || field.id;
 
       if (field.type === 'text' || field.type === 'signature') {
         const textField = form.createTextField(fieldName);
-
-        // Apply properties
-        if (field.label) textField.setText(field.label); // Default value? or Just internal? Let's treat label as initial text if simple
-        // Actually label property in PDF usually implies Tooltip/AlternateName, but we have toolTip too.
+        if (field.label) textField.setText(field.label);
 
         textField.addToPage(page, {
           x,
@@ -247,12 +234,8 @@ export const saveFormFieldsToPdf = async (originalFile: File, fields: FormField[
           backgroundColor: field.type === 'signature' ? rgb(0.95, 0.95, 0.95) : undefined
         });
 
-        if (field.required) textField.enableRequired(); // Correct method
+        if (field.required) textField.enableRequired();
         if (field.readOnly) textField.enableReadOnly();
-        // pdf-lib doesn't have direct setTooltip in low-level, but usually it maps to AlternateName
-        // cast to any to avoid strict type checks if versions differ, or use existing methods
-        // textField.acroField.setPartialName(fieldName); 
-
       } else if (field.type === 'checkbox') {
         const checkBox = form.createCheckBox(fieldName);
         checkBox.addToPage(page, { x, y, width: w, height: h, borderWidth: 1, borderColor: rgb(0, 0, 0) });
@@ -268,7 +251,7 @@ export const saveFormFieldsToPdf = async (originalFile: File, fields: FormField[
 };
 
 export const convertHeicToPdf = async (file: File): Promise<Uint8Array> => {
-  // Convert HEIC to JPEG blob
+  const [{ default: heic2any }, { PDFDocument }] = await Promise.all([loadHeic2Any(), loadPdfLib()]);
   const convertedBlobOrBlobs = await heic2any({
     blob: file,
     toType: "image/jpeg",
@@ -276,7 +259,6 @@ export const convertHeicToPdf = async (file: File): Promise<Uint8Array> => {
   });
 
   const blobs = Array.isArray(convertedBlobOrBlobs) ? convertedBlobOrBlobs : [convertedBlobOrBlobs];
-
   const doc = await PDFDocument.create();
 
   for (const blob of blobs) {
@@ -295,6 +277,7 @@ export const convertHeicToPdf = async (file: File): Promise<Uint8Array> => {
 };
 
 export const convertPdfToEpub = async (file: File): Promise<Blob> => {
+  const { default: JSZip } = await loadJsZip();
   const pdf = await getPdfJsDocument(file);
 
   const escapeXhtml = (text: string) =>
@@ -361,13 +344,11 @@ export const convertPdfToEpub = async (file: File): Promise<Blob> => {
 };
 
 export const convertEpubToPdf = async (file: File): Promise<Uint8Array> => {
+  const [{ default: JSZip }, { PDFDocument, StandardFonts }] = await Promise.all([loadJsZip(), loadPdfLib()]);
   const zip = new JSZip();
   const content = await zip.loadAsync(file);
 
-  // Very basic text extraction strategy for "Simple" conversion
   let textContent = "";
-
-  // Try to find HTML/XHTML files
   const htmlFiles: string[] = [];
   content.forEach((relativePath) => {
     if (relativePath.endsWith(".html") || relativePath.endsWith(".xhtml")) {
@@ -375,13 +356,11 @@ export const convertEpubToPdf = async (file: File): Promise<Uint8Array> => {
     }
   });
 
-  // Sort using natural sort order (handles page1, page2, page10 correctly)
   htmlFiles.sort(new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' }).compare);
 
   for (const path of htmlFiles) {
     const html = await content.file(path)?.async("string");
     if (html) {
-      // Strip tags
       const text = html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
       textContent += text + "\n\n";
     }
@@ -397,7 +376,6 @@ export const convertEpubToPdf = async (file: File): Promise<Uint8Array> => {
   const fontSize = 12;
   const margin = 50;
 
-  // Basic pagination
   let page = doc.addPage();
   const { height } = page.getSize();
   let y = height - margin;
@@ -431,7 +409,8 @@ export const extractTextWithOcr = async (
   onProgress?: (progress: number, status: string) => void,
   onPageComplete?: (pageIndex: number, text: string) => void
 ): Promise<string> => {
-  initPdfWorker();
+  const { createWorker } = await loadTesseract();
+  await initPdfWorker();
 
   const pdfJsDoc = await getPdfJsDocument(file);
   let fullText = '';
@@ -463,7 +442,7 @@ export const extractTextWithOcr = async (
 
       try {
         const page = await pdfJsDoc.getPage(pageNum);
-        const viewport = page.getViewport({ scale: 2 }); // Higher scale for better OCR
+        const viewport = page.getViewport({ scale: 2 });
 
         canvas.height = viewport.height;
         canvas.width = viewport.width;
@@ -475,26 +454,19 @@ export const extractTextWithOcr = async (
           viewport: viewport,
         }).promise;
 
-        // Convert canvas to blob for Tesseract
         const blob = await new Promise<Blob>((resolve) => {
           canvas.toBlob((b) => resolve(b!), 'image/png');
         });
 
-        // Run OCR on the rendered page using the persistent worker
         const result = await worker.recognize(blob);
-
         const pageText = result.data.text;
         fullText += `--- Page ${pageNum} ---\n${pageText}\n\n`;
-
-        // Notify streaming callback
         onPageComplete?.(pageIndex, pageText);
-
       } catch (err) {
         console.error(`OCR failed for page ${pageNum}:`, err);
         fullText += `--- Page ${pageNum} ---\n[OCR failed for this page]\n\n`;
         onPageComplete?.(pageIndex, "[OCR failed for this page]");
       } finally {
-        // Cleanup canvas to prevent memory leaks
         if (context) {
           context.clearRect(0, 0, canvas.width, canvas.height);
         }
@@ -503,7 +475,6 @@ export const extractTextWithOcr = async (
       }
     }
   } finally {
-    // Terminate worker to free resources
     await worker.terminate();
   }
 
@@ -517,7 +488,8 @@ export const makeSearchablePdf = async (
   pageIndices: number[],
   onProgress?: (progress: number, status: string) => void
 ): Promise<Uint8Array> => {
-  initPdfWorker();
+  const [{ PDFDocument, StandardFonts }, { createWorker }] = await Promise.all([loadPdfLib(), loadTesseract()]);
+  await initPdfWorker();
 
   const arrayBuffer = await file.arrayBuffer();
   const doc = await PDFDocument.load(arrayBuffer);
@@ -541,10 +513,7 @@ export const makeSearchablePdf = async (
       const pageIndex = pageIndices[i];
       const pageNum = pageIndex + 1;
 
-      onProgress?.(
-        Math.round((i / pageIndices.length) * 100),
-        `OCR on page ${pageNum}...`
-      );
+      onProgress?.(Math.round((i / pageIndices.length) * 100), `OCR on page ${pageNum}...`);
 
       const canvas = document.createElement('canvas');
       const context = canvas.getContext('2d');
@@ -552,26 +521,18 @@ export const makeSearchablePdf = async (
       try {
         const pdfJsPage = await pdfJsDoc.getPage(pageNum);
         const viewport = pdfJsPage.getViewport({ scale: 2 });
-
         canvas.height = viewport.height;
         canvas.width = viewport.width;
 
         if (!context) continue;
 
-        await pdfJsPage.render({
-          canvasContext: context,
-          viewport: viewport,
-        }).promise;
+        await pdfJsPage.render({ canvasContext: context, viewport }).promise;
 
-        // OCR
         const blob = await new Promise<Blob>((resolve) => {
           canvas.toBlob((b) => resolve(b!), 'image/png');
         });
 
-        // Use persistent worker
         const result = await worker.recognize(blob);
-
-        // Add invisible text layer to PDF page - optimized batch approach
         const pdfLibPage = doc.getPage(pageIndex);
         const { width: pageWidth, height: pageHeight } = pdfLibPage.getSize();
         const scaleX = pageWidth / viewport.width;
@@ -580,24 +541,15 @@ export const makeSearchablePdf = async (
         const words = (result.data as any).words || [];
         for (const word of words) {
           if (!word.text || !word.bbox) continue;
-
           const x = word.bbox.x0 * scaleX;
-          const y = pageHeight - (word.bbox.y1 * scaleY); // Flip Y axis
+          const y = pageHeight - (word.bbox.y1 * scaleY);
           const fontSize = Math.max(6, (word.bbox.y1 - word.bbox.y0) * scaleY * 0.8);
 
-          pdfLibPage.drawText(word.text, {
-            x,
-            y,
-            size: fontSize,
-            font,
-            opacity: 0, // Invisible text for searchability
-          });
+          pdfLibPage.drawText(word.text, { x, y, size: fontSize, font, opacity: 0 });
         }
-
       } catch (err) {
         console.error(`OCR failed for page ${pageNum}:`, err);
       } finally {
-        // Cleanup canvas to prevent memory leaks
         if (context) {
           context.clearRect(0, 0, canvas.width, canvas.height);
         }
