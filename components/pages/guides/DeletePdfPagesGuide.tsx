@@ -103,9 +103,41 @@ As a **delete pages from pdf canada**-based service, we prioritize your privacy.
             {
                 id: "how-to",
                 title: "Comment Supprimer des Pages d'un PDF (Étape par Étape)",
-                content: `1. **Téléversez Votre Fichier PDF** : Cliquez sur 'Choisir un fichier'.
-2. **Sélectionnez les Pages à Supprimer** : Cliquez sur les miniatures.
-3. **Téléchargez Votre Nouveau PDF** : Cliquez sur 'Supprimer'.`
+                content: `Si vous vous demandez **comment supprimer des pages d'un PDF**, le processus est plus simple que vous ne le pensez. En utilisant notre **outil de suppression de pages PDF** local, suivez ces trois étapes :
+                
+1. **Téléversez Votre Fichier PDF** : Cliquez sur 'Choisir un fichier'. Comme nous utilisons WebAssembly, votre fichier reste sur votre appareil.
+2. **Sélectionnez les Pages à Supprimer** : Cliquez sur les miniatures des pages que vous souhaitez **enlever du PDF**.
+3. **Téléchargez Votre Nouveau PDF** : Cliquez sur 'Supprimer' et votre document sera téléchargé automatiquement.`
+            },
+            {
+                id: "mobile-vs-desktop",
+                title: "Supprimer des Pages PDF sur N'importe Quel Appareil",
+                content: `Notre outil est universel. Que vous ayez besoin de **supprimer des pages PDF sur Windows**, **Mac**, ou que vous soyez en déplacement avec un appareil mobile.
+                
+- **Sur iPhone et Android** : Pas besoin d'application spéciale. Ouvrez simplement pdfcanada.ca dans votre navigateur mobile.
+- **Sur Ordinateur** : Pour les documents complexes, notre interface vous permet de voir chaque détail avant de **supprimer les pages indésirables**.`
+            }
+        ],
+
+        faq: [
+            {
+                q: "Comment puis-je supprimer des pages d'un PDF gratuitement ?",
+                a: "Vous pouvez utiliser pdfcanada.ca. C'est un outil 100% gratuit qui vous permet de supprimer des pages PDF en ligne sans frais et sans inscription."
+            },
+            {
+                q: "Puis-je supprimer plusieurs pages à la fois ?",
+                a: "Absolument. Vous pouvez sélectionner autant de pages que vous le souhaitez. Elles seront marquées d'une icône de corbeille rouge."
+            }
+        ],
+
+        ctaTitle: "Prêt à supprimer des pages PDF ?",
+        ctaButton: "Supprimer les pages maintenant",
+        ctaSubtext: "Gratuit, rapide et sécurisé. Aucune inscription requise.",
+
+        supportingSections: [
+            {
+                title: "Erreurs courantes lors de la suppression de pages PDF",
+                content: "L'erreur la plus fréquente est de ne pas vérifier les numéros de page. Vérifiez toujours la miniature avant de valider la suppression."
             }
         ]
     }
