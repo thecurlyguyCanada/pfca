@@ -262,6 +262,16 @@
 
   <!-- SEO Guide Pages -->
   <url>
+    <loc>https://pdfcanada.ca/guides/ultimate-pdf-guide</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pdfcanada.ca/guides/ultimate-pdf-guide"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://pdfcanada.ca/fr/guides/ultimate-pdf-guide"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pdfcanada.ca/guides/ultimate-pdf-guide"/>
+  </url>
+
+  <url>
     <loc>https://pdfcanada.ca/guides/delete-pdf-pages</loc>
     <lastmod>2025-12-18</lastmod>
     <changefreq>monthly</changefreq>
@@ -279,6 +289,36 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://pdfcanada.ca/guides/rotate-pdf"/>
     <xhtml:link rel="alternate" hreflang="fr" href="https://pdfcanada.ca/fr/guides/rotate-pdf"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://pdfcanada.ca/guides/rotate-pdf"/>
+  </url>
+
+  <url>
+    <loc>https://pdfcanada.ca/guides/heic-to-pdf</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pdfcanada.ca/guides/heic-to-pdf"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://pdfcanada.ca/fr/guides/heic-to-pdf"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pdfcanada.ca/guides/heic-to-pdf"/>
+  </url>
+
+  <url>
+    <loc>https://pdfcanada.ca/guides/ocr-pdf</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pdfcanada.ca/guides/ocr-pdf"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://pdfcanada.ca/fr/guides/ocr-pdf"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pdfcanada.ca/guides/ocr-pdf"/>
+  </url>
+
+  <url>
+    <loc>https://pdfcanada.ca/guides/organize-pdf</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pdfcanada.ca/guides/organize-pdf"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://pdfcanada.ca/fr/guides/organize-pdf"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pdfcanada.ca/guides/organize-pdf"/>
   </url>
 
   <url>
