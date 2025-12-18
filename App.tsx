@@ -223,11 +223,22 @@ function App() {
   };
   const pageIndices = useMemo(() => Array.from({ length: pageCount }, (_, i) => i), [pageCount]);
 
-  // Routing Logic
+  // Routing Logic - Handles both /path and /fr/path URLs
+  const extractLangFromPath = (path: string): { lang: Language; cleanPath: string } => {
+    if (path.startsWith('/fr/') || path === '/fr') {
+      return { lang: 'fr', cleanPath: path.replace(/^\/fr/, '') || '/' };
+    }
+    return { lang: 'en', cleanPath: path };
+  };
+
   const syncStateFromUrl = () => {
     const path = window.location.pathname;
+    const { lang: detectedLang, cleanPath } = extractLangFromPath(path);
 
-    const tool = getToolFromPath(path);
+    // Set language based on URL path
+    setLang(detectedLang);
+
+    const tool = getToolFromPath(cleanPath);
     if (tool) {
       setCurrentTool(tool);
       setView('TOOL_PAGE');
@@ -235,17 +246,17 @@ function App() {
       return;
     }
 
-    if (path === '/pricing') setView('PRICING');
-    else if (path === '/privacy') setView('PRIVACY');
-    else if (path === '/terms') setView('TERMS');
-    else if (path === '/howto') setView('HOW_TO');
-    else if (path === '/support') setView('SUPPORT');
-    else if (path === '/how-to-make-a-pdf-fillable') setView('MAKE_FILLABLE_INFO');
-    else if (path === '/sorry') setView('SORRY');
-    else if (path === '/guides/convertir-epub-en-pdf') setView('GUIDE_EPUB_TO_PDF');
-    else if (path === '/guides/convertir-pdf-en-epub') setView('GUIDE_PDF_TO_EPUB');
-    else if (path === '/guides/delete-pdf-pages') setView('GUIDE_DELETE_PDF_PAGES');
-    else if (path === '/guides/rotate-pdf') setView('GUIDE_ROTATE_PDF');
+    if (cleanPath === '/pricing') setView('PRICING');
+    else if (cleanPath === '/privacy') setView('PRIVACY');
+    else if (cleanPath === '/terms') setView('TERMS');
+    else if (cleanPath === '/howto') setView('HOW_TO');
+    else if (cleanPath === '/support') setView('SUPPORT');
+    else if (cleanPath === '/how-to-make-a-pdf-fillable') setView('MAKE_FILLABLE_INFO');
+    else if (cleanPath === '/sorry') setView('SORRY');
+    else if (cleanPath === '/guides/convertir-epub-en-pdf') setView('GUIDE_EPUB_TO_PDF');
+    else if (cleanPath === '/guides/convertir-pdf-en-epub') setView('GUIDE_PDF_TO_EPUB');
+    else if (cleanPath === '/guides/delete-pdf-pages') setView('GUIDE_DELETE_PDF_PAGES');
+    else if (cleanPath === '/guides/rotate-pdf') setView('GUIDE_ROTATE_PDF');
     else {
       // Default to Home if root or unknown
       setView('HOME');
@@ -301,12 +312,18 @@ function App() {
       }
     }
 
+    // Add language prefix for French URLs
+    if (path && lang === 'fr' && !path.startsWith('/fr')) {
+      path = `/fr${path}`;
+    }
+
     if (path) {
       safePushState({}, '', path);
     }
 
-    // Check if the path corresponds to a tool
-    const tool = path ? getToolFromPath(path) : null;
+    // Check if the path corresponds to a tool (use clean path without lang prefix)
+    const cleanPath = path ? path.replace(/^\/fr/, '') || '/' : null;
+    const tool = cleanPath ? getToolFromPath(cleanPath) : null;
 
     if (tool) {
       setCurrentTool(tool);
@@ -342,7 +359,9 @@ function App() {
     setAppState(AppState.SELECTING);
     setView('TOOL_PAGE');
     if (tool) {
-      safePushState({}, '', tool.path);
+      // Add language prefix for French URLs
+      const urlPath = lang === 'fr' ? `/fr${tool.path}` : tool.path;
+      safePushState({}, '', urlPath);
     }
   };
 
