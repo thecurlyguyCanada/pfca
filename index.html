@@ -535,28 +535,6 @@
   </div>
 
   <script type="module" src="/src/main.tsx"></script>
-  <!-- Tailwind CDN (Non-blocking fallback) -->
-  <script src="https://cdn.tailwindcss.com" defer></script>
-  <script>
-    window.addEventListener('load', () => {
-      if (window.tailwind) {
-        tailwind.config = {
-          darkMode: 'class',
-          theme: {
-            extend: {
-              colors: {
-                canada: {
-                  red: '#FF0000',
-                  darkRed: '#C40000',
-                  leaf: '#D80000'
-                }
-              }
-            }
-          }
-        }
-      }
-    });
-  </script>
 </body>
 
 </html>
