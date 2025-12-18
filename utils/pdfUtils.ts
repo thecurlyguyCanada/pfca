@@ -295,11 +295,19 @@ export const convertHeicToPdf = async (file: File): Promise<Uint8Array> => {
 export const convertPdfToEpub = async (file: File): Promise<Blob> => {
   const pdf = await getPdfJsDocument(file);
 
+  const escapeXhtml = (text: string) =>
+    text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&apos;');
+
   let fullText = "";
   for (let i = 1; i <= pdf.numPages; i++) {
     const page = await pdf.getPage(i);
     const content = await page.getTextContent();
-    const strings = content.items.map((item: any) => item.str);
+    const strings = content.items.map((item: any) => escapeXhtml(item.str ?? ''));
     fullText += `<h2>Page ${i}</h2><p>${strings.join(' ')}</p><hr/>`;
   }
 
@@ -347,7 +355,7 @@ export const convertPdfToEpub = async (file: File): Promise<Blob> => {
   </navMap>
 </ncx>`);
 
-  return await zip.generateAsync({ type: "blob" });
+  return await zip.generateAsync({ type: "blob", mimeType: "application/epub+zip" });
 };
 
 export const convertEpubToPdf = async (file: File): Promise<Uint8Array> => {

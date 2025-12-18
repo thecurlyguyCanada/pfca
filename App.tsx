@@ -511,7 +511,14 @@ function App() {
       }
 
       if (resultBlob) {
-        const blob = resultBlob instanceof Blob ? resultBlob : new Blob([resultBlob as any], { type: 'application/octet-stream' });
+        const getOutputMime = () => {
+          if (currentTool === ToolType.PDF_TO_EPUB) return 'application/epub+zip';
+          return 'application/pdf';
+        };
+
+        const blob = resultBlob instanceof Blob
+          ? resultBlob
+          : new Blob([resultBlob as any], { type: getOutputMime() });
         const url = URL.createObjectURL(blob);
         setDownloadUrl(url);
         setDownloadName(outName);
