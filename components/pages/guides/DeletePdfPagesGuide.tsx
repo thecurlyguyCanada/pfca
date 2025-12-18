@@ -1,5 +1,5 @@
 import React from 'react';
-import { Trash2, CheckCircle, Shield, Zap, ArrowRight, Globe, Lock, Clock } from 'lucide-react';
+import { Trash2, CheckCircle, Shield, Zap, ArrowRight, Globe, Lock, Clock, MousePointer2, Smartphone, Monitor, Info, HelpCircle, FileText, MoveRight } from 'lucide-react';
 import { Language } from '../../../utils/i18n';
 import { SEO } from '../../SEO';
 import { PageLayout } from '../../PageLayout';
@@ -13,261 +13,106 @@ const guideContent = {
     en: {
         seo: {
             title: "Delete Pages from PDF Free | Remove PDF Pages Online | pdfcanada.ca",
-            desc: "Delete pages from PDF for free. Learn how to delete a page in PDF, remove pages from PDF documents online. Fast, secure, no upload required. Free PDF page remover tool."
+            desc: "Learn how to delete pages from PDF free online. The ultimate guide to remove pages from PDF documents on Windows, Mac, iPhone, and Android. Fast, secure, and no upload required."
         },
-        h1: "Delete Pages from PDF",
-        subtitle: "The easiest way to remove unwanted pages from your PDF documents",
-        intro: "Need to delete pages from a PDF? Whether you want to remove a single page or multiple pages from your document, our free online tool makes it simple. No software installation, no signup required. Just upload, select, and delete PDF pages in seconds.",
+        h1: "The Ultimate Guide: How to Delete Pages from PDF",
+        subtitle: "Master the art of removing unwanted, blank, or sensitive pages from your PDF documents instantly.",
 
-        whyTitle: "Why Delete Pages from PDF?",
-        whyReasons: [
-            "Remove blank or unnecessary pages from scanned documents",
-            "Delete sensitive information before sharing",
-            "Reduce file size by removing unneeded content",
-            "Clean up PDFs before printing to save paper",
-            "Remove cover pages or appendices you don't need"
-        ],
+        intro: "Need to **delete pages from a PDF**? Whether you're trying to **remove pages from PDF** documents for work, school, or personal use, you've likely found that standard readers don't make it easy. Our guide and tool show you exactly **how do you delete pages from a PDF** quickly, securely, and for free. No software installation, no signups, and most importantly—no file uploads to risky servers.",
 
-        howTitle: "How to Delete Pages from a PDF",
-        steps: [
+        sections: [
             {
-                title: "Upload Your PDF File",
-                desc: "Click 'Select File' or drag and drop your PDF document into the upload area. Our tool accepts any standard PDF file."
-            },
-            {
-                title: "Select Pages to Delete",
-                desc: "You'll see thumbnails of all pages in your PDF. Simply click on the pages you want to remove. Selected pages will be marked with a trash icon."
-            },
-            {
-                title: "Remove and Download",
-                desc: "Click 'Remove Pages' to instantly delete the selected pages. Your new PDF downloads automatically - that's it!"
-            }
-        ],
+                id: "how-to",
+                title: "How to Delete Pages from a PDF (Step-by-Step)",
+                content: `If you're wondering **how do I delete pages from a PDF**, the process is simpler than you think. Using our local-first **pdf page remover**, follow these three steps:
 
-        featuresTitle: "Why Use Our PDF Page Remover?",
-        features: [
-            {
-                icon: Lock,
-                title: "100% Secure & Private",
-                desc: "Your files never leave your device. All processing happens locally in your browser using advanced WebAssembly technology."
-            },
-            {
-                icon: Globe,
-                title: "Works Anywhere",
-                desc: "Delete PDF pages online from any device - Windows, Mac, Linux, iPhone, or Android. No software to install."
-            },
-            {
-                icon: Clock,
-                title: "Fast & Free",
-                desc: "Remove pages from PDF in seconds, completely free. No limits on file size or number of pages."
-            }
-        ],
+1. **Upload Your PDF File**: Click the 'Select File' button or drag and drop your document. Because we use WebAssembly, your file stays on your device.
+2. **Select Pages to Delete**: Click on the thumbnails of the pages you want to **remove from pdf**. You can **delete multiple pages from PDF** at once by clicking each one.
+3. **Download Your New PDF**: Click 'Remove Pages' and your clean document will download automatically.
 
-        useCasesTitle: "Common Use Cases",
-        useCases: [
-            {
-                title: "Remove Blank Pages",
-                desc: "Scanned documents often have blank pages. Quickly delete them to clean up your PDF."
+This is the fastest way to **delete pdf page online** without any hassle.`
             },
             {
-                title: "Delete Cover Pages",
-                desc: "Remove title pages, disclaimers, or other front matter you don't need."
+                id: "mobile-vs-desktop",
+                title: "Delete Pages from PDF on Any Device",
+                content: `Our tool is built to be universal. Whether you need to **delete pages from pdf on windows**, **delete pages from pdf on mac**, or you're on the go with a mobile device, we have you covered.
+
+- **On iPhone & Android**: You don't need a special app to **delete pages from pdf android** or iOS. Simply visit pdfcanada.ca in your mobile browser and use the same intuitive interface to **remove page from pdf**.
+- **On Desktop**: For those working on complex documents, our interface allows you to see every detail before you **delete unwanted pages from pdf**.`
             },
             {
-                title: "Extract Specific Content",
-                desc: "Delete everything except the pages you need to create a focused document."
+                id: "long-tail-wins",
+                title: "Specific Scenarios: Scanned, Blank, and Single Pages",
+                content: `Sometimes you need more than just general deletion. Here are some of the most common "easy win" tasks our users perform:
+
+- **Delete Blank Page from PDF**: Scanners often add unnecessary blank pages. Quickly identify and **remove blank page from pdf** to make your document look professional.
+- **Delete Scanned Pages from PDF**: If a scan went wrong, you don't need to re-scan the whole thing. Just **delete scanned pages from pdf** that are blurry or crooked.
+- **Delete One Page from PDF**: Sometimes you just need to **delete last page from pdf** or **delete first page from pdf** to remove a cover note or appendix.
+- **Permanently Delete Pages from PDF**: Unlike "hidden" deletions in some editors, our tool creates a new file that **permanently deletes pages from pdf**, ensuring they cannot be recovered by the recipient.`
             },
             {
-                title: "Prepare for Printing",
-                desc: "Remove pages you don't want to print to save paper and ink."
+                id: "why-local",
+                title: "Why Use a Free PDF Page Remover Online?",
+                content: `You might ask, "Why should I use this **pdf page deleter** instead of other sites?" Most "free" sites are actually **remove pdf pages online** services that harvest your data. 
+
+As a **delete pages from pdf canada**-based service, we prioritize your privacy. Using a **free pdf page remover** that runs locally means your sensitive data (like tax forms or contracts) is never seen by us or anyone else. It's the most **secure and private** way to **delete pages in pdf** documents.`
             }
         ],
 
         faq: [
             {
-                q: "How do I delete a page in a PDF document?",
-                a: "Simply upload your PDF to our tool, click on the pages you want to remove (they'll be marked with a trash icon), then click 'Remove Pages'. Your new PDF without those pages will download automatically."
+                q: "How can I delete pages from a PDF for free?",
+                a: "You can use pdfcanada.ca. It is a 100% free tool that allows you to delete pdf pages online free of charge. No signup is required."
             },
             {
-                q: "How do you delete pages from a PDF for free?",
-                a: "Our tool is 100% free with no hidden costs. Upload your PDF, select the pages to delete, and download your new file. No signup, no payment, no limits."
+                q: "Can I remove selected pages from pdf and keep them in order?",
+                a: "Yes! Our tool keeps the remaining pages in their original order. If you need to reorder them, you can use our 'Organize PDF' tool after deleting."
             },
             {
-                q: "Can I delete multiple pages from a PDF at once?",
-                a: "Yes! You can select as many pages as you want to delete. Just click on each page you want to remove, or use Shift+Click to select a range of pages."
+                q: "How to delete pages in a pdf document on a Mac?",
+                a: "Simply open Safari or Chrome on your Mac, visit our site, and use the feature. It works exactly like the Windows version."
             },
             {
-                q: "Is it safe to delete PDF pages online?",
-                a: "With our tool, absolutely! Unlike other online services, we process your PDF entirely in your browser. Your file never uploads to any server, making it the most secure way to delete PDF pages online."
-            },
-            {
-                q: "How to delete a page from a PDF on iPhone or Android?",
-                a: "Just visit our website on your mobile browser, upload your PDF, tap the pages you want to remove, and download your new file. No app installation needed!"
-            },
-            {
-                q: "Will deleting pages reduce my PDF file size?",
-                a: "Yes! Removing pages will reduce your file size, especially if those pages contain images or graphics. Great for making PDFs easier to email or share."
-            },
-            {
-                q: "Can I undo after deleting pages?",
-                a: "Your original file is never modified. We create a new PDF without the deleted pages. Your original PDF remains unchanged on your device."
-            },
-            {
-                q: "What's the difference between deleting and extracting PDF pages?",
-                a: "Deleting removes pages you don't want, keeping the rest. Extracting creates a new file with only specific pages. Our tool does deletion - you select what to remove."
+                q: "Is it possible to delete multiple pages from pdf at once?",
+                a: "Absolutely. You can select as many pages as you want. They will be highlighted with a red trash icon before you finalize the removal."
             }
         ],
 
-        ctaTitle: "Ready to Delete PDF Pages?",
+        ctaTitle: "Ready to Remove PDF Pages?",
         ctaButton: "Delete Pages Now",
         ctaSubtext: "Free, fast, and secure. No signup required.",
 
-        relatedTitle: "Related PDF Tools",
-        relatedTools: [
-            { name: "Rotate PDF", desc: "Fix upside-down pages", path: "/rotate-pdf" },
-            { name: "Organize PDF", desc: "Reorder pages in your PDF", path: "/organize-pdf" },
-            { name: "Make PDF Fillable", desc: "Add form fields to PDFs", path: "/make-pdf-fillable" }
-        ],
-
-        tipsTitle: "Pro Tips for Deleting PDF Pages",
-        tips: [
-            "Preview all pages before deleting to make sure you're removing the right ones",
-            "Use Shift+Click to quickly select a range of consecutive pages",
-            "Keep your original PDF as a backup before making changes",
-            "If you need to remove many pages, it might be faster to extract just the pages you want to keep"
+        supportingSections: [
+            {
+                title: "Common Mistakes When Deleting PDF Pages",
+                content: "The biggest mistake is not checking the page numbers. Because thumbnails can look similar, always zoom in or preview the page before you **delete pdf pages**. Another mistake is using cloud-based tools for sensitive documents—always stick to local-first processing."
+            }
         ]
     },
     fr: {
         seo: {
             title: "Supprimer des Pages PDF Gratuit | Enlever Pages PDF en Ligne | pdfcanada.ca",
-            desc: "Supprimer des pages PDF gratuitement. Apprenez comment supprimer une page d'un PDF, enlever des pages de documents PDF en ligne. Rapide, sécurisé, sans téléversement."
+            desc: "Apprenez comment supprimer des pages d'un PDF gratuitement en ligne. Le guide ultime pour enlever des pages de documents PDF sur Windows, Mac, iPhone et Android."
         },
-        h1: "Supprimer des Pages PDF",
-        subtitle: "La façon la plus simple d'enlever les pages indésirables de vos documents PDF",
-        intro: "Besoin de supprimer des pages d'un PDF? Que vous vouliez enlever une seule page ou plusieurs pages de votre document, notre outil gratuit en ligne rend cela simple. Pas d'installation de logiciel, pas d'inscription requise. Téléversez, sélectionnez et supprimez des pages PDF en quelques secondes.",
+        h1: "Le Guide Ultime : Comment Supprimer des Pages d'un PDF",
+        subtitle: "Maîtrisez l'art de retirer les pages indésirables, vierges ou sensibles de vos documents PDF instantanément.",
 
-        whyTitle: "Pourquoi Supprimer des Pages PDF?",
-        whyReasons: [
-            "Enlever les pages vierges ou inutiles des documents numérisés",
-            "Supprimer les informations sensibles avant le partage",
-            "Réduire la taille du fichier en enlevant le contenu inutile",
-            "Nettoyer les PDF avant l'impression pour économiser du papier",
-            "Enlever les pages de couverture ou annexes dont vous n'avez pas besoin"
-        ],
+        intro: "Besoin de **supprimer des pages d'un PDF**? Que vous essayiez d'**enlever des pages d'un PDF** pour le travail, l'école ou un usage personnel, vous avez probablement constaté que les lecteurs standard ne facilitent pas la tâche. Notre guide vous montre exactement **comment supprimer des pages d'un document PDF** rapidement et en toute sécurité.",
 
-        howTitle: "Comment Supprimer des Pages d'un PDF",
-        steps: [
+        sections: [
             {
-                title: "Téléversez Votre Fichier PDF",
-                desc: "Cliquez sur 'Choisir un fichier' ou glissez-déposez votre document PDF dans la zone de téléversement. Notre outil accepte tout fichier PDF standard."
-            },
-            {
-                title: "Sélectionnez les Pages à Supprimer",
-                desc: "Vous verrez les miniatures de toutes les pages de votre PDF. Cliquez simplement sur les pages que vous voulez enlever. Les pages sélectionnées seront marquées d'une icône de corbeille."
-            },
-            {
-                title: "Supprimez et Téléchargez",
-                desc: "Cliquez sur 'Supprimer' pour enlever instantanément les pages sélectionnées. Votre nouveau PDF se télécharge automatiquement - c'est tout!"
+                id: "how-to",
+                title: "Comment Supprimer des Pages d'un PDF (Étape par Étape)",
+                content: `1. **Téléversez Votre Fichier PDF** : Cliquez sur 'Choisir un fichier'.
+2. **Sélectionnez les Pages à Supprimer** : Cliquez sur les miniatures.
+3. **Téléchargez Votre Nouveau PDF** : Cliquez sur 'Supprimer'.`
             }
-        ],
-
-        featuresTitle: "Pourquoi Utiliser Notre Outil?",
-        features: [
-            {
-                icon: Lock,
-                title: "100% Sécurisé et Privé",
-                desc: "Vos fichiers ne quittent jamais votre appareil. Tout le traitement se fait localement dans votre navigateur."
-            },
-            {
-                icon: Globe,
-                title: "Fonctionne Partout",
-                desc: "Supprimez des pages PDF en ligne depuis n'importe quel appareil - Windows, Mac, Linux, iPhone ou Android."
-            },
-            {
-                icon: Clock,
-                title: "Rapide et Gratuit",
-                desc: "Enlevez des pages PDF en quelques secondes, entièrement gratuit. Pas de limite de taille ou de pages."
-            }
-        ],
-
-        useCasesTitle: "Cas d'Utilisation Courants",
-        useCases: [
-            {
-                title: "Enlever les Pages Vierges",
-                desc: "Les documents numérisés ont souvent des pages vierges. Supprimez-les rapidement pour nettoyer votre PDF."
-            },
-            {
-                title: "Supprimer les Pages de Couverture",
-                desc: "Enlevez les pages de titre, avertissements ou autres contenus préliminaires dont vous n'avez pas besoin."
-            },
-            {
-                title: "Extraire un Contenu Spécifique",
-                desc: "Supprimez tout sauf les pages dont vous avez besoin pour créer un document ciblé."
-            },
-            {
-                title: "Préparer pour l'Impression",
-                desc: "Enlevez les pages que vous ne voulez pas imprimer pour économiser papier et encre."
-            }
-        ],
-
-        faq: [
-            {
-                q: "Comment supprimer une page d'un document PDF?",
-                a: "Téléversez simplement votre PDF dans notre outil, cliquez sur les pages que vous voulez enlever (elles seront marquées d'une icône de corbeille), puis cliquez sur 'Supprimer'. Votre nouveau PDF sans ces pages se téléchargera automatiquement."
-            },
-            {
-                q: "Comment supprimer des pages d'un PDF gratuitement?",
-                a: "Notre outil est 100% gratuit sans frais cachés. Téléversez votre PDF, sélectionnez les pages à supprimer, et téléchargez votre nouveau fichier. Pas d'inscription, pas de paiement, pas de limites."
-            },
-            {
-                q: "Puis-je supprimer plusieurs pages d'un PDF en une fois?",
-                a: "Oui! Vous pouvez sélectionner autant de pages que vous voulez supprimer. Cliquez simplement sur chaque page à enlever, ou utilisez Maj+Clic pour sélectionner une plage de pages."
-            },
-            {
-                q: "Est-ce sécuritaire de supprimer des pages PDF en ligne?",
-                a: "Avec notre outil, absolument! Contrairement aux autres services en ligne, nous traitons votre PDF entièrement dans votre navigateur. Votre fichier n'est jamais téléversé sur un serveur."
-            },
-            {
-                q: "Comment supprimer une page d'un PDF sur iPhone ou Android?",
-                a: "Visitez simplement notre site web sur votre navigateur mobile, téléversez votre PDF, touchez les pages à enlever, et téléchargez votre nouveau fichier. Aucune installation d'application nécessaire!"
-            },
-            {
-                q: "La suppression de pages réduira-t-elle la taille de mon fichier PDF?",
-                a: "Oui! Enlever des pages réduira la taille de votre fichier, surtout si ces pages contiennent des images ou graphiques."
-            },
-            {
-                q: "Puis-je annuler après avoir supprimé des pages?",
-                a: "Votre fichier original n'est jamais modifié. Nous créons un nouveau PDF sans les pages supprimées. Votre PDF original reste intact sur votre appareil."
-            },
-            {
-                q: "Quelle est la différence entre supprimer et extraire des pages PDF?",
-                a: "Supprimer enlève les pages dont vous ne voulez pas, gardant le reste. Extraire crée un nouveau fichier avec seulement certaines pages. Notre outil fait la suppression."
-            }
-        ],
-
-        ctaTitle: "Prêt à Supprimer des Pages PDF?",
-        ctaButton: "Supprimer Maintenant",
-        ctaSubtext: "Gratuit, rapide et sécurisé. Aucune inscription requise.",
-
-        relatedTitle: "Outils PDF Connexes",
-        relatedTools: [
-            { name: "Pivoter PDF", desc: "Corriger les pages à l'envers", path: "/rotate-pdf" },
-            { name: "Organiser PDF", desc: "Réorganiser les pages", path: "/organize-pdf" },
-            { name: "PDF Remplissable", desc: "Ajouter des champs de formulaire", path: "/make-pdf-fillable" }
-        ],
-
-        tipsTitle: "Conseils Pro pour Supprimer des Pages PDF",
-        tips: [
-            "Prévisualisez toutes les pages avant de supprimer pour vous assurer d'enlever les bonnes",
-            "Utilisez Maj+Clic pour sélectionner rapidement une plage de pages consécutives",
-            "Gardez votre PDF original comme sauvegarde avant de faire des changements",
-            "Si vous devez enlever beaucoup de pages, il peut être plus rapide d'extraire seulement les pages à garder"
         ]
     }
 };
 
 export const DeletePdfPagesGuide: React.FC<GuideProps> = ({ lang, onNavigate }) => {
-    const t = guideContent[lang];
+    const t = guideContent[lang] || guideContent.en;
 
     const schema = [
         {
@@ -275,48 +120,11 @@ export const DeletePdfPagesGuide: React.FC<GuideProps> = ({ lang, onNavigate }) 
             "@type": "HowTo",
             "name": t.h1,
             "description": t.seo.desc,
-            "step": t.steps.map((step, i) => ({
-                "@type": "HowToStep",
-                "position": i + 1,
-                "name": step.title,
-                "text": step.desc
-            })),
-            "tool": {
-                "@type": "HowToTool",
-                "name": "pdfcanada.ca PDF Page Remover"
-            }
-        },
-        {
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            "mainEntity": t.faq.map(item => ({
-                "@type": "Question",
-                "name": item.q,
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": item.a
-                }
-            }))
-        },
-        {
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-                { "@type": "ListItem", "position": 1, "name": lang === 'fr' ? "Accueil" : "Home", "item": "https://pdfcanada.ca/" },
-                { "@type": "ListItem", "position": 2, "name": t.h1, "item": "https://pdfcanada.ca/guides/delete-pdf-pages" }
+            "step": [
+                { "@type": "HowToStep", "position": 1, "name": "Select File", "text": "Upload your PDF document to the tool locally." },
+                { "@type": "HowToStep", "position": 2, "name": "Select Pages", "text": "Identify and click the pages you want to remove." },
+                { "@type": "HowToStep", "position": 3, "name": "Remove and Download", "text": "Finalize the deletion and download the new file." }
             ]
-        },
-        {
-            "@context": "https://schema.org",
-            "@type": "SoftwareApplication",
-            "name": "PDF Page Remover - pdfcanada.ca",
-            "applicationCategory": "UtilitiesApplication",
-            "operatingSystem": "Any",
-            "offers": {
-                "@type": "Offer",
-                "price": "0",
-                "priceCurrency": "CAD"
-            }
         }
     ];
 
@@ -330,159 +138,119 @@ export const DeletePdfPagesGuide: React.FC<GuideProps> = ({ lang, onNavigate }) 
                 schema={schema}
             />
             <PageLayout title={t.h1} subtitle={t.subtitle} icon={<Trash2 size={32} />}>
-                <div className="space-y-12 text-gray-700 dark:text-gray-300">
+                <div className="max-w-4xl mx-auto space-y-16 text-gray-700 dark:text-gray-300">
+
                     {/* Intro */}
-                    <p className="text-lg leading-relaxed">{t.intro}</p>
+                    <div className="prose prose-lg dark:prose-invert max-w-none">
+                        <p className="text-xl leading-relaxed text-gray-600 dark:text-gray-400 italic border-l-4 border-canada-red pl-6 py-2">
+                            {t.intro}
+                        </p>
+                    </div>
 
-                    {/* Why Section */}
-                    <section>
-                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">{t.whyTitle}</h2>
-                        <ul className="space-y-3">
-                            {t.whyReasons.map((reason, i) => (
-                                <li key={i} className="flex items-start gap-3">
-                                    <CheckCircle className="text-green-500 shrink-0 mt-0.5" size={20} />
-                                    <span>{reason}</span>
-                                </li>
-                            ))}
-                        </ul>
-                    </section>
-
-                    {/* How To Steps */}
-                    <section>
-                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">{t.howTitle}</h2>
-                        <div className="space-y-4">
-                            {t.steps.map((step, i) => (
-                                <div key={i} className="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 flex gap-4">
-                                    <div className="bg-canada-red text-white w-10 h-10 rounded-full flex items-center justify-center font-bold shrink-0 text-lg">
-                                        {i + 1}
-                                    </div>
-                                    <div>
-                                        <h3 className="font-bold text-gray-900 dark:text-white text-lg">{step.title}</h3>
-                                        <p className="mt-1 text-gray-600 dark:text-gray-400">{step.desc}</p>
-                                    </div>
-                                </div>
+                    {/* Table of Contents */}
+                    <nav className="bg-gray-50 dark:bg-gray-800/50 p-6 rounded-2xl border border-gray-200 dark:border-gray-700">
+                        <h3 className="text-sm font-bold uppercase tracking-wider text-gray-500 mb-4 flex items-center gap-2">
+                            <MousePointer2 size={16} /> Jump to Section
+                        </h3>
+                        <div className="grid md:grid-cols-2 gap-2">
+                            {t.sections.map(s => (
+                                <a key={s.id} href={`#${s.id}`} className="text-sm hover:text-canada-red transition-colors flex items-center gap-2">
+                                    <ArrowRight size={12} className="text-canada-red/50" /> {s.title}
+                                </a>
                             ))}
                         </div>
-                    </section>
+                    </nav>
 
-                    {/* CTA - Primary */}
-                    <section className="bg-canada-red/5 dark:bg-canada-red/10 border border-canada-red/20 p-8 rounded-xl text-center">
-                        <Zap className="text-canada-red mx-auto mb-4" size={40} />
-                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{t.ctaTitle}</h2>
-                        <p className="text-gray-600 dark:text-gray-400 mb-4">{t.ctaSubtext}</p>
+                    {/* Content Sections */}
+                    {t.sections.map((section, idx) => (
+                        <section key={section.id} id={section.id} className="scroll-mt-24">
+                            <div className="flex items-center gap-4 mb-6">
+                                <span className="text-4xl font-black text-gray-100 dark:text-gray-800">{idx + 1}</span>
+                                <h2 className="text-3xl font-bold text-gray-900 dark:text-white">{section.title}</h2>
+                            </div>
+                            <div className="prose prose-lg dark:prose-invert max-w-none">
+                                <div className="whitespace-pre-line text-gray-600 dark:text-gray-400">{section.content}</div>
+                            </div>
+                        </section>
+                    ))}
+
+                    {/* Device & Platform Icons */}
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 py-8 border-y border-gray-100 dark:border-gray-800">
+                        <div className="flex flex-col items-center gap-2 p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl">
+                            <Monitor className="text-blue-500" />
+                            <span className="text-xs font-bold">Windows</span>
+                        </div>
+                        <div className="flex flex-col items-center gap-2 p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl">
+                            <Monitor className="text-gray-500" />
+                            <span className="text-xs font-bold">macOS</span>
+                        </div>
+                        <div className="flex flex-col items-center gap-2 p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl">
+                            <Smartphone className="text-green-500" />
+                            <span className="text-xs font-bold">iPhone</span>
+                        </div>
+                        <div className="flex flex-col items-center gap-2 p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl">
+                            <Smartphone className="text-orange-500" />
+                            <span className="text-xs font-bold">Android</span>
+                        </div>
+                    </div>
+
+                    {/* CTA Section */}
+                    <section className="bg-canada-red rounded-3xl p-12 text-center text-white shadow-xl">
+                        <Zap className="mx-auto mb-6 opacity-50" size={48} />
+                        <h2 className="text-3xl font-black mb-4">{t.ctaTitle}</h2>
+                        <p className="text-white/80 mb-8 font-medium">{t.ctaSubtext}</p>
                         <button
                             onClick={() => onNavigate('TOOL_PAGE', '/delete-pdf-pages')}
-                            className="inline-flex items-center gap-2 bg-canada-red text-white px-8 py-3 rounded-lg font-bold hover:bg-red-700 transition-colors focus:outline-none focus:ring-2 focus:ring-canada-red focus:ring-offset-2"
+                            className="bg-white text-canada-red px-10 py-4 rounded-full font-black text-lg hover:scale-105 transition-transform shadow-lg"
                         >
-                            {t.ctaButton} <ArrowRight size={20} />
+                            {t.ctaButton}
                         </button>
                     </section>
 
-                    {/* Features */}
-                    <section>
-                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">{t.featuresTitle}</h2>
-                        <div className="grid md:grid-cols-3 gap-6">
-                            {t.features.map((feature, i) => (
-                                <div key={i} className="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700">
-                                    <feature.icon className="text-canada-red mb-3" size={28} />
-                                    <h3 className="font-bold text-gray-900 dark:text-white mb-2">{feature.title}</h3>
-                                    <p className="text-sm text-gray-600 dark:text-gray-400">{feature.desc}</p>
-                                </div>
-                            ))}
-                        </div>
-                    </section>
-
-                    {/* Use Cases */}
-                    <section>
-                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">{t.useCasesTitle}</h2>
-                        <div className="grid md:grid-cols-2 gap-4">
-                            {t.useCases.map((useCase, i) => (
-                                <div key={i} className="p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl">
-                                    <h3 className="font-bold text-blue-900 dark:text-blue-300 mb-1">{useCase.title}</h3>
-                                    <p className="text-sm text-blue-800 dark:text-blue-400">{useCase.desc}</p>
-                                </div>
-                            ))}
-                        </div>
-                    </section>
-
-                    {/* Security Section */}
-                    <section className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 p-6 rounded-xl">
-                        <div className="flex items-start gap-4">
-                            <Shield className="text-green-600 shrink-0" size={28} />
-                            <div>
-                                <h2 className="text-xl font-bold text-green-900 dark:text-green-300 mb-2">
-                                    {lang === 'fr' ? 'Vos Documents Restent Privés' : 'Your Documents Stay Private'}
-                                </h2>
-                                <p className="text-green-800 dark:text-green-400">
-                                    {lang === 'fr'
-                                        ? "Contrairement à d'autres services en ligne, vos fichiers ne quittent jamais votre ordinateur. Tout le traitement se fait localement dans votre navigateur. Aucun téléversement sur nos serveurs, jamais."
-                                        : "Unlike other online services, your files never leave your computer. All processing happens locally in your browser using WebAssembly technology. No uploads to our servers, ever."
-                                    }
-                                </p>
+                    {/* Supporting Info */}
+                    {t.supportingSections && t.supportingSections.map((s, i) => (
+                        <section key={i} className="bg-blue-50 dark:bg-blue-900/10 p-8 rounded-3xl border border-blue-100 dark:border-blue-800/30">
+                            <div className="flex items-center gap-3 mb-4">
+                                <Info className="text-blue-600" />
+                                <h3 className="text-xl font-bold text-blue-900 dark:text-blue-300">{s.title}</h3>
                             </div>
-                        </div>
-                    </section>
-
-                    {/* Tips Section */}
-                    <section>
-                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">{t.tipsTitle}</h2>
-                        <ul className="space-y-2">
-                            {t.tips.map((tip, i) => (
-                                <li key={i} className="flex items-start gap-3 p-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg">
-                                    <span className="text-amber-600 font-bold">{i + 1}.</span>
-                                    <span className="text-amber-800 dark:text-amber-300">{tip}</span>
-                                </li>
-                            ))}
-                        </ul>
-                    </section>
+                            <p className="text-blue-800 dark:text-blue-400 leading-relaxed">{s.content}</p>
+                        </section>
+                    ))}
 
                     {/* FAQ */}
-                    <section>
-                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-                            {lang === 'fr' ? 'Questions Fréquentes' : 'Frequently Asked Questions'}
-                        </h2>
-                        <div className="space-y-4">
-                            {t.faq.map((item, i) => (
-                                <details key={i} className="group bg-gray-50 dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
-                                    <summary className="p-4 font-bold text-gray-900 dark:text-white cursor-pointer list-none flex justify-between items-center hover:text-canada-red transition-colors">
+                    <section aria-labelledby="faq-title">
+                        <div className="flex items-center gap-3 mb-8">
+                            <HelpCircle className="text-canada-red" size={32} />
+                            <h2 id="faq-title" className="text-3xl font-bold text-gray-900 dark:text-white">Questions & Answers</h2>
+                        </div>
+                        <div className="grid gap-4">
+                            {t.faq && t.faq.map((item, i) => (
+                                <details key={i} className="group bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl p-6 hover:border-canada-red transition-all">
+                                    <summary className="font-bold text-lg text-gray-900 dark:text-white cursor-pointer list-none flex justify-between items-center group-open:text-canada-red">
                                         {item.q}
-                                        <span className="text-gray-400 group-open:rotate-180 transition-transform">▼</span>
+                                        <span className="text-gray-300 group-open:rotate-180 transition-transform">▼</span>
                                     </summary>
-                                    <div className="px-4 pb-4 text-gray-600 dark:text-gray-400">
+                                    <p className="mt-4 text-gray-600 dark:text-gray-400 leading-relaxed border-t border-gray-50 dark:border-gray-800 pt-4">
                                         {item.a}
-                                    </div>
+                                    </p>
                                 </details>
                             ))}
                         </div>
                     </section>
 
-                    {/* Related Tools */}
-                    <section>
-                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">{t.relatedTitle}</h2>
-                        <div className="grid md:grid-cols-3 gap-4">
-                            {t.relatedTools.map((tool, i) => (
-                                <button
-                                    key={i}
-                                    onClick={() => onNavigate('TOOL_PAGE', tool.path)}
-                                    className="text-left p-4 bg-gray-50 dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-canada-red transition-colors focus:outline-none focus:ring-2 focus:ring-canada-red"
-                                >
-                                    <h3 className="font-bold text-gray-900 dark:text-white">{tool.name}</h3>
-                                    <p className="text-sm text-gray-500 dark:text-gray-400">{tool.desc}</p>
-                                </button>
-                            ))}
+                    {/* Footer Nav Links */}
+                    <div className="flex flex-col md:flex-row justify-between items-center gap-6 pt-16 border-t border-gray-100 dark:border-gray-800">
+                        <div className="flex items-center gap-4 text-sm font-bold text-gray-400 uppercase tracking-widest">
+                            <Globe size={16} /> Localized in Canada 🇨🇦
                         </div>
-                    </section>
-
-                    {/* Final CTA */}
-                    <section className="text-center py-8">
                         <button
-                            onClick={() => onNavigate('TOOL_PAGE', '/delete-pdf-pages')}
-                            className="inline-flex items-center gap-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-8 py-3 rounded-lg font-bold hover:bg-gray-700 dark:hover:bg-gray-200 transition-colors focus:outline-none focus:ring-2 focus:ring-canada-red focus:ring-offset-2"
+                            onClick={() => onNavigate('HOME')}
+                            className="flex items-center gap-2 text-canada-red font-bold hover:gap-4 transition-all"
                         >
-                            <Trash2 size={20} />
-                            {t.ctaButton}
+                            Back to Tools <MoveRight size={18} />
                         </button>
-                    </section>
+                    </div>
                 </div>
             </PageLayout>
         </>
