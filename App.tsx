@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
-import { Download, FileText, X, AlertCircle, CheckCircle2, Shield, Trash2, RotateCw, Image, BookOpen, ArrowLeft, PenTool, RotateCcw, RefreshCcw, ScanLine, ZoomIn, ZoomOut, Move, History, Undo2, Redo2, Copy } from 'lucide-react';
-import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent } from '@dnd-kit/core';
+import { Download, FileText, X, AlertCircle, CheckCircle2, Shield, Trash2, RotateCw, Image, BookOpen, ArrowLeft, PenTool, RotateCcw, RefreshCcw, ScanLine, ZoomIn, ZoomOut, Move, History, Undo2, Redo2, Copy, Menu, ChevronDown, Layers } from 'lucide-react';
+import { DndContext, closestCenter, KeyboardSensor, PointerSensor, TouchSensor, useSensor, useSensors, DragEndEvent } from '@dnd-kit/core';
 import { arrayMove, SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
 import { Rnd } from 'react-rnd';
 import { SortablePdfPageThumbnail } from './components/SortablePdfPageThumbnail';
@@ -19,6 +19,7 @@ import { ConvertirPdfEnEpubGuide } from './components/pages/guides/ConvertirPdfE
 import { DeletePdfPagesGuide } from './components/pages/guides/DeletePdfPagesGuide';
 import { RotatePdfGuide } from './components/pages/guides/RotatePdfGuide';
 import { PdfPageThumbnail } from './components/PdfPageThumbnail';
+import { MobileZoomControls } from './components/MobileZoomControls';
 import { loadPdfDocument, getPdfJsDocument, deletePagesFromPdf, rotatePdfPages, convertHeicToPdf, convertPdfToEpub, convertEpubToPdf, formatFileSize, makePdfFillable, initPdfWorker, extractTextWithOcr, makeSearchablePdf, reorderPdfPages, saveFormFieldsToPdf, FormField } from './utils/pdfUtils';
 import { saveSession, loadSession, clearSession, AppSessionState } from './utils/storageUtils';
 import { FormPropertiesPanel } from './components/FormPropertiesPanel';
@@ -204,9 +205,23 @@ function App() {
   // Original handleReset needs to clear session
 
 
+  // Mobile sidebar toggle state for form builder
+  const [showMobileSidebar, setShowMobileSidebar] = useState(false);
+
   // Memoize page indices array to avoid recreating on every render
+  // Add TouchSensor for better mobile drag support with activation constraint
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8, // 8px movement required before drag starts
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 200, // 200ms delay before drag starts on touch
+        tolerance: 5, // 5px movement tolerance during delay
+      },
+    }),
     useSensor(KeyboardSensor)
   );
 
@@ -780,61 +795,67 @@ function App() {
     else if (currentTool === ToolType.ORGANIZE) headerText = "Drag pages to reorder";
 
     return (
-      <div className="flex flex-col h-[500px] sm:h-[600px] md:h-[700px]">
+      <div className="flex flex-col h-[500px] sm:h-[600px] md:h-[700px] relative">
         {/* Header */}
-        <div className="p-4 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between bg-white dark:bg-gray-900 z-10 shadow-sm">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-red-100 dark:bg-red-900/30 text-canada-red rounded-lg flex items-center justify-center shrink-0">
-              <FileText size={20} />
+        <div className="p-3 sm:p-4 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between bg-white dark:bg-gray-900 z-10 shadow-sm">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-red-100 dark:bg-red-900/30 text-canada-red rounded-lg flex items-center justify-center shrink-0">
+              <FileText size={18} className="sm:hidden" />
+              <FileText size={20} className="hidden sm:block" />
             </div>
-            <div className="min-w-0">
-              <h3 className="font-bold text-gray-800 dark:text-gray-100 truncate max-w-[200px]">{file.name}</h3>
+            <div className="min-w-0 flex-1">
+              <h3 className="font-bold text-gray-800 dark:text-gray-100 truncate max-w-[150px] sm:max-w-[200px] text-sm sm:text-base">{file.name}</h3>
               <p className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-2">
                 <span>{file ? formatFileSize(file.size) : ''}</span>
               </p>
             </div>
           </div>
-          <button onClick={handleSoftReset} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors">
+          <button onClick={handleSoftReset} className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors touch-manipulation">
             <X size={20} />
           </button>
         </div>
 
         {/* Content */}
-        <div className="flex-grow overflow-y-auto p-6 bg-gray-50 dark:bg-gray-900 custom-scrollbar flex flex-col items-center">
+        <div className="flex-grow overflow-y-auto p-3 sm:p-6 bg-gray-50 dark:bg-gray-900 custom-scrollbar hide-scrollbar-mobile flex flex-col items-center pb-24 sm:pb-6">
 
           {isVisualTool ? (
             <>
               <div className="w-full mb-4 sticky top-0 bg-gray-50/95 dark:bg-gray-900/95 backdrop-blur-sm z-10 py-2">
                 {currentTool === ToolType.ROTATE || currentTool === ToolType.ORGANIZE ? (
-                  // Custom Toolbar for Rotate OR ORGANIZE
-                  <div className="flex flex-wrap items-center justify-center gap-3">
+                  // Custom Toolbar for Rotate OR ORGANIZE - Mobile responsive
+                  <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
                     {currentTool === ToolType.ROTATE && (
                       <>
-                        <button onClick={() => rotateAll('left')} className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:border-canada-red/50 hover:text-canada-red transition-all text-sm font-medium text-gray-700 dark:text-gray-300">
-                          <RotateCcw size={16} /> {t.rotateAllLeft}
+                        {/* Mobile: Icon-only buttons, Desktop: Full buttons */}
+                        <button onClick={() => rotateAll('left')} className="flex items-center gap-2 px-3 py-2 sm:px-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:border-canada-red/50 active:bg-gray-100 dark:active:bg-gray-700 hover:text-canada-red transition-all text-sm font-medium text-gray-700 dark:text-gray-300 touch-manipulation min-h-[44px]">
+                          <RotateCcw size={18} /> <span className="hidden sm:inline">{t.rotateAllLeft}</span>
                         </button>
-                        <button onClick={() => rotateAll('right')} className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:border-canada-red/50 hover:text-canada-red transition-all text-sm font-medium text-gray-700 dark:text-gray-300">
-                          <RotateCw size={16} /> {t.rotateAllRight}
+                        <button onClick={() => rotateAll('right')} className="flex items-center gap-2 px-3 py-2 sm:px-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:border-canada-red/50 active:bg-gray-100 dark:active:bg-gray-700 hover:text-canada-red transition-all text-sm font-medium text-gray-700 dark:text-gray-300 touch-manipulation min-h-[44px]">
+                          <RotateCw size={18} /> <span className="hidden sm:inline">{t.rotateAllRight}</span>
                         </button>
-                        <button onClick={resetRotations} className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-900 dark:hover:text-gray-100 transition-all text-sm font-medium text-gray-500 dark:text-gray-400">
-                          <RefreshCcw size={16} /> {t.resetRotations}
+                        <button onClick={resetRotations} className="flex items-center gap-2 px-3 py-2 sm:px-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:border-gray-400 dark:hover:border-gray-500 active:bg-gray-100 dark:active:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100 transition-all text-sm font-medium text-gray-500 dark:text-gray-400 touch-manipulation min-h-[44px]">
+                          <RefreshCcw size={18} /> <span className="hidden sm:inline">{t.resetRotations}</span>
                         </button>
-                        <div className="w-px h-6 bg-gray-300 dark:bg-gray-600 mx-1"></div>
+                        <div className="hidden sm:block w-px h-6 bg-gray-300 dark:bg-gray-600 mx-1"></div>
                       </>
                     )}
 
-                    <button onClick={() => setPreviewZoom(z => Math.max(0.5, z - 0.25))} disabled={previewZoom <= 0.5} className="p-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-canada-red focus:ring-offset-1 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white dark:disabled:hover:bg-gray-800 transition-colors" title="Zoom Out" aria-label="Zoom Out">
-                      <ZoomOut size={16} />
-                    </button>
-                    <button onClick={() => setPreviewZoom(z => Math.min(3, z + 0.25))} disabled={previewZoom >= 3} className="p-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-canada-red focus:ring-offset-1 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white dark:disabled:hover:bg-gray-800 transition-colors" title="Zoom In" aria-label="Zoom In">
-                      <ZoomIn size={16} />
-                    </button>
+                    {/* Desktop zoom controls - hidden on mobile, shown via floating controls */}
+                    <div className="hidden sm:flex items-center gap-1">
+                      <button onClick={() => setPreviewZoom(z => Math.max(0.5, z - 0.25))} disabled={previewZoom <= 0.5} className="w-10 h-10 flex items-center justify-center bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-canada-red focus:ring-offset-1 disabled:opacity-40 disabled:cursor-not-allowed transition-colors touch-manipulation" title="Zoom Out" aria-label="Zoom Out">
+                        <ZoomOut size={18} />
+                      </button>
+                      <span className="text-sm font-mono w-14 text-center text-gray-600 dark:text-gray-300">{Math.round(previewZoom * 100)}%</span>
+                      <button onClick={() => setPreviewZoom(z => Math.min(3, z + 0.25))} disabled={previewZoom >= 3} className="w-10 h-10 flex items-center justify-center bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-canada-red focus:ring-offset-1 disabled:opacity-40 disabled:cursor-not-allowed transition-colors touch-manipulation" title="Zoom In" aria-label="Zoom In">
+                        <ZoomIn size={18} />
+                      </button>
+                    </div>
                   </div>
                 ) : (
-                  // Standard Header for Delete/Fillable/OCR
-                  <div className="flex justify-between items-center bg-white dark:bg-gray-800 p-2 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
-                    <div className="flex items-center gap-3">
-                      <p className="text-sm font-medium text-gray-600 dark:text-gray-300">
+                  // Standard Header for Delete/Fillable/OCR - Mobile responsive
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 bg-white dark:bg-gray-800 p-2 sm:p-3 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
+                    <div className="flex items-center gap-2 sm:gap-3 justify-between sm:justify-start">
+                      <p className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300">
                         {headerText}
                       </p>
                       {(currentTool === ToolType.DELETE || currentTool === ToolType.MAKE_FILLABLE || currentTool === ToolType.OCR) && (
@@ -844,21 +865,22 @@ function App() {
                       )}
                     </div>
 
-                    {/* Zoom Controls Shared */}
-                    <div className="flex items-center gap-1 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 p-1">
-                      <button onClick={() => setPreviewZoom(z => Math.max(0.5, z - 0.25))} disabled={previewZoom <= 0.5} className="p-1 hover:bg-white dark:hover:bg-gray-600 rounded transition-colors text-gray-500 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-canada-red disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent" aria-label="Zoom Out">
-                        <ZoomOut size={14} />
+                    {/* Desktop Zoom Controls - hidden on mobile */}
+                    <div className="hidden sm:flex items-center gap-1 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 p-1">
+                      <button onClick={() => setPreviewZoom(z => Math.max(0.5, z - 0.25))} disabled={previewZoom <= 0.5} className="w-9 h-9 flex items-center justify-center hover:bg-white dark:hover:bg-gray-600 rounded transition-colors text-gray-500 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-canada-red disabled:opacity-40 disabled:cursor-not-allowed touch-manipulation" aria-label="Zoom Out">
+                        <ZoomOut size={16} />
                       </button>
-                      <span className="text-xs font-mono w-10 text-center text-gray-500 dark:text-gray-300">{Math.round(previewZoom * 100)}%</span>
-                      <button onClick={() => setPreviewZoom(z => Math.min(3, z + 0.25))} disabled={previewZoom >= 3} className="p-1 hover:bg-white dark:hover:bg-gray-600 rounded transition-colors text-gray-500 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-canada-red disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent" aria-label="Zoom In">
-                        <ZoomIn size={14} />
+                      <span className="text-xs font-mono w-12 text-center text-gray-500 dark:text-gray-300">{Math.round(previewZoom * 100)}%</span>
+                      <button onClick={() => setPreviewZoom(z => Math.min(3, z + 0.25))} disabled={previewZoom >= 3} className="w-9 h-9 flex items-center justify-center hover:bg-white dark:hover:bg-gray-600 rounded transition-colors text-gray-500 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-canada-red disabled:opacity-40 disabled:cursor-not-allowed touch-manipulation" aria-label="Zoom In">
+                        <ZoomIn size={16} />
                       </button>
                     </div>
                   </div>
                 )}
               </div>
 
-              <div className="flex flex-wrap justify-center gap-4 w-full">
+              {/* Responsive thumbnail grid - 2 columns on mobile */}
+              <div className="grid grid-cols-2 sm:flex sm:flex-wrap justify-center gap-3 sm:gap-4 w-full">
                 {currentTool === ToolType.ORGANIZE ? (
                   <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
                     <SortableContext items={items.map(String)} strategy={rectSortingStrategy}>
@@ -868,14 +890,14 @@ function App() {
                           id={pageIndex.toString()}
                           pdfJsDoc={pdfJsDoc}
                           pageIndex={pageIndex}
-                          width={200 * previewZoom}
+                          width={typeof window !== 'undefined' && window.innerWidth < 640 ? 140 * previewZoom : 200 * previewZoom}
                         />
                       ))}
                     </SortableContext>
                   </DndContext>
                 ) : (
                   pageIndices.map((idx) => (
-                    <div key={idx} style={{ width: 'fit-content' }}>
+                    <div key={idx} className="flex justify-center">
                       <PdfPageThumbnail
                         pdfJsDoc={pdfJsDoc}
                         pageIndex={idx}
@@ -883,12 +905,22 @@ function App() {
                         rotation={rotations[idx] || 0}
                         mode={currentTool === ToolType.DELETE || currentTool === ToolType.MAKE_FILLABLE || currentTool === ToolType.OCR ? 'delete' : 'rotate'}
                         onClick={(e) => togglePageSelection(e, idx)}
-                        width={200 * previewZoom}
+                        width={typeof window !== 'undefined' && window.innerWidth < 640 ? 140 * previewZoom : 200 * previewZoom}
                       />
                     </div>
                   ))
                 )}
               </div>
+
+              {/* Mobile Floating Zoom Controls */}
+              <MobileZoomControls
+                zoom={previewZoom}
+                minZoom={0.5}
+                maxZoom={3}
+                onZoomIn={() => setPreviewZoom(z => Math.min(3, z + 0.25))}
+                onZoomOut={() => setPreviewZoom(z => Math.max(0.5, z - 0.25))}
+                position="bottom-center"
+              />
             </>
           ) : (
             <div className="flex flex-col items-center justify-center h-full text-center max-w-sm">
@@ -1248,41 +1280,69 @@ function App() {
       URL.revokeObjectURL(url);
     };
 
+    // State for mobile tab switching in OCR editor
+    const [ocrMobileTab, setOcrMobileTab] = React.useState<'preview' | 'text'>('text');
+
     return (
-      <div className="w-full max-w-7xl mx-auto px-6 py-12 flex flex-col md:flex-row gap-8 h-[85vh]">
-        {/* Left Column: Visuals */}
-        <div className="w-full md:w-1/3 bg-white dark:bg-gray-900 rounded-3xl shadow-xl border border-gray-100 dark:border-gray-800 overflow-hidden flex flex-col">
-          <div className="p-4 bg-gray-50 dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center">
+      <div className="w-full max-w-7xl mx-auto px-3 sm:px-6 py-6 sm:py-12 flex flex-col lg:flex-row gap-4 sm:gap-8 h-[calc(100vh-120px)] sm:h-[85vh] relative">
+        {/* Mobile Tab Switcher */}
+        <div className="lg:hidden flex bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-1 mb-2">
+          <button
+            onClick={() => setOcrMobileTab('preview')}
+            className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-lg font-medium text-sm transition-colors touch-manipulation ${
+              ocrMobileTab === 'preview'
+                ? 'bg-canada-red text-white'
+                : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
+            }`}
+          >
+            <Layers size={18} /> Preview
+          </button>
+          <button
+            onClick={() => setOcrMobileTab('text')}
+            className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-lg font-medium text-sm transition-colors touch-manipulation ${
+              ocrMobileTab === 'text'
+                ? 'bg-canada-red text-white'
+                : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
+            }`}
+          >
+            <FileText size={18} /> Text
+          </button>
+        </div>
+
+        {/* Left Column: Visuals - Hidden on mobile when text tab is active */}
+        <div className={`${ocrMobileTab === 'text' ? 'hidden' : 'flex'} lg:flex w-full lg:w-1/3 bg-white dark:bg-gray-900 rounded-2xl sm:rounded-3xl shadow-xl border border-gray-100 dark:border-gray-800 overflow-hidden flex-col flex-1 lg:flex-none`}>
+          <div className="p-3 sm:p-4 bg-gray-50 dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center">
             <div className="flex items-center gap-2">
-              <h3 className="font-bold text-gray-700 dark:text-gray-200">Source PDF</h3>
+              <h3 className="font-bold text-gray-700 dark:text-gray-200 text-sm sm:text-base">Source PDF</h3>
               <span className="text-xs bg-red-100 dark:bg-red-900/30 text-canada-red px-2 py-1 rounded-full font-bold">LIVE</span>
             </div>
-            <div className="flex items-center gap-1 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 p-1">
+            {/* Desktop zoom controls */}
+            <div className="hidden sm:flex items-center gap-1 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 p-1">
               <button
                 onClick={() => setOcrZoom(z => Math.max(0.5, z - 0.25))}
                 disabled={ocrZoom <= 0.5}
-                className="p-1 text-gray-500 dark:text-gray-400 hover:text-canada-red hover:bg-red-50 dark:hover:bg-red-900/30 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-canada-red disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-gray-500"
+                className="w-9 h-9 flex items-center justify-center text-gray-500 dark:text-gray-400 hover:text-canada-red hover:bg-red-50 dark:hover:bg-red-900/30 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-canada-red disabled:opacity-40 disabled:cursor-not-allowed touch-manipulation"
                 aria-label="Zoom Out"
               >
                 <ZoomOut size={16} />
               </button>
-              <span className="text-xs font-mono w-10 text-center text-gray-600 dark:text-gray-300">{Math.round(ocrZoom * 100)}%</span>
+              <span className="text-xs font-mono w-12 text-center text-gray-600 dark:text-gray-300">{Math.round(ocrZoom * 100)}%</span>
               <button
                 onClick={() => setOcrZoom(z => Math.min(3, z + 0.25))}
                 disabled={ocrZoom >= 3}
-                className="p-1 text-gray-500 dark:text-gray-400 hover:text-canada-red hover:bg-red-50 dark:hover:bg-red-900/30 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-canada-red disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-gray-500"
+                className="w-9 h-9 flex items-center justify-center text-gray-500 dark:text-gray-400 hover:text-canada-red hover:bg-red-50 dark:hover:bg-red-900/30 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-canada-red disabled:opacity-40 disabled:cursor-not-allowed touch-manipulation"
                 aria-label="Zoom In"
               >
                 <ZoomIn size={16} />
               </button>
             </div>
           </div>
-          <div className="flex-grow overflow-y-auto p-4 space-y-4 custom-scrollbar bg-gray-50/50 dark:bg-gray-800/50">
+          <div className="flex-grow overflow-y-auto p-3 sm:p-4 space-y-4 custom-scrollbar hide-scrollbar-mobile bg-gray-50/50 dark:bg-gray-800/50 pb-24 sm:pb-4">
             {Array.from(selectedPages).length === 0 ? (
               <p className="text-center text-gray-500 dark:text-gray-400 italic mt-10">Select pages first, eh?</p>
             ) : (
               Array.from(selectedPages).sort((a, b) => a - b).map(idx => (
-                <div key={idx} className="bg-white dark:bg-gray-800 p-2 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700" style={{ width: 'fit-content', margin: '0 auto' }}>
+                <div key={idx} className="bg-white dark:bg-gray-800 p-2 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 mx-auto" style={{ width: 'fit-content' }}>
                   <div className="text-xs font-bold text-gray-400 mb-2 uppercase tracking-wide">Page {idx + 1}</div>
                   <div className="rounded-lg overflow-hidden border border-gray-100 dark:border-gray-700">
                     <PdfPageThumbnail
@@ -1291,18 +1351,30 @@ function App() {
                       isSelected={false}
                       onClick={() => { }}
                       mode="rotate"
-                      width={300 * ocrZoom}
+                      width={typeof window !== 'undefined' && window.innerWidth < 640 ? 200 * ocrZoom : 300 * ocrZoom}
                     />
                   </div>
                 </div>
               ))
             )}
           </div>
+
+          {/* Mobile Floating Zoom for OCR Preview */}
+          <div className="sm:hidden">
+            <MobileZoomControls
+              zoom={ocrZoom}
+              minZoom={0.5}
+              maxZoom={3}
+              onZoomIn={() => setOcrZoom(z => Math.min(3, z + 0.25))}
+              onZoomOut={() => setOcrZoom(z => Math.max(0.5, z - 0.25))}
+              position="bottom-right"
+            />
+          </div>
         </div>
 
-        {/* Right Column: Editor */}
-        <div className="w-full md:w-2/3 bg-white dark:bg-gray-900 rounded-3xl shadow-xl border border-gray-100 dark:border-gray-800 overflow-hidden flex flex-col">
-          <div className="p-4 bg-gray-50 dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center">
+        {/* Right Column: Editor - Hidden on mobile when preview tab is active */}
+        <div className={`${ocrMobileTab === 'preview' ? 'hidden' : 'flex'} lg:flex w-full lg:w-2/3 bg-white dark:bg-gray-900 rounded-2xl sm:rounded-3xl shadow-xl border border-gray-100 dark:border-gray-800 overflow-hidden flex-col flex-1 lg:flex-none`}>
+          <div className="p-3 sm:p-4 bg-gray-50 dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
             <div className="flex items-center gap-2">
               <FileText size={20} className="text-gray-500 dark:text-gray-400" />
               <h3 className="font-bold text-gray-700 dark:text-gray-200">Extracted Text</h3>
@@ -1310,13 +1382,13 @@ function App() {
             <div className="flex gap-2">
               <button
                 onClick={handleReset}
-                className="px-4 py-2 text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                className="flex-1 sm:flex-none px-4 py-2.5 sm:py-2 text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors touch-manipulation min-h-[44px]"
               >
                 Cancel
               </button>
               <button
                 onClick={downloadTxt}
-                className="px-4 py-2 text-sm font-bold text-white bg-canada-red hover:bg-canada-darkRed rounded-lg shadow-lg shadow-red-500/20 transition-all hover:-translate-y-0.5"
+                className="flex-1 sm:flex-none px-4 py-2.5 sm:py-2 text-sm font-bold text-white bg-canada-red hover:bg-canada-darkRed active:bg-canada-darkRed rounded-lg shadow-lg shadow-red-500/20 transition-all touch-manipulation min-h-[44px]"
               >
                 Download .txt
               </button>
@@ -1325,17 +1397,18 @@ function App() {
 
           <div className="flex-grow relative">
             <textarea
-              className="w-full h-full p-6 resize-none focus:outline-none focus:ring-2 focus:ring-inset focus:ring-canada-red/10 font-mono text-sm leading-relaxed text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-900"
+              className="w-full h-full p-4 sm:p-6 resize-none focus:outline-none focus:ring-2 focus:ring-inset focus:ring-canada-red/10 font-mono text-sm leading-relaxed text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-900"
               value={ocrText}
               onChange={(e) => setOcrText(e.target.value)}
               placeholder="Text will appear here as we process your PDF..."
               spellCheck={false}
+              style={{ fontSize: '16px' }} /* Prevents iOS zoom on focus */
             />
             {ocrText.length === 0 && (
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                 <div className="flex items-center gap-2 text-gray-400 animate-pulse">
                   <ScanLine size={20} />
-                  <span>Initializing OCR engine...</span>
+                  <span className="text-sm">Initializing OCR engine...</span>
                 </div>
               </div>
             )}
@@ -1456,65 +1529,135 @@ function App() {
 
     const selectedField = formFields.find(f => f.id === selectedFieldId);
 
+    // Mobile-optimized canvas width
+    const getMobileCanvasWidth = () => {
+      if (typeof window !== 'undefined' && window.innerWidth < 640) {
+        return Math.min(window.innerWidth - 32, 400) * formZoom;
+      }
+      return baseWidth * formZoom;
+    };
+
+    const mobileWidth = typeof window !== 'undefined' && window.innerWidth < 1024 ? getMobileCanvasWidth() : currentWidth;
+    const mobileHeight = mobileWidth * approxAspectRatio;
+
     return (
-      <div className="w-full max-w-7xl mx-auto px-6 py-12 flex flex-col h-[85vh]">
-        {/* Toolbar */}
-        <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-4 mb-6 flex justify-between items-center z-20 relative">
+      <div className="w-full max-w-7xl mx-auto px-3 sm:px-6 py-4 sm:py-12 flex flex-col h-[calc(100vh-80px)] sm:h-[85vh]">
+        {/* Mobile Header Bar */}
+        <div className="lg:hidden flex items-center justify-between bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-3 mb-3">
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setShowMobileSidebar(true)}
+              className="w-10 h-10 flex items-center justify-center bg-gray-100 dark:bg-gray-800 rounded-lg text-gray-600 dark:text-gray-400 touch-manipulation"
+              aria-label="Show pages"
+            >
+              <Layers size={20} />
+            </button>
+            <span className="text-sm font-medium text-gray-600 dark:text-gray-300">Page {currentFormPage + 1}/{pageCount}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <button onClick={handleReset} className="px-3 py-2 text-sm text-gray-500 dark:text-gray-400 font-medium touch-manipulation min-h-[44px]">{t.fbCancel}</button>
+            <button onClick={downloadForm} className="px-4 py-2 bg-canada-red text-white rounded-lg font-bold text-sm shadow-lg shadow-red-500/20 touch-manipulation min-h-[44px]">
+              {t.fbDownload}
+            </button>
+          </div>
+        </div>
+
+        {/* Desktop Toolbar - Hidden on mobile */}
+        <div className="hidden lg:flex bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-4 mb-6 justify-between items-center z-20 relative">
           <div className="flex items-center gap-4">
             <h2 className="text-xl font-bold text-gray-700 dark:text-gray-200">{t.fbTitle}</h2>
             <div className="h-6 w-px bg-gray-200 dark:bg-gray-700"></div>
 
-            <button onClick={() => addField('text')} className="flex items-center gap-2 px-3 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg font-medium transition-colors text-sm">
+            <button onClick={() => addField('text')} className="flex items-center gap-2 px-3 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg font-medium transition-colors text-sm touch-manipulation min-h-[44px]">
               <FileText size={16} /> {t.fbAddText}
             </button>
-            <button onClick={() => addField('checkbox')} className="flex items-center gap-2 px-3 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg font-medium transition-colors text-sm">
+            <button onClick={() => addField('checkbox')} className="flex items-center gap-2 px-3 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg font-medium transition-colors text-sm touch-manipulation min-h-[44px]">
               <CheckCircle2 size={16} /> {t.fbAddCheckbox}
             </button>
-            <button onClick={() => addField('signature')} className="flex items-center gap-2 px-3 py-2 bg-purple-50 dark:bg-purple-900/30 hover:bg-purple-100 dark:hover:bg-purple-900/50 text-purple-700 dark:text-purple-400 rounded-lg font-medium transition-colors text-sm">
+            <button onClick={() => addField('signature')} className="flex items-center gap-2 px-3 py-2 bg-purple-50 dark:bg-purple-900/30 hover:bg-purple-100 dark:hover:bg-purple-900/50 text-purple-700 dark:text-purple-400 rounded-lg font-medium transition-colors text-sm touch-manipulation min-h-[44px]">
               <PenTool size={16} /> Sign
             </button>
 
             <div className="h-6 w-px bg-gray-200 dark:bg-gray-700 mx-2"></div>
 
-            <button onClick={undo} disabled={historyIndex <= 0} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-gray-600 dark:text-gray-400 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent dark:disabled:hover:bg-transparent focus:outline-none focus:ring-2 focus:ring-canada-red transition-colors" title="Undo" aria-label="Undo">
+            <button onClick={undo} disabled={historyIndex <= 0} className="w-10 h-10 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-gray-600 dark:text-gray-400 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-canada-red transition-colors touch-manipulation" title="Undo" aria-label="Undo">
               <Undo2 size={18} />
             </button>
-            <button onClick={redo} disabled={historyIndex >= history.length - 1} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-gray-600 dark:text-gray-400 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent dark:disabled:hover:bg-transparent focus:outline-none focus:ring-2 focus:ring-canada-red transition-colors" title="Redo" aria-label="Redo">
+            <button onClick={redo} disabled={historyIndex >= history.length - 1} className="w-10 h-10 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-gray-600 dark:text-gray-400 disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-canada-red transition-colors touch-manipulation" title="Redo" aria-label="Redo">
               <Redo2 size={18} />
             </button>
 
             <div className="h-6 w-px bg-gray-200 dark:bg-gray-700 mx-2"></div>
 
             <div className="flex items-center gap-2">
-              <button onClick={() => setFormZoom(z => Math.max(0.5, z - 0.25))} disabled={formZoom <= 0.5} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-canada-red disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent transition-colors" aria-label="Zoom Out">
+              <button onClick={() => setFormZoom(z => Math.max(0.5, z - 0.25))} disabled={formZoom <= 0.5} className="w-10 h-10 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-canada-red disabled:opacity-40 disabled:cursor-not-allowed transition-colors touch-manipulation" aria-label="Zoom Out">
                 <ZoomOut size={18} />
               </button>
-              <span className="text-sm font-medium text-gray-600 dark:text-gray-300 w-12 text-center">{Math.round(formZoom * 100)}%</span>
-              <button onClick={() => setFormZoom(z => Math.min(2.0, z + 0.25))} disabled={formZoom >= 2.0} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-canada-red disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent transition-colors" aria-label="Zoom In">
+              <span className="text-sm font-medium text-gray-600 dark:text-gray-300 w-14 text-center">{Math.round(formZoom * 100)}%</span>
+              <button onClick={() => setFormZoom(z => Math.min(2.0, z + 0.25))} disabled={formZoom >= 2.0} className="w-10 h-10 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-canada-red disabled:opacity-40 disabled:cursor-not-allowed transition-colors touch-manipulation" aria-label="Zoom In">
                 <ZoomIn size={18} />
               </button>
             </div>
           </div>
 
           <div className="flex items-center gap-2">
-            <button onClick={handleReset} className="px-4 py-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 font-medium">{t.fbCancel}</button>
-            <button onClick={downloadForm} className="px-6 py-2 bg-canada-red hover:bg-canada-darkRed text-white rounded-lg font-bold shadow-lg shadow-red-500/20 transition-all hover:-translate-y-0.5">
+            <button onClick={handleReset} className="px-4 py-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 font-medium touch-manipulation min-h-[44px]">{t.fbCancel}</button>
+            <button onClick={downloadForm} className="px-6 py-2 bg-canada-red hover:bg-canada-darkRed text-white rounded-lg font-bold shadow-lg shadow-red-500/20 transition-all touch-manipulation min-h-[44px]">
               {t.fbDownload}
             </button>
           </div>
         </div>
 
-        <div className="flex-grow flex gap-6 overflow-hidden">
-          {/* Left Sidebar: Thumbnails */}
-          <div className="w-48 flex-shrink-0 bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 overflow-y-auto custom-scrollbar p-2 space-y-2">
+        {/* Mobile Floating Action Buttons for adding fields */}
+        <div className="lg:hidden fixed bottom-20 left-3 right-3 flex justify-center gap-2 z-30 safe-area-bottom">
+          <button onClick={() => addField('text')} className="flex items-center gap-2 px-4 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full shadow-lg text-gray-700 dark:text-gray-300 font-medium text-sm touch-manipulation">
+            <FileText size={18} /> Text
+          </button>
+          <button onClick={() => addField('checkbox')} className="flex items-center gap-2 px-4 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full shadow-lg text-gray-700 dark:text-gray-300 font-medium text-sm touch-manipulation">
+            <CheckCircle2 size={18} /> Check
+          </button>
+          <button onClick={() => addField('signature')} className="flex items-center gap-2 px-4 py-3 bg-purple-50 dark:bg-purple-900/30 border border-purple-200 dark:border-purple-700 rounded-full shadow-lg text-purple-700 dark:text-purple-400 font-medium text-sm touch-manipulation">
+            <PenTool size={18} /> Sign
+          </button>
+        </div>
+
+        <div className="flex-grow flex gap-4 lg:gap-6 overflow-hidden relative">
+          {/* Mobile Sidebar Overlay */}
+          {showMobileSidebar && (
+            <div className="lg:hidden fixed inset-0 bg-black/50 z-40" onClick={() => setShowMobileSidebar(false)} />
+          )}
+
+          {/* Left Sidebar: Thumbnails - Slide-in on mobile */}
+          <div className={`
+            ${showMobileSidebar ? 'translate-x-0' : '-translate-x-full'}
+            lg:translate-x-0
+            fixed lg:relative
+            left-0 top-0 bottom-0
+            w-64 lg:w-48
+            bg-white dark:bg-gray-900
+            lg:rounded-xl
+            border-r lg:border border-gray-200 dark:border-gray-800
+            overflow-y-auto custom-scrollbar hide-scrollbar-mobile
+            p-3 lg:p-2
+            space-y-2
+            z-50 lg:z-auto
+            transition-transform duration-300 ease-in-out
+            flex-shrink-0
+          `}>
+            <div className="lg:hidden flex items-center justify-between mb-4 pb-3 border-b border-gray-200 dark:border-gray-700">
+              <h3 className="font-bold text-gray-700 dark:text-gray-200">Pages</h3>
+              <button onClick={() => setShowMobileSidebar(false)} className="w-10 h-10 flex items-center justify-center text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 touch-manipulation">
+                <X size={20} />
+              </button>
+            </div>
             {Array.from({ length: pageCount }).map((_, idx) => (
               <div
                 key={idx}
-                onClick={() => setCurrentFormPage(idx)}
-                className={`p-2 rounded-lg cursor-pointer border-2 transition-all ${currentFormPage === idx ? 'border-canada-red bg-red-50 dark:bg-red-900/20' : 'border-transparent hover:border-gray-200 dark:hover:border-gray-700'}`}
+                onClick={() => { setCurrentFormPage(idx); setShowMobileSidebar(false); }}
+                className={`p-2 rounded-lg cursor-pointer border-2 transition-all touch-manipulation ${currentFormPage === idx ? 'border-canada-red bg-red-50 dark:bg-red-900/20' : 'border-transparent hover:border-gray-200 dark:hover:border-gray-700 active:bg-gray-100 dark:active:bg-gray-800'}`}
               >
                 <div className="pointer-events-none">
-                  <PdfPageThumbnail pdfJsDoc={pdfJsDoc} pageIndex={idx} width={150} isSelected={false} onClick={() => { }} />
+                  <PdfPageThumbnail pdfJsDoc={pdfJsDoc} pageIndex={idx} width={typeof window !== 'undefined' && window.innerWidth < 1024 ? 200 : 150} isSelected={false} onClick={() => { }} />
                 </div>
                 <div className="text-center text-xs font-bold text-gray-500 dark:text-gray-400 mt-1">{t.fbPage} {idx + 1}</div>
               </div>
@@ -1522,41 +1665,43 @@ function App() {
           </div>
 
           {/* Main Canvas */}
-          <div className="flex-grow bg-gray-100 dark:bg-gray-800 rounded-xl overflow-auto flex items-start justify-center p-8 relative" onClick={() => setSelectedFieldId(null)}>
+          <div className="flex-grow bg-gray-100 dark:bg-gray-800 rounded-xl overflow-auto flex items-start justify-center p-4 sm:p-8 relative pb-32 lg:pb-8" onClick={() => setSelectedFieldId(null)}>
             <div className="relative shadow-2xl bg-white dark:bg-gray-900" style={{ width: 'fit-content' }} onClick={(e) => e.stopPropagation()}>
 
-              <div className="relative" style={{ width: currentWidth }}>
-                <PdfPageThumbnail pdfJsDoc={pdfJsDoc} pageIndex={currentFormPage} width={currentWidth} isSelected={false} onClick={() => { }} />
+              <div className="relative" style={{ width: typeof window !== 'undefined' && window.innerWidth < 1024 ? mobileWidth : currentWidth }}>
+                <PdfPageThumbnail pdfJsDoc={pdfJsDoc} pageIndex={currentFormPage} width={typeof window !== 'undefined' && window.innerWidth < 1024 ? mobileWidth : currentWidth} isSelected={false} onClick={() => { }} />
 
                 {/* Overlay Fields */}
                 {pageFields.map(field => {
                   const isSelected = selectedFieldId === field.id;
+                  const activeWidth = typeof window !== 'undefined' && window.innerWidth < 1024 ? mobileWidth : currentWidth;
+                  const activeHeight = typeof window !== 'undefined' && window.innerWidth < 1024 ? mobileHeight : currentHeight;
                   return (
                     <Rnd
                       key={field.id}
                       bounds="parent"
                       size={{ width: `${field.width}%`, height: `${field.height}%` }}
                       position={{
-                        x: (field.x / 100) * currentWidth,
-                        y: (field.y / 100) * currentHeight
+                        x: (field.x / 100) * activeWidth,
+                        y: (field.y / 100) * activeHeight
                       }}
                       onDragStart={() => setSelectedFieldId(field.id)}
                       onDragStop={(e, d) => {
-                        updateField(field.id, { x: (d.x / currentWidth) * 100, y: (d.y / currentHeight) * 100 });
+                        updateField(field.id, { x: (d.x / activeWidth) * 100, y: (d.y / activeHeight) * 100 });
                       }}
                       onResizeStop={(e, direction, ref, delta, position) => {
                         updateField(field.id, {
-                          width: (parseFloat(ref.style.width) / currentWidth) * 100,
-                          height: (parseFloat(ref.style.height) / currentHeight) * 100,
-                          x: (position.x / currentWidth) * 100,
-                          y: (position.y / currentHeight) * 100
+                          width: (parseFloat(ref.style.width) / activeWidth) * 100,
+                          height: (parseFloat(ref.style.height) / activeHeight) * 100,
+                          x: (position.x / activeWidth) * 100,
+                          y: (position.y / activeHeight) * 100
                         });
                       }}
-                      style={{ zIndex: isSelected ? 20 : 10 }}
+                      style={{ zIndex: isSelected ? 20 : 10, touchAction: 'none' }}
                     >
                       <div
                         onClick={(e) => { e.stopPropagation(); setSelectedFieldId(field.id); }}
-                        className={`w-full h-full border-2 flex items-center justify-center relative group transition-colors
+                        className={`w-full h-full border-2 flex items-center justify-center relative group transition-colors touch-manipulation
                            ${isSelected ? 'border-canada-red bg-red-50/40 ring-2 ring-canada-red/20' : 'border-canada-red/50 bg-red-50/20 hover:border-canada-red'}`}
                       >
                         {field.type === 'text' && <div className="text-[10px] font-bold text-canada-red opacity-50 px-1 truncate w-full text-center">{field.name || "Text"}</div>}
@@ -1565,25 +1710,27 @@ function App() {
 
                         {isSelected && (
                           <>
-                            <div className="absolute -top-8 right-0 flex gap-1 animate-in fade-in zoom-in duration-200">
+                            {/* Action buttons - larger touch targets on mobile */}
+                            <div className="absolute -top-10 sm:-top-8 right-0 flex gap-1 animate-in fade-in zoom-in duration-200">
                               <button
                                 onClick={(e) => { e.stopPropagation(); duplicateField(field.id); }}
-                                className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:text-canada-red hover:border-canada-red rounded shadow-sm p-1.5 focus:outline-none focus:ring-2 focus:ring-canada-red"
+                                className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:text-canada-red hover:border-canada-red rounded shadow-sm w-8 h-8 sm:w-7 sm:h-7 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-canada-red touch-manipulation"
                                 title="Duplicate"
                                 aria-label="Duplicate field"
                               >
-                                <Copy size={12} />
+                                <Copy size={14} />
                               </button>
                               <button
                                 onClick={(e) => { e.stopPropagation(); removeField(field.id); }}
-                                className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:text-canada-red hover:border-canada-red rounded shadow-sm p-1.5 focus:outline-none focus:ring-2 focus:ring-canada-red"
+                                className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:text-canada-red hover:border-canada-red rounded shadow-sm w-8 h-8 sm:w-7 sm:h-7 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-canada-red touch-manipulation"
                                 title="Remove"
                                 aria-label="Remove field"
                               >
-                                <Trash2 size={12} />
+                                <Trash2 size={14} />
                               </button>
                             </div>
-                            <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-canada-red rounded-full cursor-se-resize"></div>
+                            {/* Resize handle - larger on mobile */}
+                            <div className="absolute -bottom-2 -right-2 w-5 h-5 sm:w-3 sm:h-3 bg-canada-red rounded-full cursor-se-resize"></div>
                           </>
                         )}
                       </div>
@@ -1592,15 +1739,42 @@ function App() {
                 })}
               </div>
             </div>
+
+            {/* Mobile Floating Zoom Controls for Form Builder */}
+            <MobileZoomControls
+              zoom={formZoom}
+              minZoom={0.5}
+              maxZoom={2}
+              onZoomIn={() => setFormZoom(z => Math.min(2.0, z + 0.25))}
+              onZoomOut={() => setFormZoom(z => Math.max(0.5, z - 0.25))}
+              position="bottom-right"
+            />
           </div>
 
-          {/* Properties Panel */}
+          {/* Properties Panel - Desktop: sidebar, Mobile: bottom sheet */}
           {selectedField && (
-            <FormPropertiesPanel
-              field={selectedField}
-              onUpdate={updateFieldProperties}
-              onClose={() => setSelectedFieldId(null)}
-            />
+            <>
+              {/* Desktop Properties Panel */}
+              <div className="hidden lg:block">
+                <FormPropertiesPanel
+                  field={selectedField}
+                  onUpdate={updateFieldProperties}
+                  onClose={() => setSelectedFieldId(null)}
+                />
+              </div>
+
+              {/* Mobile Properties Panel - Bottom Sheet */}
+              <div className="lg:hidden fixed inset-x-0 bottom-0 z-50 bg-white dark:bg-gray-900 rounded-t-3xl shadow-2xl border-t border-gray-200 dark:border-gray-800 max-h-[50vh] overflow-hidden animate-in slide-in-from-bottom duration-300 safe-area-bottom">
+                <div className="w-12 h-1.5 bg-gray-300 dark:bg-gray-600 rounded-full mx-auto mt-3 mb-2"></div>
+                <div className="overflow-y-auto max-h-[calc(50vh-24px)]">
+                  <FormPropertiesPanel
+                    field={selectedField}
+                    onUpdate={updateFieldProperties}
+                    onClose={() => setSelectedFieldId(null)}
+                  />
+                </div>
+              </div>
+            </>
           )}
 
         </div>
