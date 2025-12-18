@@ -719,26 +719,45 @@ function App() {
   }, []);
 
   // Structured Data for Home Page
-  const softwareAppSchema = useMemo(() => ({
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "pdfcanada.ca",
-    "applicationCategory": "BusinessApplication",
-    "operatingSystem": "Web Browser",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "CAD"
-    },
-    "description": t.description,
-    "featureList": tools.map(tool => tool.title).join(", "),
-    "softwareRequirements": "Modern Web Browser",
-    "author": {
-      "@type": "Organization",
+  const softwareAppSchema = useMemo(() => {
+    const schemas: any[] = [{
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
       "name": "pdfcanada.ca",
-      "url": "https://pdfcanada.ca"
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "CAD"
+      },
+      "description": t.description,
+      "featureList": tools.map(tool => tool.title).join(", "),
+      "softwareRequirements": "Modern Web Browser",
+      "author": {
+        "@type": "Organization",
+        "name": "pdfcanada.ca",
+        "url": "https://pdfcanada.ca"
+      }
+    }];
+
+    if (t.seo.homeFaq) {
+      schemas.push({
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": t.seo.homeFaq.map((faq: any) => ({
+          "@type": "Question",
+          "name": faq.q,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": faq.a
+          }
+        }))
+      });
     }
-  }), [t, tools]);
+
+    return schemas;
+  }, [t, tools]);
 
   const getToolContent = (tool: ToolType) => {
     switch (tool) {
@@ -1120,9 +1139,30 @@ function App() {
       </div>
 
       {/* Trust / Privacy Section (Below Hero) */}
-      <div className="max-w-3xl mx-auto text-center space-y-4 mt-16">
-        <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">{t.builtIn}</h2>
-        <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl mx-auto">{t.privacyText1}</p>
+      <div className="max-w-4xl mx-auto px-6 space-y-24 mt-20 mb-20 text-center">
+        <div className="space-y-6">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">{t.builtIn}</h2>
+          <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl mx-auto">{t.privacyText1}</p>
+        </div>
+
+        {/* FAQ Section */}
+        {t.seo.homeFaq && (
+          <div className="text-left space-y-8">
+            <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-gray-100 mb-12">Frequently Asked Questions</h2>
+            <div className="grid md:grid-cols-2 gap-8">
+              {t.seo.homeFaq.map((faq: any, i: number) => (
+                <div key={i} className="bg-white dark:bg-gray-800 p-8 rounded-[2rem] border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow">
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3 flex gap-2">
+                    <span className="text-canada-red">Q:</span> {faq.q}
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
+                    <span className="font-bold text-green-600 dark:text-green-400">A:</span> {faq.a}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
     </div>

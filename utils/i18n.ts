@@ -20,8 +20,22 @@ export const translations = {
 
     // SEO General
     seo: {
-      homeTitle: "pdfcanada.ca | Free PDF Tools - Convert, Merge, Edit PDFs Online 🇨🇦",
+      homeTitle: "pdfcanada.ca | Free PDF Tools - HEIC to PDF, OCR, Delete Pages & More 🇨🇦",
       homeDesc: "The Polite Canadian PDF Tools. 100% free, private, and secure. Convert PDF, delete pages, rotate, and more directly in your browser without uploading files.",
+      homeFaq: [
+        {
+          q: "Is pdfcanada.ca really free?",
+          a: "Absolute-leaf! Every tool on our site is 100% free. No watermarks, no signups, and no hidden fees. We're just polite Canadians helping you manage your documents."
+        },
+        {
+          q: "How secure is my data on pdfcanada.ca?",
+          a: "It's super secure. Unlike other tools that upload your files to a server, we process everything locally in your browser. Your files never leave your computer, eh?"
+        },
+        {
+          q: "What tools do you offer?",
+          a: "We offer a full suite of PDF tools including: Delete Pages, Rotate PDF, HEIC to PDF, EPUB to PDF, OCR (Make PDF Searchable), and a PDF Form Filler."
+        }
+      ],
       pricingTitle: "Free PDF Tools Pricing | Only $0 Forever | pdfcanada.ca",
       pricingDesc: "Unbelievably free PDF tools. $0 CAD for unlimited file conversions, merges, and edits. No hidden fees, no subscriptions, just polite Canadian service.",
       privacyTitle: "Privacy Policy - pdfcanada.ca | Secure & Local",
@@ -423,8 +437,22 @@ export const translations = {
     dragToReorder: "Glissez les pages pour réorganiser",
 
     seo: {
-      homeTitle: "pdfcanada.ca | Outils PDF Gratuits - Convertir, Modifier, Fusionner PDF 🇨🇦",
+      homeTitle: "pdfcanada.ca | Outils PDF Gratuits - HEIC en PDF, OCR, Supprimer Pages 🇨🇦",
       homeDesc: "Outils PDF canadiens polis. 100% gratuit, privé et sécurisé. Convertissez, supprimez des pages, pivotez et plus encore directement dans votre navigateur.",
+      homeFaq: [
+        {
+          q: "Est-ce vraiment gratuit ?",
+          a: "Absolument ! Tous les outils sur notre site sont 100 % gratuits. Pas de filigrane, pas d'inscription et pas de frais cachés. Nous sommes juste des Canadiens polis qui vous aident à gérer vos documents."
+        },
+        {
+          q: "Mes données sont-elles en sécurité ?",
+          a: "C'est ultra sécurisé. Contrairement à d'autres outils qui téléchargent vos fichiers sur un serveur, nous traitons tout localement dans votre navigateur. Vos fichiers ne quittent jamais votre ordinateur."
+        },
+        {
+          q: "Quels outils proposez-vous ?",
+          a: "Nous proposons une gamme complète d'outils PDF, notamment : Supprimer des pages, Pivoter PDF, HEIC en PDF, EPUB en PDF, OCR (rendre un PDF consultable) et un remplisseur de formulaires PDF."
+        }
+      ],
       pricingTitle: "Tarifs - pdfcanada.ca | Toujours Gratuit",
       pricingDesc: "Nos prix sont simples : 0 $ CAD pour tout le monde. Conversions illimitées et traitement local.",
       privacyTitle: "Confidentialité - pdfcanada.ca | Sécurisé & Local",

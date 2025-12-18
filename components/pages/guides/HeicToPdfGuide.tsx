@@ -113,8 +113,22 @@ export const HeicToPdfGuide: React.FC<GuideProps> = ({ lang, onNavigate }) => {
                 canonicalPath="/guides/heic-to-pdf"
                 lang={lang}
                 schema={schema}
+                breadcrumbs={[
+                    { name: 'Home', path: '/' },
+                    { name: 'Guides', path: '/guides/ultimate-pdf-guide' },
+                    { name: 'HEIC to PDF', path: '/guides/heic-to-pdf' }
+                ]}
             />
-            <PageLayout title={t.h1} subtitle={t.subtitle} icon={<Image size={32} />}>
+            <PageLayout
+                title={t.h1}
+                subtitle={t.subtitle}
+                icon={<Image size={32} />}
+                breadcrumbs={[
+                    { name: 'Home', onClick: () => onNavigate('HOME') },
+                    { name: 'Guides', onClick: () => onNavigate('GUIDE_ULTIMATE') },
+                    { name: 'HEIC to PDF Guide', onClick: () => { } }
+                ]}
+            >
                 <div className="max-w-4xl mx-auto space-y-12">
                     <p className="text-lg leading-relaxed text-gray-600 dark:text-gray-400">
                         {t.intro}

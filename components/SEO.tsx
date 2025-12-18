@@ -7,6 +7,7 @@ interface SEOProps {
   image?: string;
   lang?: string;
   schema?: Record<string, any> | Record<string, any>[];
+  breadcrumbs?: { name: string; path: string }[];
   ogType?: 'website' | 'article' | 'product';
   noOrganization?: boolean;
 }
@@ -65,6 +66,7 @@ export const SEO: React.FC<SEOProps> = ({
   image = 'https://pdfcanada.ca/og-image.png',
   lang = 'en',
   schema,
+  breadcrumbs,
   ogType = 'website',
   noOrganization = false
 }) => {
@@ -155,6 +157,20 @@ export const SEO: React.FC<SEOProps> = ({
     if (!noOrganization) {
       allSchemas.push(organizationSchema);
       allSchemas.push(websiteSchema);
+    }
+
+    // Add Breadcrumbs schema
+    if (breadcrumbs && breadcrumbs.length > 0) {
+      allSchemas.push({
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": breadcrumbs.map((crumb, index) => ({
+          "@type": "ListItem",
+          "position": index + 1,
+          "name": crumb.name,
+          "item": crumb.path.startsWith('http') ? crumb.path : `https://pdfcanada.ca${crumb.path}`
+        }))
+      });
     }
 
     // Add page-specific schemas
