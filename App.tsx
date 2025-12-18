@@ -1021,7 +1021,7 @@ function App() {
             {appState === AppState.HOME && (
               <div className="p-8 h-full bg-gray-50/30 dark:bg-gray-800/30 overflow-y-auto custom-scrollbar">
                 <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6 flex items-center gap-2">
-                  {t.selectToolTitle} <span className="text-lg font-normal text-gray-400">{t.eh}</span>
+                  {t.selectToolTitle}{' '}<span className="text-lg font-normal text-gray-400">{t.eh}</span>
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {tools.map(tool => (
