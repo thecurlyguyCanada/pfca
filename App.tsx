@@ -16,14 +16,15 @@ const HowToPage = React.lazy(() => import('./components/pages/HowToPage').then(m
 const SupportLocalPage = React.lazy(() => import('./components/pages/SupportPage').then(m => ({ default: m.SupportPage })));
 const MakePdfFillablePage = React.lazy(() => import('./components/pages/MakePdfFillablePage').then(m => ({ default: m.MakePdfFillablePage })));
 
-const ConvertirEpubEnPdfGuide = React.lazy(() => import('./components/pages/guides/ConvertirEpubEnPdfGuide').then(m => ({ default: m.ConvertirEpubEnPdfGuide })));
-const ConvertirPdfEnEpubGuide = React.lazy(() => import('./components/pages/guides/ConvertirPdfEnEpubGuide').then(m => ({ default: m.ConvertirPdfEnEpubGuide })));
 const DeletePdfPagesGuide = React.lazy(() => import('./components/pages/guides/DeletePdfPagesGuide').then(m => ({ default: m.DeletePdfPagesGuide })));
 const RotatePdfGuide = React.lazy(() => import('./components/pages/guides/RotatePdfGuide').then(m => ({ default: m.RotatePdfGuide })));
 const UltimatePdfGuide = React.lazy(() => import('./components/pages/guides/UltimatePdfGuide').then(m => ({ default: m.UltimatePdfGuide })));
 const HeicToPdfGuide = React.lazy(() => import('./components/pages/guides/HeicToPdfGuide').then(m => ({ default: m.HeicToPdfGuide })));
 const OcrPdfGuide = React.lazy(() => import('./components/pages/guides/OcrPdfGuide').then(m => ({ default: m.OcrPdfGuide })));
 const OrganizePdfGuide = React.lazy(() => import('./components/pages/guides/OrganizePdfGuide').then(m => ({ default: m.OrganizePdfGuide })));
+const MakeFillableGuide = React.lazy(() => import('./components/pages/guides/MakeFillableGuide').then(m => ({ default: m.MakeFillableGuide })));
+const EpubToPdfGuide = React.lazy(() => import('./components/pages/guides/EpubToPdfGuide').then(m => ({ default: m.EpubToPdfGuide })));
+const PdfToEpubGuide = React.lazy(() => import('./components/pages/guides/PdfToEpubGuide').then(m => ({ default: m.PdfToEpubGuide })));
 
 import { PdfPageThumbnail } from './components/PdfPageThumbnail';
 import { loadPdfDocument, getPdfJsDocument, deletePagesFromPdf, rotatePdfPages, convertHeicToPdf, convertPdfToEpub, convertEpubToPdf, formatFileSize, makePdfFillable, initPdfWorker, extractTextWithOcr, makeSearchablePdf, reorderPdfPages, saveFormFieldsToPdf, FormField } from './utils/pdfUtils';
@@ -45,7 +46,7 @@ enum AppState {
   EDITING_FORM
 }
 
-type CurrentView = 'HOME' | 'PRICING' | 'PRIVACY' | 'TERMS' | 'SORRY' | 'HOW_TO' | 'SUPPORT' | 'MAKE_FILLABLE_INFO' | 'TOOL_PAGE' | 'GUIDE_EPUB_TO_PDF' | 'GUIDE_PDF_TO_EPUB' | 'GUIDE_DELETE_PDF_PAGES' | 'GUIDE_ROTATE_PDF' | 'GUIDE_ULTIMATE' | 'GUIDE_HEIC_TO_PDF' | 'GUIDE_OCR' | 'GUIDE_ORGANIZE';
+type CurrentView = 'HOME' | 'PRICING' | 'PRIVACY' | 'TERMS' | 'SORRY' | 'HOW_TO' | 'SUPPORT' | 'MAKE_FILLABLE_INFO' | 'TOOL_PAGE' | 'GUIDE_EPUB_TO_PDF' | 'GUIDE_PDF_TO_EPUB' | 'GUIDE_DELETE_PAGES' | 'GUIDE_ROTATE' | 'GUIDE_ULTIMATE' | 'GUIDE_HEIC_TO_PDF' | 'GUIDE_OCR' | 'GUIDE_ORGANIZE' | 'GUIDE_FILLABLE';
 
 enum ToolType {
   DELETE = 'DELETE',
@@ -274,8 +275,13 @@ function App() {
     else if (cleanPath === '/sorry') setView('SORRY');
     else if (cleanPath === '/guides/convertir-epub-en-pdf') setView('GUIDE_EPUB_TO_PDF');
     else if (cleanPath === '/guides/convertir-pdf-en-epub') setView('GUIDE_PDF_TO_EPUB');
-    else if (cleanPath === '/guides/delete-pdf-pages') setView('GUIDE_DELETE_PDF_PAGES');
-    else if (cleanPath === '/guides/rotate-pdf') setView('GUIDE_ROTATE_PDF');
+    else if (cleanPath === '/guides/delete-pdf-pages') setView('GUIDE_DELETE_PAGES');
+    else if (cleanPath === '/guides/rotate-pdf') setView('GUIDE_ROTATE');
+    else if (cleanPath === '/guides/ultimate-pdf-guide') setView('GUIDE_ULTIMATE');
+    else if (cleanPath === '/guides/heic-to-pdf') setView('GUIDE_HEIC_TO_PDF');
+    else if (cleanPath === '/guides/ocr-pdf') setView('GUIDE_OCR');
+    else if (cleanPath === '/guides/organize-pdf') setView('GUIDE_ORGANIZE');
+    else if (cleanPath === '/guides/make-pdf-fillable') setView('GUIDE_FILLABLE');
     else {
       // Default to Home if root or unknown
       setView('HOME');
@@ -323,15 +329,15 @@ function App() {
         case 'SUPPORT': path = '/support'; break;
         case 'MAKE_FILLABLE_INFO': path = '/how-to-make-a-pdf-fillable'; break;
         case 'SORRY': path = '/sorry'; break;
-        case 'GUIDE_EPUB_TO_PDF': path = '/guides/convertir-epub-en-pdf'; break;
-        case 'GUIDE_PDF_TO_EPUB': path = '/guides/convertir-pdf-en-epub'; break;
-        case 'GUIDE_DELETE_PDF_PAGES': path = '/guides/delete-pdf-pages'; break;
-        case 'GUIDE_ROTATE_PDF': path = '/guides/rotate-pdf'; break;
+        case 'GUIDE_DELETE_PAGES': path = '/guides/delete-pdf-pages'; break;
+        case 'GUIDE_ROTATE': path = '/guides/rotate-pdf'; break;
         case 'GUIDE_ULTIMATE': path = '/guides/ultimate-pdf-guide'; break;
         case 'GUIDE_HEIC_TO_PDF': path = '/guides/heic-to-pdf'; break;
         case 'GUIDE_OCR': path = '/guides/ocr-pdf'; break;
         case 'GUIDE_ORGANIZE': path = '/guides/organize-pdf'; break;
-        // Tools usually come with an explicit path or are handled below
+        case 'GUIDE_FILLABLE': path = '/guides/make-pdf-fillable'; break;
+        case 'GUIDE_EPUB_TO_PDF': path = '/guides/convertir-epub-en-pdf'; break;
+        case 'GUIDE_PDF_TO_EPUB': path = '/guides/convertir-pdf-en-epub'; break;
       }
     }
 
@@ -1704,14 +1710,15 @@ function App() {
           {view === 'MAKE_FILLABLE_INFO' && <MakePdfFillablePage lang={lang} />}
 
           {/* Guides */}
-          {view === 'GUIDE_EPUB_TO_PDF' && <ConvertirEpubEnPdfGuide lang={lang} onNavigate={handleNavigation} />}
-          {view === 'GUIDE_PDF_TO_EPUB' && <ConvertirPdfEnEpubGuide lang={lang} onNavigate={handleNavigation} />}
-          {view === 'GUIDE_DELETE_PDF_PAGES' && <DeletePdfPagesGuide lang={lang} onNavigate={handleNavigation} />}
-          {view === 'GUIDE_ROTATE_PDF' && <RotatePdfGuide lang={lang} onNavigate={handleNavigation} />}
+          {view === 'GUIDE_EPUB_TO_PDF' && <EpubToPdfGuide lang={lang} onNavigate={handleNavigation} />}
+          {view === 'GUIDE_PDF_TO_EPUB' && <PdfToEpubGuide lang={lang} onNavigate={handleNavigation} />}
+          {view === 'GUIDE_DELETE_PAGES' && <DeletePdfPagesGuide lang={lang} onNavigate={handleNavigation} />}
+          {view === 'GUIDE_ROTATE' && <RotatePdfGuide lang={lang} onNavigate={handleNavigation} />}
           {view === 'GUIDE_ULTIMATE' && <UltimatePdfGuide lang={lang} onNavigate={handleNavigation} />}
           {view === 'GUIDE_HEIC_TO_PDF' && <HeicToPdfGuide lang={lang} onNavigate={handleNavigation} />}
           {view === 'GUIDE_OCR' && <OcrPdfGuide lang={lang} onNavigate={handleNavigation} />}
           {view === 'GUIDE_ORGANIZE' && <OrganizePdfGuide lang={lang} onNavigate={handleNavigation} />}
+          {view === 'GUIDE_FILLABLE' && <MakeFillableGuide lang={lang} onNavigate={handleNavigation} />}
         </React.Suspense>
       </main>
 

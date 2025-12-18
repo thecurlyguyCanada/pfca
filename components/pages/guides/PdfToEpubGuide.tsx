@@ -168,7 +168,7 @@ const guideContent = {
     }
 };
 
-export const ConvertirPdfEnEpubGuide: React.FC<GuideProps> = ({ lang, onNavigate }) => {
+export const PdfToEpubGuide: React.FC<GuideProps> = ({ lang, onNavigate }) => {
     const t = guideContent[lang];
 
     const schema = [
@@ -214,8 +214,22 @@ export const ConvertirPdfEnEpubGuide: React.FC<GuideProps> = ({ lang, onNavigate
                 canonicalPath="/guides/convertir-pdf-en-epub"
                 lang={lang}
                 schema={schema}
+                breadcrumbs={[
+                    { name: 'Home', path: '/' },
+                    { name: 'Guides', path: '/guides/ultimate-pdf-guide' },
+                    { name: 'PDF to EPUB', path: '/guides/convertir-pdf-en-epub' }
+                ]}
             />
-            <PageLayout title={t.h1} subtitle={t.subtitle} icon={<FileText size={32} />}>
+            <PageLayout
+                title={t.h1}
+                subtitle={t.subtitle}
+                icon={<FileText size={32} />}
+                breadcrumbs={[
+                    { name: 'Home', onClick: () => onNavigate('HOME') },
+                    { name: 'Guides', onClick: () => onNavigate('GUIDE_ULTIMATE') },
+                    { name: 'PDF to EPUB Guide', onClick: () => { } }
+                ]}
+            >
                 <div className="space-y-12 text-gray-700 dark:text-gray-300">
                     {/* Intro */}
                     <p className="text-lg leading-relaxed">{t.intro}</p>

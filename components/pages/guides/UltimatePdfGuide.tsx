@@ -1,5 +1,5 @@
 import React from 'react';
-import { BookOpen, Shield, Zap, Lock, Globe, CheckCircle, ArrowRight, FileText, Trash2, RotateCw, Image, Search, MousePointer2, Settings, Users, Cpu, Accessibility, Globe2, Heart } from 'lucide-react';
+import { BookOpen, Shield, Zap, Lock, Globe, CheckCircle, ArrowRight, FileText, Trash2, RotateCw, Image, Search, MousePointer2, Settings, Users, Cpu, Accessibility, Globe2, Heart, PenTool } from 'lucide-react';
 import { Language } from '../../../utils/i18n';
 import { SEO } from '../../SEO';
 import { PageLayout } from '../../PageLayout';
@@ -62,6 +62,16 @@ Using a dedicated **rotate PDF online** tool fixes this permanently.
 3. **180° Flip**: Essential for when a scanner tray was loaded incorrectly.
 
 When you rotate and save locally, the orientation metadata is updated in the file structure itself, ensuring that the recipient sees exactly what you see.`
+            },
+            {
+                id: "government-docs",
+                title: "Canadian Government and Legal Standards",
+                content: `In Canada, government portals (like the CRA or IRCC) often have strict requirements for PDF uploads. They usually require:
+- **Small File Sizes**: Often under 5MB per document.
+- **Permanent Deletion**: Redacting or removing pages must be permanent, not just hidden metadata.
+- **Searchability**: Many legal filings must be searchable (OCR processed).
+
+By using pdfcanada.ca, you ensure that your files meet these standards while keeping your sensitive personal information within the Canadian border—on your own machine.`
             },
             {
                 id: "conversion-magic",
@@ -139,18 +149,6 @@ Welcome to the future of PDF management.`
             {
                 q: "Is there a limit to how many files I can process?",
                 a: "No. Because the processing is done on your own computer's hardware, we don't have to worry about server costs per file. You can use our tools as much as you need, for free."
-            },
-            {
-                q: "Do I need to install any Chrome extensions or software?",
-                a: "No installation is required. Our tools work in any modern web browser (Chrome, Safari, Firefox, Edge) on both desktop and mobile devices."
-            },
-            {
-                q: "How do I create a searchable PDF from a scanned image?",
-                a: "Use our OCR tool. It scans the 'pixels' of your image and identifies the text, adding an invisible layer of real text that you can search or copy."
-            },
-            {
-                q: "Can I use these tools on my iPhone or Android phone?",
-                a: "Absolutely. Our mobile-responsive design ensures that you can delete pages, rotate PDFs, or convert HEIC photos directly from your phone's browser while on the go."
             }
         ],
 
@@ -170,20 +168,7 @@ Welcome to the future of PDF management.`
             {
                 id: "intro",
                 title: "Introduction : Pourquoi le PDF domine toujours le monde",
-                content: `Dans le paysage numérique d'aujourd'hui, le format PDF reste une pierre angulaire. Ce guide est une ressource précieuse pour tous ceux qui cherchent à gérer leurs documents sans tomber dans le piège des abonnements coûteux. Nous explorerons comment la technologie moderne permet des **outils PDF gratuits en ligne** plus rapides et plus sécurisés que jamais.`
-            },
-            {
-                id: "privacy",
-                title: "La Révolution de la Confidentialité : Traitement Local",
-                content: `Pendant des années, les outils PDF en ligne étaient synonymes de risque. Aujourd'hui, grâce à WebAssembly, pdfcanada.ca traite vos fichiers directement dans votre navigateur. 
-- **Zéro Téléchargement** : Vos documents ne quittent jamais votre mémoire vive (RAM).
-- **Sécurité Garantie** : Vos données privées restent sous votre contrôle total.
-- **Conformité** : Idéal pour les professionnels canadiens de la santé ou du droit.`
-            },
-            {
-                id: "tasks",
-                title: "Maîtriser les Tâches Essentielles",
-                content: `Qu'il s'agisse de **supprimer des pages PDF** inutilement scannées ou de **pivoter un PDF** mal orienté, nos outils simplifient vos flux de travail. La gestion de vos documents devient intuitive et rapide.`
+                content: `Dans le paysage numérique d'aujourd'hui, le format PDF reste une pierre angulaire.`
             }
         ],
 
@@ -191,7 +176,7 @@ Welcome to the future of PDF management.`
         faqs: [
             {
                 q: "Pourquoi choisir pdfcanada.ca ?",
-                a: "Parce que nous privilégions votre vie privée avec le traitement local et offrons des outils totalement gratuits, sans publicité envahissante."
+                a: "Parce que nous privilégions votre vie privée avec le traitement local."
             }
         ],
 
@@ -202,7 +187,7 @@ Welcome to the future of PDF management.`
 };
 
 export const UltimatePdfGuide: React.FC<GuideProps> = ({ lang, onNavigate }) => {
-    const t = guideContent[lang];
+    const t = guideContent[lang] || guideContent.en;
 
     const schema = {
         "@context": "https://schema.org",
@@ -223,17 +208,29 @@ export const UltimatePdfGuide: React.FC<GuideProps> = ({ lang, onNavigate }) => 
                 canonicalPath="/guides/ultimate-pdf-guide"
                 lang={lang}
                 schema={schema}
+                breadcrumbs={[
+                    { name: 'Home', path: '/' },
+                    { name: 'Guides', path: '/guides/ultimate-pdf-guide' }
+                ]}
             />
-            <PageLayout title={t.h1} subtitle={t.subtitle} icon={<BookOpen size={32} />}>
+            <PageLayout
+                title={t.h1}
+                subtitle={t.subtitle}
+                icon={<BookOpen size={32} />}
+                breadcrumbs={[
+                    { name: 'Home', onClick: () => onNavigate('HOME') },
+                    { name: 'Ultimate Guide', onClick: () => { } }
+                ]}
+            >
                 <div className="max-w-4xl mx-auto py-8">
 
-                    {/* Floating Table of Contents for Desktop */}
+                    {/* Table of Contents */}
                     <div className="bg-blue-50/50 dark:bg-blue-900/10 p-6 rounded-3xl border border-blue-100 dark:border-blue-800/30 mb-16">
                         <h3 className="text-sm font-bold uppercase tracking-widest text-blue-600 dark:text-blue-400 mb-4 flex items-center gap-2">
                             <MousePointer2 size={16} /> Table of Contents
                         </h3>
                         <nav className="grid md:grid-cols-2 gap-y-3 gap-x-12">
-                            {t.sections.map((section, idx) => (
+                            {t.sections.map((section: any, idx: number) => (
                                 <a
                                     key={section.id}
                                     href={"#" + section.id}
@@ -246,7 +243,7 @@ export const UltimatePdfGuide: React.FC<GuideProps> = ({ lang, onNavigate }) => 
                         </nav>
                     </div>
 
-                    {/* Stats or Trust Bar */}
+                    {/* Stats */}
                     <div className="flex flex-wrap justify-center gap-8 mb-20 py-8 border-y border-gray-100 dark:border-gray-800">
                         <div className="flex items-center gap-2 text-gray-500">
                             <Shield size={20} className="text-canada-red" />
@@ -254,150 +251,59 @@ export const UltimatePdfGuide: React.FC<GuideProps> = ({ lang, onNavigate }) => 
                         </div>
                         <div className="flex items-center gap-2 text-gray-500">
                             <Globe size={20} className="text-canada-red" />
-                            <span className="text-sm font-medium">Local-Only Processing</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-gray-500">
-                            <Zap size={20} className="text-canada-red" />
-                            <span className="text-sm font-medium">Zero Uploads</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-gray-500">
-                            <Heart size={20} className="text-canada-red" />
-                            <span className="text-sm font-medium">Proudly Canadian</span>
+                            <span className="text-sm font-medium">Local Processing</span>
                         </div>
                     </div>
 
-                    {/* Main Content Sections */}
+                    {/* Content */}
                     <div className="space-y-24">
-                        {t.sections.map((section, idx) => (
+                        {t.sections.map((section: any, idx: number) => (
                             <section key={section.id} id={section.id} className="scroll-mt-24 group">
                                 <div className="flex items-center gap-6 mb-8">
-                                    <div className="bg-gray-100 dark:bg-gray-800 w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 group-hover:bg-canada-red transition-colors duration-500">
-                                        <span className="text-2xl font-black text-gray-400 dark:text-gray-600 group-hover:text-white transition-colors">
+                                    <div className="bg-gray-100 dark:bg-gray-800 w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 group-hover:bg-canada-red transition-colors">
+                                        <span className="text-2xl font-black text-gray-400 group-hover:text-white transition-colors">
                                             {idx + 1}
                                         </span>
                                     </div>
-                                    <h2 className="text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">
+                                    <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white">
                                         {section.title}
                                     </h2>
                                 </div>
-
-                                <div className="prose prose-xl dark:prose-invert max-w-none 
-                                    prose-p:text-gray-600 dark:prose-p:text-gray-400 prose-p:leading-relaxed 
-                                    prose-strong:text-gray-900 dark:prose-strong:text-white prose-strong:font-bold
-                                    prose-headings:text-canada-red prose-headings:mt-12 prose-headings:mb-6
-                                    prose-li:text-gray-600 dark:prose-li:text-gray-400">
+                                <div className="prose prose-xl dark:prose-invert max-w-none text-gray-600 dark:text-gray-400">
                                     <p className="whitespace-pre-line">{section.content}</p>
                                 </div>
-
-                                {section.id === 'privacy-revolution' && (
-                                    <div className="mt-12 p-8 bg-canada-red rounded-[2rem] text-white flex flex-col md:flex-row items-center gap-8 shadow-2xl shadow-red-500/20">
-                                        <div className="bg-white/10 p-4 rounded-2xl">
-                                            <Cpu size={48} />
-                                        </div>
-                                        <div>
-                                            <h4 className="text-2xl font-bold mb-2">Powered by Your Local CPU</h4>
-                                            <p className="text-white/80 leading-relaxed">
-                                                We use WebAssembly technology to harness your computer's own processing power. Your files are converted into machine-readable bytes that never leave your browser window. This is the gold standard of data sovereignty.
-                                            </p>
-                                        </div>
-                                    </div>
-                                )}
                             </section>
                         ))}
                     </div>
 
-                    {/* Feature Highlight Grid */}
-                    <div className="my-32 grid md:grid-cols-2 gap-4">
-                        <div className="p-8 bg-gray-50 dark:bg-gray-900 rounded-3xl border border-gray-100 dark:border-gray-800 flex items-start gap-4">
-                            <Accessibility className="text-blue-500 shrink-0" size={24} />
-                            <div>
-                                <h4 className="font-bold text-gray-900 dark:text-white mb-2">ADA Compliant</h4>
-                                <p className="text-sm text-gray-500">All tools are designed with a keyboard-first focus and screen reader compatibility.</p>
-                            </div>
-                        </div>
-                        <div className="p-8 bg-gray-50 dark:bg-gray-900 rounded-3xl border border-gray-100 dark:border-gray-800 flex items-start gap-4">
-                            <Globe2 className="text-green-500 shrink-0" size={24} />
-                            <div>
-                                <h4 className="font-bold text-gray-900 dark:text-white mb-2">Multi-Language</h4>
-                                <p className="text-sm text-gray-500">Native support for English and French to support the diverse Canadian landscape.</p>
-                            </div>
-                        </div>
-                        <div className="p-8 bg-gray-50 dark:bg-gray-900 rounded-3xl border border-gray-100 dark:border-gray-800 flex items-start gap-4">
-                            <Settings className="text-purple-500 shrink-0" size={24} />
-                            <div>
-                                <h4 className="font-bold text-gray-900 dark:text-white mb-2">Modern Standards</h4>
-                                <p className="text-sm text-gray-500">Fully compliant with the latest ISO PDF 2.0 specifications for maximum compatibility.</p>
-                            </div>
-                        </div>
-                        <div className="p-8 bg-gray-50 dark:bg-gray-900 rounded-3xl border border-gray-100 dark:border-gray-800 flex items-start gap-4">
-                            <Users className="text-orange-500 shrink-0" size={24} />
-                            <div>
-                                <h4 className="font-bold text-gray-900 dark:text-white mb-2">User Centered</h4>
-                                <p className="text-sm text-gray-500">Created by designers and engineers who believe tools should be simple and friction-free.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Rich FAQ with interactive feel */}
+                    {/* FAQ */}
                     <div className="my-32">
-                        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
-                            <div>
-                                <span className="text-canada-red font-bold text-sm tracking-widest uppercase">Answers</span>
-                                <h2 className="text-5xl font-black text-gray-900 dark:text-white mt-2">{t.faqTitle}</h2>
-                            </div>
-                            <div className="flex items-center gap-2 bg-gray-100 dark:bg-gray-800 px-4 py-2 rounded-full">
-                                <Search size={16} className="text-gray-400" />
-                                <span className="text-sm text-gray-500">Search FAQ</span>
-                            </div>
-                        </div>
+                        <h2 className="text-4xl font-black mb-12">{t.faqTitle}</h2>
                         <div className="grid gap-6">
-                            {t.faqs.map((faq, i) => (
-                                <div key={i} className="group p-8 bg-white dark:bg-gray-900 rounded-3xl border border-gray-100 dark:border-gray-800 hover:border-canada-red transition-all duration-300">
-                                    <h5 className="flex items-center gap-4 text-xl font-bold text-gray-900 dark:text-white mb-4">
-                                        <div className="bg-canada-red/10 text-canada-red p-2 rounded-lg group-hover:bg-canada-red group-hover:text-white transition-colors">
-                                            <CheckCircle size={20} />
-                                        </div>
-                                        {faq.q}
-                                    </h5>
-                                    <p className="text-gray-600 dark:text-gray-400 pl-14 text-lg leading-relaxed">
-                                        {faq.a}
-                                    </p>
+                            {t.faqs.map((faq: any, i: number) => (
+                                <div key={i} className="p-8 bg-gray-50 dark:bg-gray-900 rounded-3xl">
+                                    <h5 className="text-xl font-bold mb-4">{faq.q}</h5>
+                                    <p className="text-gray-600 dark:text-gray-400">{faq.a}</p>
                                 </div>
                             ))}
                         </div>
                     </div>
 
-                    {/* Visual CTA Section */}
-                    <div className="bg-gray-900 dark:bg-canada-red rounded-[3rem] p-16 text-center text-white relative overflow-hidden shadow-3xl">
-                        <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
-                            <div className="absolute -top-24 -left-24 w-96 h-96 bg-white rounded-full blur-3xl"></div>
-                            <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-canada-red rounded-full blur-3xl"></div>
-                        </div>
-                        <h2 className="text-5xl font-black mb-8 relative z-10 leading-tight">
-                            Ready to Experience<br />
-                            <span className="text-blue-400 dark:text-gray-900">True Document Freedom?</span>
-                        </h2>
-                        <button
-                            onClick={() => onNavigate('HOME')}
-                            className="relative z-10 bg-white dark:bg-gray-900 text-gray-900 dark:text-white px-12 py-5 rounded-full font-black text-xl hover:scale-105 active:scale-95 transition-all shadow-xl"
-                        >
-                            {t.ctaBtn}
-                        </button>
-                        <p className="mt-8 text-white/60 font-medium tracking-wide italic">No Credit Card. No Account. Just Great Tools. 🇨🇦</p>
-                    </div>
-
-                    {/* Footer Nav for Related Guides */}
+                    {/* Related Guides */}
                     <div className="mt-32 pt-16 border-t border-gray-100 dark:border-gray-800">
                         <h4 className="text-sm font-bold uppercase tracking-widest text-gray-400 mb-8">{t.related}</h4>
-                        <div className="grid md:grid-cols-3 gap-6">
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {[
-                                { name: 'How to Delete PDF Pages', path: '/guides/delete-pdf-pages', icon: Trash2 },
-                                { name: 'Ultimate Rotation Guide', path: '/guides/rotate-pdf', icon: RotateCw },
-                                { name: 'Converting Mobile HEIC', path: '/heic-to-pdf', icon: Image }
-                            ].map((guide, i) => (
+                                { name: 'Delete PDF Pages', path: '/guides/delete-pdf-pages', icon: Trash2, view: 'GUIDE_DELETE_PAGES' },
+                                { name: 'Rotate PDF Guide', path: '/guides/rotate-pdf', icon: RotateCw, view: 'GUIDE_ROTATE' },
+                                { name: 'HEIC to PDF Transfer', path: '/guides/heic-to-pdf', icon: Image, view: 'GUIDE_HEIC_TO_PDF' },
+                                { name: 'OCR & Text Extraction', path: '/guides/ocr-pdf', icon: Search, view: 'GUIDE_OCR' },
+                                { name: 'Fillable Form Creation', path: '/guides/make-pdf-fillable', icon: PenTool, view: 'GUIDE_FILLABLE' },
+                                { name: 'Organize & Reorder', path: '/guides/organize-pdf', icon: MousePointer2, view: 'GUIDE_ORGANIZE' }
+                            ].map((guide: any, i: number) => (
                                 <button
                                     key={i}
-                                    onClick={() => onNavigate('TOOL_PAGE', guide.path)}
+                                    onClick={() => onNavigate(guide.view, guide.path)}
                                     className="p-6 bg-gray-50 dark:bg-gray-800 rounded-3xl border border-transparent hover:border-canada-red hover:bg-white dark:hover:bg-gray-900 transition-all flex items-center justify-between group"
                                 >
                                     <div className="flex items-center gap-4">
@@ -408,6 +314,13 @@ export const UltimatePdfGuide: React.FC<GuideProps> = ({ lang, onNavigate }) => 
                                 </button>
                             ))}
                         </div>
+                    </div>
+
+                    <div className="mt-20 bg-canada-red p-12 rounded-[3rem] text-center text-white">
+                        <h2 className="text-4xl font-black mb-8">{t.cta}</h2>
+                        <button onClick={() => onNavigate('HOME')} className="bg-white text-canada-red px-12 py-4 rounded-full font-black text-xl">
+                            {t.ctaBtn}
+                        </button>
                     </div>
 
                 </div>

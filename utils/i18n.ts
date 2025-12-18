@@ -361,6 +361,12 @@ export const translations = {
     privacy: "Privacy Policy",
     sorryPolicy: "Sorry Policy",
     makeFillableFooter: "How to make a PDF fillable",
+    toolDelete: "Delete PDF Pages",
+    toolRotate: "Rotate PDF",
+    toolHeic: "HEIC to PDF",
+    toolEpubToPdf: "EPUB to PDF",
+    toolPdfToEpub: "PDF to EPUB",
+    toolMakeFillable: "Make PDF Fillable",
 
     // Pages Content
     pricingTitle: "Simple Pricing",
@@ -641,6 +647,12 @@ export const translations = {
     privacy: "Confidentialité",
     sorryPolicy: "Politique d'excuses",
     makeFillableFooter: "Comment rendre un PDF remplissable",
+    toolDelete: "Supprimer des pages PDF",
+    toolRotate: "Pivoter PDF",
+    toolHeic: "HEIC en PDF",
+    toolEpubToPdf: "EPUB en PDF",
+    toolPdfToEpub: "PDF en EPUB",
+    toolMakeFillable: "Rendre un PDF remplissable",
 
     pricingTitle: "Tarification Simple",
     pricingSubtitle: "Prix honnêtes pour gens honnêtes.",

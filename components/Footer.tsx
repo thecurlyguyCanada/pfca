@@ -49,6 +49,9 @@ const FooterComponent: React.FC<FooterProps> = ({ lang, onNavigate }) => {
                   <h4 className="font-bold text-gray-900 dark:text-white mb-4">Resources</h4>
                   <ul className="space-y-1 text-sm">
                      <li><button onClick={() => onNavigate('GUIDE_ULTIMATE')} className="text-canada-red font-bold hover:underline transition-colors focus:outline-none">{t.ultimateGuide}</button></li>
+                     <li><button onClick={() => onNavigate('GUIDE_DELETE_PAGES')} className="hover:text-canada-red transition-colors focus:outline-none">Delete Pages Guide</button></li>
+                     <li><button onClick={() => onNavigate('GUIDE_ROTATE')} className="hover:text-canada-red transition-colors focus:outline-none">Rotate PDF Guide</button></li>
+                     <li><button onClick={() => onNavigate('GUIDE_FILLABLE')} className="hover:text-canada-red transition-colors focus:outline-none">Fillable Forms Guide</button></li>
                      <li><button onClick={() => onNavigate('GUIDE_HEIC_TO_PDF')} className="hover:text-canada-red transition-colors focus:outline-none">HEIC to PDF Guide</button></li>
                      <li><button onClick={() => onNavigate('GUIDE_OCR')} className="hover:text-canada-red transition-colors focus:outline-none">OCR & Searchable Guide</button></li>
                      <li><button onClick={() => onNavigate('GUIDE_ORGANIZE')} className="hover:text-canada-red transition-colors focus:outline-none">Organize & Reorder Guide</button></li>
