@@ -21,6 +21,9 @@ const ConvertirPdfEnEpubGuide = React.lazy(() => import('./components/pages/guid
 const DeletePdfPagesGuide = React.lazy(() => import('./components/pages/guides/DeletePdfPagesGuide').then(m => ({ default: m.DeletePdfPagesGuide })));
 const RotatePdfGuide = React.lazy(() => import('./components/pages/guides/RotatePdfGuide').then(m => ({ default: m.RotatePdfGuide })));
 const UltimatePdfGuide = React.lazy(() => import('./components/pages/guides/UltimatePdfGuide').then(m => ({ default: m.UltimatePdfGuide })));
+const HeicToPdfGuide = React.lazy(() => import('./components/pages/guides/HeicToPdfGuide').then(m => ({ default: m.HeicToPdfGuide })));
+const OcrPdfGuide = React.lazy(() => import('./components/pages/guides/OcrPdfGuide').then(m => ({ default: m.OcrPdfGuide })));
+const OrganizePdfGuide = React.lazy(() => import('./components/pages/guides/OrganizePdfGuide').then(m => ({ default: m.OrganizePdfGuide })));
 
 import { PdfPageThumbnail } from './components/PdfPageThumbnail';
 import { loadPdfDocument, getPdfJsDocument, deletePagesFromPdf, rotatePdfPages, convertHeicToPdf, convertPdfToEpub, convertEpubToPdf, formatFileSize, makePdfFillable, initPdfWorker, extractTextWithOcr, makeSearchablePdf, reorderPdfPages, saveFormFieldsToPdf, FormField } from './utils/pdfUtils';
@@ -42,7 +45,7 @@ enum AppState {
   EDITING_FORM
 }
 
-type CurrentView = 'HOME' | 'PRICING' | 'PRIVACY' | 'TERMS' | 'SORRY' | 'HOW_TO' | 'SUPPORT' | 'MAKE_FILLABLE_INFO' | 'TOOL_PAGE' | 'GUIDE_EPUB_TO_PDF' | 'GUIDE_PDF_TO_EPUB' | 'GUIDE_DELETE_PDF_PAGES' | 'GUIDE_ROTATE_PDF' | 'GUIDE_ULTIMATE';
+type CurrentView = 'HOME' | 'PRICING' | 'PRIVACY' | 'TERMS' | 'SORRY' | 'HOW_TO' | 'SUPPORT' | 'MAKE_FILLABLE_INFO' | 'TOOL_PAGE' | 'GUIDE_EPUB_TO_PDF' | 'GUIDE_PDF_TO_EPUB' | 'GUIDE_DELETE_PDF_PAGES' | 'GUIDE_ROTATE_PDF' | 'GUIDE_ULTIMATE' | 'GUIDE_HEIC_TO_PDF' | 'GUIDE_OCR' | 'GUIDE_ORGANIZE';
 
 enum ToolType {
   DELETE = 'DELETE',
@@ -325,6 +328,9 @@ function App() {
         case 'GUIDE_DELETE_PDF_PAGES': path = '/guides/delete-pdf-pages'; break;
         case 'GUIDE_ROTATE_PDF': path = '/guides/rotate-pdf'; break;
         case 'GUIDE_ULTIMATE': path = '/guides/ultimate-pdf-guide'; break;
+        case 'GUIDE_HEIC_TO_PDF': path = '/guides/heic-to-pdf'; break;
+        case 'GUIDE_OCR': path = '/guides/ocr-pdf'; break;
+        case 'GUIDE_ORGANIZE': path = '/guides/organize-pdf'; break;
         // Tools usually come with an explicit path or are handled below
       }
     }
@@ -1663,6 +1669,9 @@ function App() {
           {view === 'GUIDE_DELETE_PDF_PAGES' && <DeletePdfPagesGuide lang={lang} onNavigate={handleNavigation} />}
           {view === 'GUIDE_ROTATE_PDF' && <RotatePdfGuide lang={lang} onNavigate={handleNavigation} />}
           {view === 'GUIDE_ULTIMATE' && <UltimatePdfGuide lang={lang} onNavigate={handleNavigation} />}
+          {view === 'GUIDE_HEIC_TO_PDF' && <HeicToPdfGuide lang={lang} onNavigate={handleNavigation} />}
+          {view === 'GUIDE_OCR' && <OcrPdfGuide lang={lang} onNavigate={handleNavigation} />}
+          {view === 'GUIDE_ORGANIZE' && <OrganizePdfGuide lang={lang} onNavigate={handleNavigation} />}
         </React.Suspense>
       </main>
 
