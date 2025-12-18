@@ -15,20 +15,25 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
   </noscript>
 
-  <!-- Google tag (gtag.js) - Deferred -->
+  <!-- Google tag (gtag.js) - Deferred and non-blocking -->
   <script>
     window.addEventListener('load', function () {
-      var script = document.createElement('script');
-      script.async = true;
-      script.src = "https://www.googletagmanager.com/gtag/js?id=G-NC2HT1LLZK";
-      document.head.appendChild(script);
+      const scheduleGtm = window.requestIdleCallback || function (cb) { setTimeout(cb, 1000); };
 
-      script.onload = function () {
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'G-NC2HT1LLZK');
-      };
+      scheduleGtm(function () {
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = "https://www.googletagmanager.com/gtag/js?id=G-NC2HT1LLZK";
+        document.head.appendChild(script);
+
+        script.onload = function () {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { dataLayer.push(arguments); }
+          gtag('js', new Date());
+          gtag('config', 'G-NC2HT1LLZK', { 'send_page_view': false }); // Defer pageview to prevent early reflow
+          gtag('event', 'page_view');
+        };
+      });
     });
   </script>
 

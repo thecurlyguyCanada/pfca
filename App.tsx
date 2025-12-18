@@ -28,7 +28,6 @@ import { FormPropertiesPanel } from './components/FormPropertiesPanel';
 import { useSystemTheme } from './hooks/useSystemTheme';
 
 // Initialize PDF.js worker early to ensure thumbnails can render
-initPdfWorker();
 import { translations, Language } from './utils/i18n';
 import { SEO } from './components/SEO';
 
@@ -70,8 +69,9 @@ function App() {
   // Apply system theme preference automatically
   useSystemTheme();
 
-  // Remove the initial HTML skeleton once React is ready
+  // Remove the initial HTML skeleton and initialize worker once React is ready
   useEffect(() => {
+    initPdfWorker();
     const skeleton = document.getElementById('loading-skeleton');
     if (skeleton) {
       skeleton.remove();
