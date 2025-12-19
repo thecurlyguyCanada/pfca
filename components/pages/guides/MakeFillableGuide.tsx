@@ -3,6 +3,7 @@ import { PenTool, CheckCircle, Shield, Zap, ArrowRight, Globe, Lock, Clock, File
 import { Language } from '../../../utils/i18n';
 import { SEO } from '../../SEO';
 import { PageLayout } from '../../PageLayout';
+import { MarkdownContent } from '../../MarkdownContent';
 
 interface GuideProps {
     lang: Language;
@@ -127,9 +128,7 @@ export const MakeFillableGuide: React.FC<GuideProps> = ({ lang, onNavigate }) =>
                 ]}
             >
                 <div className="max-w-4xl mx-auto space-y-12">
-                    <p className="text-xl text-gray-500 dark:text-gray-400 font-medium leading-relaxed">
-                        {t.intro}
-                    </p>
+                    <MarkdownContent content={t.intro} className="text-xl text-gray-500 dark:text-gray-400 font-medium leading-relaxed" />
 
                     {/* Content */}
                     <div className="space-y-16">
@@ -139,9 +138,7 @@ export const MakeFillableGuide: React.FC<GuideProps> = ({ lang, onNavigate }) =>
                                     <div className="w-1 h-8 bg-canada-red rounded-full"></div>
                                     {section.title}
                                 </h2>
-                                <div className="prose prose-lg dark:prose-invert max-w-none text-gray-600 dark:text-gray-400 whitespace-pre-line">
-                                    {section.content}
-                                </div>
+                                <MarkdownContent content={section.content} />
                             </section>
                         ))}
                     </div>
@@ -179,7 +176,7 @@ export const MakeFillableGuide: React.FC<GuideProps> = ({ lang, onNavigate }) =>
                                 {t.faq.map((item, i) => (
                                     <div key={i} className="bg-white dark:bg-gray-900 p-6 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm">
                                         <h4 className="font-bold text-lg mb-3 text-gray-900 dark:text-white">{item.q}</h4>
-                                        <p className="text-gray-600 dark:text-gray-400">{item.a}</p>
+                                        <MarkdownContent content={item.a} className="text-gray-600 dark:text-gray-400" />
                                     </div>
                                 ))}
                             </div>

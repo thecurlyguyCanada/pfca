@@ -3,6 +3,7 @@ import { Image, CheckCircle, Shield, Zap, ArrowRight, Globe, Lock, Clock, Smartp
 import { Language } from '../../../utils/i18n';
 import { SEO } from '../../SEO';
 import { PageLayout } from '../../PageLayout';
+import { MarkdownContent } from '../../MarkdownContent';
 
 interface GuideProps {
     lang: Language;
@@ -130,17 +131,13 @@ export const HeicToPdfGuide: React.FC<GuideProps> = ({ lang, onNavigate }) => {
                 ]}
             >
                 <div className="max-w-4xl mx-auto space-y-12">
-                    <p className="text-lg leading-relaxed text-gray-600 dark:text-gray-400">
-                        {t.intro}
-                    </p>
+                    <MarkdownContent content={t.intro} className="text-lg leading-relaxed text-gray-600 dark:text-gray-400" />
 
                     {/* Content Sections */}
                     {t.sections && t.sections.map((section) => (
                         <section key={section.id}>
                             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">{section.title}</h2>
-                            <div className="prose prose-lg dark:prose-invert max-w-none whitespace-pre-line text-gray-600 dark:text-gray-400">
-                                {section.content}
-                            </div>
+                            <MarkdownContent content={section.content} />
                         </section>
                     ))}
 
@@ -183,7 +180,7 @@ export const HeicToPdfGuide: React.FC<GuideProps> = ({ lang, onNavigate }) => {
                                 {t.faq.map((item, i) => (
                                     <div key={i} className="bg-white dark:bg-gray-900 p-6 rounded-2xl border border-gray-100 dark:border-gray-800">
                                         <h4 className="font-bold mb-2 text-gray-900 dark:text-white">{item.q}</h4>
-                                        <p className="text-gray-600 dark:text-gray-400">{item.a}</p>
+                                        <MarkdownContent content={item.a} className="text-gray-600 dark:text-gray-400" />
                                     </div>
                                 ))}
                             </div>

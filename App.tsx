@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Download, FileText, X, AlertCircle, CheckCircle2, Shield, Trash2, RotateCw, Image, BookOpen, ArrowLeft, PenTool, RotateCcw, RefreshCcw } from 'lucide-react';
+import { Download, FileText, X, AlertCircle, CheckCircle2, Shield, Trash2, RotateCw, Image, BookOpen, ArrowLeft, ArrowRight, PenTool, RotateCcw, RefreshCcw, ScanLine, LayoutGrid, Search, MoveRight } from 'lucide-react';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { MapleLeaf } from './components/MapleLeaf';
-import { PricingPage, PrivacyPage, TermsPage, SorryPolicyPage, HowToPage, SupportLocalPage, MakePdfFillablePage } from './components/StaticPages';
+import { PricingPage, PrivacyPage, TermsPage, SorryPolicyPage, HowToPage, SupportLocalPage, MakePdfFillablePage } from './components/StaticPages.tsx';
+import { DeletePdfPagesGuide, EpubToPdfGuide, HeicToPdfGuide, MakeFillableGuide, OcrPdfGuide, OrganizePdfGuide, PdfToEpubGuide, RotatePdfGuide, UltimatePdfGuide } from './components/pages/guides';
 import { PdfPageThumbnail } from './components/PdfPageThumbnail';
 import { loadPdfDocument, getPdfJsDocument, deletePagesFromPdf, rotatePdfPages, convertHeicToPdf, convertPdfToEpub, convertEpubToPdf, formatFileSize, makePdfFillable } from './utils/pdfUtils';
 import { translations, Language } from './utils/i18n';
@@ -17,7 +18,7 @@ enum AppState {
   ERROR
 }
 
-type CurrentView = 'HOME' | 'PRICING' | 'PRIVACY' | 'TERMS' | 'SORRY' | 'HOW_TO' | 'SUPPORT' | 'MAKE_FILLABLE_INFO' | 'TOOL_PAGE';
+type CurrentView = 'HOME' | 'PRICING' | 'PRIVACY' | 'TERMS' | 'SORRY' | 'HOW_TO' | 'SUPPORT' | 'MAKE_FILLABLE_INFO' | 'TOOL_PAGE' | 'GUIDE_DELETE_PAGES' | 'GUIDE_ROTATE' | 'GUIDE_HEIC_TO_PDF' | 'GUIDE_EPUB_TO_PDF' | 'GUIDE_PDF_TO_EPUB' | 'GUIDE_FILLABLE' | 'GUIDE_OCR' | 'GUIDE_ORGANIZE' | 'GUIDE_ULTIMATE';
 
 enum ToolType {
   DELETE = 'DELETE',
@@ -25,7 +26,9 @@ enum ToolType {
   HEIC_TO_PDF = 'HEIC_TO_PDF',
   EPUB_TO_PDF = 'EPUB_TO_PDF',
   PDF_TO_EPUB = 'PDF_TO_EPUB',
-  MAKE_FILLABLE = 'MAKE_FILLABLE'
+  MAKE_FILLABLE = 'MAKE_FILLABLE',
+  OCR = 'OCR',
+  ORGANIZE = 'ORGANIZE'
 }
 
 // Helper to safely update history without crashing in sandboxed environments
@@ -91,6 +94,14 @@ function App() {
       setCurrentTool(ToolType.MAKE_FILLABLE);
       setView('TOOL_PAGE');
       setAppState(AppState.SELECTING);
+    } else if (path === '/ocr-pdf') {
+      setCurrentTool(ToolType.OCR);
+      setView('TOOL_PAGE');
+      setAppState(AppState.SELECTING);
+    } else if (path === '/organize-pdf') {
+      setCurrentTool(ToolType.ORGANIZE);
+      setView('TOOL_PAGE');
+      setAppState(AppState.SELECTING);
     } else if (path === '/pricing') setView('PRICING');
     else if (path === '/privacy') setView('PRIVACY');
     else if (path === '/terms') setView('TERMS');
@@ -98,6 +109,16 @@ function App() {
     else if (path === '/support') setView('SUPPORT');
     else if (path === '/how-to-make-a-pdf-fillable') setView('MAKE_FILLABLE_INFO');
     else if (path === '/sorry') setView('SORRY');
+    // Guides
+    else if (path === '/guides/delete-pdf-pages') setView('GUIDE_DELETE_PAGES');
+    else if (path === '/guides/rotate-pdf') setView('GUIDE_ROTATE');
+    else if (path === '/guides/heic-to-pdf') setView('GUIDE_HEIC_TO_PDF');
+    else if (path === '/guides/epub-to-pdf') setView('GUIDE_EPUB_TO_PDF');
+    else if (path === '/guides/pdf-to-epub') setView('GUIDE_PDF_TO_EPUB');
+    else if (path === '/guides/make-pdf-fillable') setView('GUIDE_FILLABLE');
+    else if (path === '/guides/ocr-pdf') setView('GUIDE_OCR');
+    else if (path === '/guides/organize-pdf') setView('GUIDE_ORGANIZE');
+    else if (path === '/guides/ultimate-pdf-guide') setView('GUIDE_ULTIMATE');
     else {
       // Default to Home if root or unknown
       setView('HOME');
@@ -138,6 +159,8 @@ function App() {
     { id: ToolType.HEIC_TO_PDF, icon: Image, title: t.toolHeic, desc: t.toolHeicDesc, accept: '.heic', path: '/heic-to-pdf' },
     { id: ToolType.EPUB_TO_PDF, icon: BookOpen, title: t.toolEpubToPdf, desc: t.toolEpubToPdfDesc, accept: '.epub', path: '/epub-to-pdf' },
     { id: ToolType.PDF_TO_EPUB, icon: FileText, title: t.toolPdfToEpub, desc: t.toolPdfToEpubDesc, accept: '.pdf', path: '/pdf-to-epub' },
+    { id: ToolType.OCR, icon: ScanLine, title: t.toolOcr, desc: t.toolOcrDesc, accept: '.pdf', path: '/ocr-pdf' },
+    { id: ToolType.ORGANIZE, icon: LayoutGrid, title: t.organizePdf, desc: t.organizePdfDesc, accept: '.pdf', path: '/organize-pdf' },
   ];
 
   const selectTool = (toolId: ToolType) => {
@@ -381,6 +404,8 @@ function App() {
       case ToolType.EPUB_TO_PDF: return t.features.epubToPdf;
       case ToolType.PDF_TO_EPUB: return t.features.pdfToEpub;
       case ToolType.MAKE_FILLABLE: return t.features.fillable;
+      case ToolType.OCR: return t.features.ocr;
+      case ToolType.ORGANIZE: return t.features.organizePdf;
       default: return t.features.delete; // Fallback
     }
   };
@@ -682,8 +707,68 @@ function App() {
         <h2 className="text-3xl font-bold text-gray-900">{t.builtIn}</h2>
         <p className="text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto">{t.seo.privacyDesc}</p>
       </div>
+
+      {/* Internal Linking: Guides Section */}
+      <div className="border-t border-gray-100 pt-16">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-8 gap-4">
+          <div className="max-w-xl">
+            <h2 className="text-3xl font-bold text-gray-900 mb-2">PDF Guides & Tutorials</h2>
+            <p className="text-gray-500">Learn how to master your documents with our polite Canadian guides.</p>
+          </div>
+          <button
+            onClick={() => handleNavigation('GUIDE_ULTIMATE', '/guides/ultimate-pdf-guide')}
+            className="text-canada-red font-bold flex items-center gap-2 hover:gap-3 transition-all"
+          >
+            {t.ultimateGuide} <MoveRight size={18} />
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[
+            { title: "How to Delete Pages", view: 'GUIDE_DELETE_PAGES', path: '/guides/delete-pdf-pages', icon: Trash2 },
+            { title: "Rotate PDF Permanently", view: 'GUIDE_ROTATE', path: '/guides/rotate-pdf', icon: RotateCw },
+            { title: "Convert HEIC to PDF", view: 'GUIDE_HEIC_TO_PDF', path: '/guides/heic-to-pdf', icon: Image },
+            { title: "Make PDF Searchable (OCR)", view: 'GUIDE_OCR', path: '/guides/ocr-pdf', icon: ScanLine },
+            { title: "Create Fillable Forms", view: 'GUIDE_FILLABLE', path: '/guides/make-pdf-fillable', icon: PenTool },
+            { title: "Organize & Reorder Pages", view: 'GUIDE_ORGANIZE', path: '/guides/organize-pdf', icon: LayoutGrid },
+          ].map((guide, i) => (
+            <button
+              key={i}
+              onClick={() => handleNavigation(guide.view as any, guide.path)}
+              className="group p-6 bg-white border border-gray-100 rounded-3xl hover:border-canada-red/30 hover:shadow-xl transition-all text-left flex flex-col gap-4"
+            >
+              <div className="w-12 h-12 bg-gray-50 text-gray-400 group-hover:bg-red-50 group-hover:text-canada-red rounded-2xl flex items-center justify-center transition-colors">
+                <guide.icon size={24} />
+              </div>
+              <div>
+                <h4 className="font-bold text-gray-900 group-hover:text-canada-red transition-colors">{guide.title}</h4>
+                <p className="text-sm text-gray-500 mt-1">Read the guide <ArrowRight size={12} className="inline group-hover:translate-x-1 transition-transform" /></p>
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Home Page FAQ Section for SEO */}
+      <div className="bg-gray-50 rounded-[3rem] p-12 mt-8">
+        <h2 className="text-3xl font-bold text-gray-900 mb-10 text-center">Frequently Asked Questions</h2>
+        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          {t.seo.homeFaq.map((faq, i) => (
+            <div key={i} className="space-y-3">
+              <h3 className="text-lg font-bold text-gray-900 flex items-start gap-3">
+                <div className="w-6 h-6 bg-canada-red/10 text-canada-red rounded-full flex items-center justify-center shrink-0 text-xs mt-0.5">Q</div>
+                {faq.q}
+              </h3>
+              <p className="text-gray-600 leading-relaxed pl-9">
+                {faq.a}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
+
 
   const renderFeaturePage = () => {
     if (!currentTool) return null;
@@ -803,6 +888,17 @@ function App() {
         {view === 'HOW_TO' && <HowToPage lang={lang} />}
         {view === 'SUPPORT' && <SupportLocalPage lang={lang} />}
         {view === 'MAKE_FILLABLE_INFO' && <MakePdfFillablePage lang={lang} />}
+
+        {/* Guides */}
+        {view === 'GUIDE_DELETE_PAGES' && <DeletePdfPagesGuide lang={lang} onNavigate={handleNavigation} />}
+        {view === 'GUIDE_ROTATE' && <RotatePdfGuide lang={lang} onNavigate={handleNavigation} />}
+        {view === 'GUIDE_HEIC_TO_PDF' && <HeicToPdfGuide lang={lang} onNavigate={handleNavigation} />}
+        {view === 'GUIDE_EPUB_TO_PDF' && <EpubToPdfGuide lang={lang} onNavigate={handleNavigation} />}
+        {view === 'GUIDE_PDF_TO_EPUB' && <PdfToEpubGuide lang={lang} onNavigate={handleNavigation} />}
+        {view === 'GUIDE_FILLABLE' && <MakeFillableGuide lang={lang} onNavigate={handleNavigation} />}
+        {view === 'GUIDE_OCR' && <OcrPdfGuide lang={lang} onNavigate={handleNavigation} />}
+        {view === 'GUIDE_ORGANIZE' && <OrganizePdfGuide lang={lang} onNavigate={handleNavigation} />}
+        {view === 'GUIDE_ULTIMATE' && <UltimatePdfGuide lang={lang} onNavigate={handleNavigation} />}
       </main>
 
       <Footer lang={lang} onNavigate={handleNavigation} />

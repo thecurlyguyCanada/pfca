@@ -3,6 +3,7 @@ import { FileText, CheckCircle, Shield, Zap, ArrowRight, Tablet } from 'lucide-r
 import { Language } from '../../../utils/i18n';
 import { SEO } from '../../SEO';
 import { PageLayout } from '../../PageLayout';
+import { MarkdownContent } from '../../MarkdownContent';
 
 interface GuideProps {
     lang: Language;
@@ -232,7 +233,7 @@ export const PdfToEpubGuide: React.FC<GuideProps> = ({ lang, onNavigate }) => {
             >
                 <div className="space-y-12 text-gray-700 dark:text-gray-300">
                     {/* Intro */}
-                    <p className="text-lg leading-relaxed">{t.intro}</p>
+                    <MarkdownContent content={t.intro} className="text-lg leading-relaxed" />
 
                     {/* Why Section */}
                     <section>
@@ -271,7 +272,7 @@ export const PdfToEpubGuide: React.FC<GuideProps> = ({ lang, onNavigate }) => {
                             <Tablet className="text-blue-600 shrink-0" size={28} />
                             <div>
                                 <h2 className="text-xl font-bold text-blue-900 dark:text-blue-300 mb-2">{t.compatTitle}</h2>
-                                <p className="text-blue-800 dark:text-blue-400 mb-3">{t.compatText}</p>
+                                <MarkdownContent content={t.compatText} className="text-blue-800 dark:text-blue-400 mb-3" />
                                 <ul className="grid grid-cols-2 gap-2 text-sm text-blue-700 dark:text-blue-400">
                                     {t.compatList.map((item, i) => (
                                         <li key={i} className="flex items-center gap-2">
@@ -290,7 +291,7 @@ export const PdfToEpubGuide: React.FC<GuideProps> = ({ lang, onNavigate }) => {
                             <Shield className="text-green-600 shrink-0" size={28} />
                             <div>
                                 <h2 className="text-xl font-bold text-green-900 dark:text-green-300 mb-2">{t.securityTitle}</h2>
-                                <p className="text-green-800 dark:text-green-400">{t.securityText}</p>
+                                <MarkdownContent content={t.securityText} className="text-green-800 dark:text-green-400" />
                             </div>
                         </div>
                     </section>

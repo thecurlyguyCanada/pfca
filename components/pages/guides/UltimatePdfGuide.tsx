@@ -3,6 +3,7 @@ import { BookOpen, Shield, Zap, Lock, Globe, CheckCircle, ArrowRight, FileText, 
 import { Language } from '../../../utils/i18n';
 import { SEO } from '../../SEO';
 import { PageLayout } from '../../PageLayout';
+import { MarkdownContent } from '../../MarkdownContent';
 
 interface GuideProps {
     lang: Language;
@@ -269,9 +270,7 @@ export const UltimatePdfGuide: React.FC<GuideProps> = ({ lang, onNavigate }) => 
                                         {section.title}
                                     </h2>
                                 </div>
-                                <div className="prose prose-xl dark:prose-invert max-w-none text-gray-600 dark:text-gray-400">
-                                    <p className="whitespace-pre-line">{section.content}</p>
-                                </div>
+                                <MarkdownContent content={section.content} />
                             </section>
                         ))}
                     </div>

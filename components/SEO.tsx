@@ -46,7 +46,12 @@ const websiteSchema = {
   "name": "pdfcanada.ca",
   "url": "https://pdfcanada.ca",
   "publisher": {
-    "@id": "https://pdfcanada.ca/#organization"
+    "@id": "https://pdfcanada.ca/#organization",
+    "name": "pdfcanada.ca",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://pdfcanada.ca/android-chrome-512x512.png"
+    }
   },
   "inLanguage": ["en-CA", "fr-CA"],
   "potentialAction": {

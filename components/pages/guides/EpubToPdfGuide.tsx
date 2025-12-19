@@ -3,6 +3,7 @@ import { BookOpen, CheckCircle, Shield, Zap, ArrowRight } from 'lucide-react';
 import { Language } from '../../../utils/i18n';
 import { SEO } from '../../SEO';
 import { PageLayout } from '../../PageLayout';
+import { MarkdownContent } from '../../MarkdownContent';
 
 interface GuideProps {
     lang: Language;
@@ -202,7 +203,7 @@ export const EpubToPdfGuide: React.FC<GuideProps> = ({ lang, onNavigate }) => {
             >
                 <div className="space-y-12 text-gray-700 dark:text-gray-300">
                     {/* Intro */}
-                    <p className="text-lg leading-relaxed">{t.intro}</p>
+                    <MarkdownContent content={t.intro} className="text-lg leading-relaxed" />
 
                     {/* Why Section */}
                     <section>
@@ -241,7 +242,7 @@ export const EpubToPdfGuide: React.FC<GuideProps> = ({ lang, onNavigate }) => {
                             <Shield className="text-green-600 shrink-0" size={28} />
                             <div>
                                 <h2 className="text-xl font-bold text-green-900 dark:text-green-300 mb-2">{t.securityTitle}</h2>
-                                <p className="text-green-800 dark:text-green-400">{t.securityText}</p>
+                                <MarkdownContent content={t.securityText} className="text-green-800 dark:text-green-400" />
                             </div>
                         </div>
                     </section>
@@ -268,9 +269,7 @@ export const EpubToPdfGuide: React.FC<GuideProps> = ({ lang, onNavigate }) => {
                                         {item.q}
                                         <span className="text-gray-400 group-open:rotate-180 transition-transform">▼</span>
                                     </summary>
-                                    <div className="px-4 pb-4 text-gray-600 dark:text-gray-400">
-                                        {item.a}
-                                    </div>
+                                    <MarkdownContent content={item.a} />
                                 </details>
                             ))}
                         </div>

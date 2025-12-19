@@ -3,6 +3,7 @@ import { Trash2, CheckCircle, Shield, Zap, ArrowRight, Globe, Lock, Clock, Mouse
 import { Language } from '../../../utils/i18n';
 import { SEO } from '../../SEO';
 import { PageLayout } from '../../PageLayout';
+import { MarkdownContent } from '../../MarkdownContent';
 
 interface GuideProps {
     lang: Language;
@@ -173,11 +174,7 @@ export const DeletePdfPagesGuide: React.FC<GuideProps> = ({ lang, onNavigate }) 
                 <div className="max-w-4xl mx-auto space-y-16 text-gray-700 dark:text-gray-300">
 
                     {/* Intro */}
-                    <div className="prose prose-lg dark:prose-invert max-w-none">
-                        <p className="text-xl leading-relaxed text-gray-600 dark:text-gray-400 italic border-l-4 border-canada-red pl-6 py-2">
-                            {t.intro}
-                        </p>
-                    </div>
+                    <MarkdownContent content={t.intro} className="text-xl italic border-l-4 border-canada-red pl-6 py-2" />
 
                     {/* Table of Contents */}
                     <nav className="bg-gray-50 dark:bg-gray-800/50 p-6 rounded-2xl border border-gray-200 dark:border-gray-700">
@@ -200,9 +197,7 @@ export const DeletePdfPagesGuide: React.FC<GuideProps> = ({ lang, onNavigate }) 
                                 <span className="text-4xl font-black text-gray-100 dark:text-gray-800">{idx + 1}</span>
                                 <h2 className="text-3xl font-bold text-gray-900 dark:text-white">{section.title}</h2>
                             </div>
-                            <div className="prose prose-lg dark:prose-invert max-w-none">
-                                <div className="whitespace-pre-line text-gray-600 dark:text-gray-400">{section.content}</div>
-                            </div>
+                            <MarkdownContent content={section.content} />
                         </section>
                     ))}
 
@@ -246,7 +241,7 @@ export const DeletePdfPagesGuide: React.FC<GuideProps> = ({ lang, onNavigate }) 
                                 <Info className="text-blue-600" />
                                 <h3 className="text-xl font-bold text-blue-900 dark:text-blue-300">{s.title}</h3>
                             </div>
-                            <p className="text-blue-800 dark:text-blue-400 leading-relaxed">{s.content}</p>
+                            <MarkdownContent content={s.content} className="text-blue-800 dark:text-blue-400 leading-relaxed" />
                         </section>
                     ))}
 
@@ -263,9 +258,10 @@ export const DeletePdfPagesGuide: React.FC<GuideProps> = ({ lang, onNavigate }) 
                                         {item.q}
                                         <span className="text-gray-300 group-open:rotate-180 transition-transform">▼</span>
                                     </summary>
-                                    <p className="mt-4 text-gray-600 dark:text-gray-400 leading-relaxed border-t border-gray-50 dark:border-gray-800 pt-4">
-                                        {item.a}
-                                    </p>
+                                    <MarkdownContent
+                                        content={item.a}
+                                        className="mt-4 text-gray-600 dark:text-gray-400 leading-relaxed border-t border-gray-50 dark:border-gray-800 pt-4"
+                                    />
                                 </details>
                             ))}
                         </div>

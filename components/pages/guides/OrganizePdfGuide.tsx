@@ -3,6 +3,7 @@ import { FileText, CheckCircle, Shield, Zap, ArrowRight, Globe, Lock, Clock, Mov
 import { Language } from '../../../utils/i18n';
 import { SEO } from '../../SEO';
 import { PageLayout } from '../../PageLayout';
+import { MarkdownContent } from '../../MarkdownContent';
 
 interface GuideProps {
     lang: Language;
@@ -88,9 +89,7 @@ export const OrganizePdfGuide: React.FC<GuideProps> = ({ lang, onNavigate }) => 
             />
             <PageLayout title={t.h1} subtitle={t.subtitle} icon={<Move size={32} />}>
                 <div className="max-w-4xl mx-auto space-y-12">
-                    <p className="text-xl text-gray-500 dark:text-gray-400 font-medium">
-                        {t.intro}
-                    </p>
+                    <MarkdownContent content={t.intro} className="text-xl text-gray-500 dark:text-gray-400 font-medium" />
 
                     <div className="bg-amber-50 dark:bg-amber-900/10 p-6 rounded-2xl border border-amber-200 dark:border-amber-800 flex gap-4">
                         <Zap className="text-amber-600 shrink-0" />
@@ -102,7 +101,7 @@ export const OrganizePdfGuide: React.FC<GuideProps> = ({ lang, onNavigate }) => 
                     {t.sections.map(s => (
                         <div key={s.id}>
                             <h2 className="text-2xl font-bold mb-4">{s.title}</h2>
-                            <p className="text-gray-600 dark:text-gray-400 whitespace-pre-line leading-relaxed">{s.content}</p>
+                            <MarkdownContent content={s.content} />
                         </div>
                     ))}
 

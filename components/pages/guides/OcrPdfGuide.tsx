@@ -3,6 +3,7 @@ import { ScanLine, CheckCircle, Shield, Zap, ArrowRight, Globe, Lock, Clock, Sea
 import { Language } from '../../../utils/i18n';
 import { SEO } from '../../SEO';
 import { PageLayout } from '../../PageLayout';
+import { MarkdownContent } from '../../MarkdownContent';
 
 interface GuideProps {
     lang: Language;
@@ -98,9 +99,7 @@ export const OcrPdfGuide: React.FC<GuideProps> = ({ lang, onNavigate }) => {
             />
             <PageLayout title={t.h1} subtitle={t.subtitle} icon={<ScanLine size={32} />}>
                 <div className="max-w-4xl mx-auto space-y-12">
-                    <p className="text-lg leading-relaxed text-gray-600 dark:text-gray-400 border-l-4 border-canada-red pl-6 py-2 italic font-medium">
-                        {t.intro}
-                    </p>
+                    <MarkdownContent content={t.intro} className="text-lg leading-relaxed text-gray-600 dark:text-gray-400 border-l-4 border-canada-red pl-6 py-2 italic font-medium" />
 
                     {/* Content */}
                     <div className="grid md:grid-cols-2 gap-12">
@@ -109,9 +108,7 @@ export const OcrPdfGuide: React.FC<GuideProps> = ({ lang, onNavigate }) => {
                                 <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
                                     <Search size={20} className="text-canada-red" /> {section.title}
                                 </h3>
-                                <div className="text-gray-600 dark:text-gray-400 whitespace-pre-line leading-relaxed">
-                                    {section.content}
-                                </div>
+                                <MarkdownContent content={section.content} />
                             </div>
                         ))}
                     </div>
@@ -129,7 +126,7 @@ export const OcrPdfGuide: React.FC<GuideProps> = ({ lang, onNavigate }) => {
                     <section className="text-center py-8">
                         <h2 className="text-2xl font-bold mb-6">{t.ctaTitle}</h2>
                         <button
-                            onClick={() => onNavigate('TOOL_PAGE', '/ocr')}
+                            onClick={() => onNavigate('TOOL_PAGE', '/ocr-pdf')}
                             className="bg-canada-red text-white px-10 py-4 rounded-full font-bold hover:shadow-xl transition-all"
                         >
                             {t.ctaButton}
@@ -142,7 +139,7 @@ export const OcrPdfGuide: React.FC<GuideProps> = ({ lang, onNavigate }) => {
                         {t.faq.map((item, i) => (
                             <details key={i} className="bg-gray-50 dark:bg-gray-800 p-4 rounded-xl cursor-pointer">
                                 <summary className="font-bold">{item.q}</summary>
-                                <p className="mt-4 opacity-80">{item.a}</p>
+                                <MarkdownContent content={item.a} className="mt-4 opacity-80" />
                             </details>
                         ))}
                     </div>
