@@ -7,3 +7,5 @@ export * from './OrganizePdfGuide';
 export * from './PdfToEpubGuide';
 export * from './RotatePdfGuide';
 export * from './UltimatePdfGuide';
+export * from './AccessibilityGuide';
+export * from './PdfSeoGuide';

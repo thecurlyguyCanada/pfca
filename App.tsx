@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Download, FileText, X, AlertCircle, CheckCircle2, Shield, Trash2, RotateCw, Image, BookOpen, ArrowLeft, ArrowRight, PenTool, RotateCcw, RefreshCcw, ScanLine, LayoutGrid, Search, MoveRight } from 'lucide-react';
+import { Download, FileText, X, AlertCircle, CheckCircle2, Shield, Trash2, RotateCw, Image, BookOpen, ArrowLeft, ArrowRight, PenTool, RotateCcw, RefreshCcw, ScanLine, LayoutGrid, Search, MoveRight, Eye, BarChart } from 'lucide-react';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { MapleLeaf } from './components/MapleLeaf';
 import { PricingPage, PrivacyPage, TermsPage, SorryPolicyPage, HowToPage, SupportLocalPage, MakePdfFillablePage } from './components/StaticPages.tsx';
-import { DeletePdfPagesGuide, EpubToPdfGuide, HeicToPdfGuide, MakeFillableGuide, OcrPdfGuide, OrganizePdfGuide, PdfToEpubGuide, RotatePdfGuide, UltimatePdfGuide } from './components/pages/guides';
+import { DeletePdfPagesGuide, EpubToPdfGuide, HeicToPdfGuide, MakeFillableGuide, OcrPdfGuide, OrganizePdfGuide, PdfToEpubGuide, RotatePdfGuide, UltimatePdfGuide, AccessibilityGuide, PdfSeoGuide } from './components/pages/guides';
 import { PdfPageThumbnail } from './components/PdfPageThumbnail';
 import { loadPdfDocument, getPdfJsDocument, deletePagesFromPdf, rotatePdfPages, convertHeicToPdf, convertPdfToEpub, convertEpubToPdf, formatFileSize, makePdfFillable } from './utils/pdfUtils';
 import { translations, Language } from './utils/i18n';
@@ -18,7 +18,7 @@ enum AppState {
   ERROR
 }
 
-type CurrentView = 'HOME' | 'PRICING' | 'PRIVACY' | 'TERMS' | 'SORRY' | 'HOW_TO' | 'SUPPORT' | 'MAKE_FILLABLE_INFO' | 'TOOL_PAGE' | 'GUIDE_DELETE_PAGES' | 'GUIDE_ROTATE' | 'GUIDE_HEIC_TO_PDF' | 'GUIDE_EPUB_TO_PDF' | 'GUIDE_PDF_TO_EPUB' | 'GUIDE_FILLABLE' | 'GUIDE_OCR' | 'GUIDE_ORGANIZE' | 'GUIDE_ULTIMATE';
+type CurrentView = 'HOME' | 'PRICING' | 'PRIVACY' | 'TERMS' | 'SORRY' | 'HOW_TO' | 'SUPPORT' | 'MAKE_FILLABLE_INFO' | 'TOOL_PAGE' | 'GUIDE_DELETE_PAGES' | 'GUIDE_ROTATE' | 'GUIDE_HEIC_TO_PDF' | 'GUIDE_EPUB_TO_PDF' | 'GUIDE_PDF_TO_EPUB' | 'GUIDE_FILLABLE' | 'GUIDE_OCR' | 'GUIDE_ORGANIZE' | 'GUIDE_ULTIMATE' | 'GUIDE_ACCESSIBILITY' | 'GUIDE_SEO';
 
 enum ToolType {
   DELETE = 'DELETE',
@@ -119,6 +119,8 @@ function App() {
     else if (path === '/guides/ocr-pdf') setView('GUIDE_OCR');
     else if (path === '/guides/organize-pdf') setView('GUIDE_ORGANIZE');
     else if (path === '/guides/ultimate-pdf-guide') setView('GUIDE_ULTIMATE');
+    else if (path === '/guides/pdf-accessibility-canada') setView('GUIDE_ACCESSIBILITY');
+    else if (path === '/guides/pdf-seo-guide') setView('GUIDE_SEO');
     else {
       // Default to Home if root or unknown
       setView('HOME');
@@ -740,6 +742,8 @@ function App() {
             { title: "Make PDF Searchable (OCR)", view: 'GUIDE_OCR', path: '/guides/ocr-pdf', icon: ScanLine },
             { title: "Create Fillable Forms", view: 'GUIDE_FILLABLE', path: '/guides/make-pdf-fillable', icon: PenTool },
             { title: "Organize & Reorder Pages", view: 'GUIDE_ORGANIZE', path: '/guides/organize-pdf', icon: LayoutGrid },
+            { title: "Accessibility (AODA/WCAG)", view: 'GUIDE_ACCESSIBILITY', path: '/guides/pdf-accessibility-canada', icon: Eye },
+            { title: "PDF SEO Optimization", view: 'GUIDE_SEO', path: '/guides/pdf-seo-guide', icon: BarChart },
           ].map((guide, i) => (
             <article key={i}>
               <button
@@ -909,6 +913,8 @@ function App() {
         {view === 'GUIDE_OCR' && <OcrPdfGuide lang={lang} onNavigate={handleNavigation} />}
         {view === 'GUIDE_ORGANIZE' && <OrganizePdfGuide lang={lang} onNavigate={handleNavigation} />}
         {view === 'GUIDE_ULTIMATE' && <UltimatePdfGuide lang={lang} onNavigate={handleNavigation} />}
+        {view === 'GUIDE_ACCESSIBILITY' && <AccessibilityGuide lang={lang} onNavigate={handleNavigation} />}
+        {view === 'GUIDE_SEO' && <PdfSeoGuide lang={lang} onNavigate={handleNavigation} />}
       </main>
 
       <Footer lang={lang} onNavigate={handleNavigation} />

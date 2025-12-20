@@ -1,5 +1,5 @@
 import React from 'react';
-import { BookOpen, Shield, Zap, Lock, Globe, CheckCircle, ArrowRight, FileText, Trash2, RotateCw, Image, Search, MousePointer2, Settings, Users, Cpu, Accessibility, Globe2, Heart, PenTool } from 'lucide-react';
+import { BookOpen, Shield, Zap, Lock, Globe, CheckCircle, ArrowRight, FileText, Trash2, RotateCw, Image, Search, MousePointer2, Settings, Users, Cpu, Accessibility, Globe2, Heart, PenTool, Eye, BarChart } from 'lucide-react';
 import { Language } from '../../../utils/i18n';
 import { SEO } from '../../SEO';
 import { PageLayout } from '../../PageLayout';
@@ -42,6 +42,25 @@ The birth of WebAssembly (Wasm) changed everything. WebAssembly is a technology 
 - **Regulatory Compliance**: For industries like healthcare or law in Canada, keeping data within your control is often a legal requirement.
 
 Tools like pdfcanada.ca are built on this "Local-First" philosophy, ensuring that your **secure PDF editing online** remains truly private.`
+            },
+            {
+                id: "cloud-vs-local",
+                title: "Cloud vs. Local Processing: A Security Audit",
+                content: `When choosing a PDF tool, it's vital to understand what happens to your data. Most people don't read the terms of service of "free" sites. Here is a breakdown of the two primary models:
+
+### 1. The Cloud Model (Industry Standard)
+- **Data Path**: User -> Internet -> Third-Party Server -> Internet -> User.
+- **Retention**: Files often sit on an AWS or Google Cloud bucket for 1-24 hours.
+- **Scraping Risk**: Some unscrupulous providers may use your uploaded text to train AI models without your explicit consent.
+- **Hackability**: High-value targets for data breaches.
+
+### 2. The Local Model (pdfcanada.ca)
+- **Data Path**: User -> Browser Memory -> User.
+- **Retention**: **Zero**. Once you close the tab, the memory is purged.
+- **Privacy**: No one, including the site developers, can ever see your content.
+- **Speed**: Often faster because there is no upload or download latency for the original file.
+
+For Canadians dealing with **PIPEDA (Personal Information Protection and Electronic Documents Act)** compliance, the local model is significantly easier to audit and justify.`
             },
             {
                 id: "deleting-pages",
@@ -298,7 +317,9 @@ export const UltimatePdfGuide: React.FC<GuideProps> = ({ lang, onNavigate }) => 
                                 { name: 'HEIC to PDF Transfer', path: '/guides/heic-to-pdf', icon: Image, view: 'GUIDE_HEIC_TO_PDF' },
                                 { name: 'OCR & Text Extraction', path: '/guides/ocr-pdf', icon: Search, view: 'GUIDE_OCR' },
                                 { name: 'Fillable Form Creation', path: '/guides/make-pdf-fillable', icon: PenTool, view: 'GUIDE_FILLABLE' },
-                                { name: 'Organize & Reorder', path: '/guides/organize-pdf', icon: MousePointer2, view: 'GUIDE_ORGANIZE' }
+                                { name: 'Organize & Reorder', path: '/guides/organize-pdf', icon: MousePointer2, view: 'GUIDE_ORGANIZE' },
+                                { name: 'AODA Accessibility', path: '/guides/pdf-accessibility-canada', icon: Eye, view: 'GUIDE_ACCESSIBILITY' },
+                                { name: 'Mastering PDF SEO', path: '/guides/pdf-seo-guide', icon: BarChart, view: 'GUIDE_SEO' }
                             ].map((guide: any, i: number) => (
                                 <button
                                     key={i}
