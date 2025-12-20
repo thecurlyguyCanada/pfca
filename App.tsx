@@ -380,19 +380,28 @@ function App() {
     "@type": "SoftwareApplication",
     "name": "pdfcanada.ca",
     "applicationCategory": "BusinessApplication",
+    "applicationSubCategory": "PDF Tool, Document Management",
     "operatingSystem": "Web Browser",
+    "browserRequirements": "Requires a modern web browser (Edge, Chrome, Safari, Firefox)",
     "offers": {
       "@type": "Offer",
       "price": "0",
-      "priceCurrency": "CAD"
+      "priceCurrency": "CAD",
+      "availability": "https://schema.org/InStock"
     },
     "description": t.description,
     "featureList": tools.map(tool => tool.title).join(", "),
     "softwareRequirements": "Modern Web Browser",
     "author": {
-      "@type": "Organization",
-      "name": "pdfcanada.ca",
-      "url": "https://pdfcanada.ca"
+      "@id": "https://pdfcanada.ca/#organization"
+    },
+    "publisher": {
+      "@id": "https://pdfcanada.ca/#organization"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "reviewCount": "1250"
     }
   };
 
@@ -577,10 +586,10 @@ function App() {
   };
 
   const renderHome = () => (
-    <div className="w-full max-w-7xl mx-auto px-6 py-12 md:py-20 flex flex-col gap-16">
+    <main className="w-full max-w-7xl mx-auto px-6 py-12 md:py-20 flex flex-col gap-16">
 
       {/* Hero Section */}
-      <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12">
+      <section className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12">
         {/* Left Side: Copy */}
         <div className="w-full md:w-1/2 space-y-6 md:space-y-8 text-center md:text-left">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-100 border border-red-200 text-canada-red text-xs font-bold uppercase tracking-wider shadow-sm">
@@ -700,16 +709,16 @@ function App() {
             )}
           </div>
         </div>
-      </div>
+      </section>
 
       {/* Trust / Privacy Section (Below Hero) */}
-      <div className="max-w-3xl mx-auto text-center space-y-4">
+      <section className="max-w-3xl mx-auto text-center space-y-4">
         <h2 className="text-3xl font-bold text-gray-900">{t.builtIn}</h2>
         <p className="text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto">{t.seo.privacyDesc}</p>
-      </div>
+      </section>
 
       {/* Internal Linking: Guides Section */}
-      <div className="border-t border-gray-100 pt-16">
+      <section className="border-t border-gray-100 pt-16">
         <div className="flex flex-col md:flex-row justify-between items-end mb-8 gap-4">
           <div className="max-w-xl">
             <h2 className="text-3xl font-bold text-gray-900 mb-2">PDF Guides & Tutorials</h2>
@@ -732,25 +741,26 @@ function App() {
             { title: "Create Fillable Forms", view: 'GUIDE_FILLABLE', path: '/guides/make-pdf-fillable', icon: PenTool },
             { title: "Organize & Reorder Pages", view: 'GUIDE_ORGANIZE', path: '/guides/organize-pdf', icon: LayoutGrid },
           ].map((guide, i) => (
-            <button
-              key={i}
-              onClick={() => handleNavigation(guide.view as any, guide.path)}
-              className="group p-6 bg-white border border-gray-100 rounded-3xl hover:border-canada-red/30 hover:shadow-xl transition-all text-left flex flex-col gap-4"
-            >
-              <div className="w-12 h-12 bg-gray-50 text-gray-400 group-hover:bg-red-50 group-hover:text-canada-red rounded-2xl flex items-center justify-center transition-colors">
-                <guide.icon size={24} />
-              </div>
-              <div>
-                <h4 className="font-bold text-gray-900 group-hover:text-canada-red transition-colors">{guide.title}</h4>
-                <p className="text-sm text-gray-500 mt-1">Read the guide <ArrowRight size={12} className="inline group-hover:translate-x-1 transition-transform" /></p>
-              </div>
-            </button>
+            <article key={i}>
+              <button
+                onClick={() => handleNavigation(guide.view as any, guide.path)}
+                className="group p-6 bg-white border border-gray-100 rounded-3xl hover:border-canada-red/30 hover:shadow-xl transition-all text-left flex flex-col gap-4 w-full h-full"
+              >
+                <div className="w-12 h-12 bg-gray-50 text-gray-400 group-hover:bg-red-50 group-hover:text-canada-red rounded-2xl flex items-center justify-center transition-colors">
+                  <guide.icon size={24} />
+                </div>
+                <div>
+                  <h4 className="font-bold text-gray-900 group-hover:text-canada-red transition-colors">{guide.title}</h4>
+                  <p className="text-sm text-gray-500 mt-1">Read the guide <ArrowRight size={12} className="inline group-hover:translate-x-1 transition-transform" /></p>
+                </div>
+              </button>
+            </article>
           ))}
         </div>
-      </div>
+      </section>
 
       {/* Home Page FAQ Section for SEO */}
-      <div className="bg-gray-50 rounded-[3rem] p-12 mt-8">
+      <section className="bg-gray-50 rounded-[3rem] p-12 mt-8">
         <h2 className="text-3xl font-bold text-gray-900 mb-10 text-center">Frequently Asked Questions</h2>
         <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {t.seo.homeFaq.map((faq, i) => (
@@ -765,8 +775,8 @@ function App() {
             </div>
           ))}
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 
 

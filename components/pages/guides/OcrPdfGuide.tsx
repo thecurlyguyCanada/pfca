@@ -96,6 +96,16 @@ export const OcrPdfGuide: React.FC<GuideProps> = ({ lang, onNavigate }) => {
                 description={t.seo.desc}
                 canonicalPath="/guides/ocr-pdf"
                 lang={lang}
+                faq={t.faq}
+                howTo={{
+                    name: "How to Make a PDF Searchable for Free",
+                    description: "Learn how to use our free online OCR tool to convert scanned PDFs and images into searchable text documents locally in your browser.",
+                    steps: [
+                        { name: "Upload Your Scanned File", text: "Select your image-based PDF or scanned document from your device." },
+                        { name: "Choose Languages", text: "Select the languages contained in the document (English, French, etc.) for better accuracy." },
+                        { name: "Recognize and Save", text: "Our tool processes the image locally. Once finished, download your searchable PDF." }
+                    ]
+                }}
             />
             <PageLayout title={t.h1} subtitle={t.subtitle} icon={<ScanLine size={32} />}>
                 <div className="max-w-4xl mx-auto space-y-12">
@@ -105,9 +115,9 @@ export const OcrPdfGuide: React.FC<GuideProps> = ({ lang, onNavigate }) => {
                     <div className="grid md:grid-cols-2 gap-12">
                         {t.sections.map((section) => (
                             <div key={section.id}>
-                                <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+                                <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
                                     <Search size={20} className="text-canada-red" /> {section.title}
-                                </h3>
+                                </h2>
                                 <MarkdownContent content={section.content} />
                             </div>
                         ))}

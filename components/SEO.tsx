@@ -8,6 +8,9 @@ interface SEOProps {
   lang?: string;
   schema?: Record<string, any> | Record<string, any>[];
   breadcrumbs?: { name: string; path: string }[];
+  faq?: { q: string; a: string }[];
+  howTo?: { name: string; description: string; steps: { name: string; text: string; url?: string }[] };
+  softwareApp?: { name: string; description: string; category?: string; operatingSystem?: string; price?: string; currency?: string };
   ogType?: 'website' | 'article' | 'product';
   noOrganization?: boolean;
 }
@@ -28,14 +31,21 @@ const organizationSchema = {
   "sameAs": [
     "https://twitter.com/pdfcanada"
   ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "customer support",
+    "email": "support@pdfcanada.ca",
+    "url": "https://pdfcanada.ca/support"
+  },
   "address": {
     "@type": "PostalAddress",
     "addressLocality": "Toronto",
     "addressRegion": "Ontario",
+    "postalCode": "M5V",
     "addressCountry": "CA"
   },
   "foundingDate": "2024",
-  "description": "Free, secure, and privacy-focused PDF tools built in Canada. All processing happens locally in your browser."
+  "description": "Free, secure, and privacy-focused PDF tools built in Canada. All processing happens locally in your browser, ensuring maximum data sovereignty and privacy for Canadians."
 };
 
 // WebSite schema for sitelinks search box
@@ -72,6 +82,9 @@ export const SEO: React.FC<SEOProps> = ({
   lang = 'en',
   schema,
   breadcrumbs,
+  faq,
+  howTo,
+  softwareApp,
   ogType = 'website',
   noOrganization = false
 }) => {
@@ -178,6 +191,62 @@ export const SEO: React.FC<SEOProps> = ({
       });
     }
 
+    // Add SoftwareApplication schema
+    if (softwareApp) {
+      allSchemas.push({
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": softwareApp.name,
+        "description": softwareApp.description,
+        "applicationCategory": softwareApp.category || "BusinessApplication",
+        "operatingSystem": softwareApp.operatingSystem || "Web Browser",
+        "offers": {
+          "@type": "Offer",
+          "price": softwareApp.price || "0",
+          "priceCurrency": softwareApp.currency || "CAD"
+        },
+        "author": {
+          "@id": "https://pdfcanada.ca/#organization"
+        }
+      });
+    }
+
+    // Add FAQPage schema
+    if (faq && faq.length > 0) {
+      allSchemas.push({
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": faq.map(item => ({
+          "@type": "Question",
+          "name": item.q,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": item.a
+          }
+        }))
+      });
+    }
+
+    // Add HowTo schema
+    if (howTo) {
+      allSchemas.push({
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        "name": howTo.name,
+        "description": howTo.description,
+        "step": howTo.steps.map((step, index) => ({
+          "@type": "HowToStep",
+          "position": index + 1,
+          "name": step.name,
+          "itemListElement": [{
+            "@type": "HowToDirection",
+            "text": step.text
+          }],
+          ...(step.url && { "url": step.url })
+        }))
+      });
+    }
+
     // Add page-specific schemas
     if (schema) {
       const pageSchemas = Array.isArray(schema) ? schema : [schema];
@@ -194,7 +263,7 @@ export const SEO: React.FC<SEOProps> = ({
       document.head.appendChild(script);
     });
 
-  }, [title, description, canonicalPath, image, lang, schema, ogType, setMeta, noOrganization]);
+  }, [title, description, canonicalPath, image, lang, schema, ogType, setMeta, noOrganization, breadcrumbs, faq, howTo, softwareApp]);
 
   return null;
 };
