@@ -19,31 +19,51 @@ const guideContent = {
         h1: "How to Organize and Reorder PDF Pages",
         subtitle: "The easiest way to shuffle, flip, and move pages in your PDF document with drag-and-drop simplicity.",
 
-        intro: "Got a document that's all out of order? Scanned pages in the wrong sequence? Knowing how to **organize PDF pages online** is essential for creating professional documents. Our **free PDF page organizer** allows you to visually **reorder PDF pages** using a simple drag-and-drop interface. No complicated menus, just your document, exactly how you want it.",
+        intro: "Got a document that's all out of order? Scanned pages in the wrong sequence? Knowing how to **organize PDF pages online** is essential for creating professional documents, academic submissions, and organized business records. Our **free PDF page organizer** allows you to visually **reorder PDF pages** using a simple drag-and-drop interface. No complicated menus, just your document, exactly how you want it, processed locally on your Canadian machine.",
 
         sections: [
             {
-                id: "how-to",
-                title: "Steps to Reorder Your PDF",
-                content: `Using our **reorder PDF pages free** tool is intuitive:
-1. **Upload**: Select your file. Each page will appear as a movable thumbnail.
-2. **Drag and Drop**: Simply click and hold a page thumbnail, then move it to its new position.
-3. **Save**: Click 'Organize PDF' and your new, perfectly ordered file is ready.
+                id: "reorder-vs-merge",
+                title: "Reordering vs. Merging: What's the Difference?",
+                content: `Many people confuse organizing with merging. 
+- **Merging**: Taking two or more separate files and sticking them together.
+- **Organizing (Reordering)**: Taking a single file and changing the internal flow of its pages. 
 
-This works perfectly on both desktop and mobile devices.`
+Our tool excels at the latter. If you've scanned a double-sided document and the pages are interlaced incorrectly, or if you need to move a signature page from the end to the middle, our **reorder PDF pages free** tool is the fastest way to fix it.`
+            },
+            {
+                id: "how-to",
+                title: "Steps to Reorder Your PDF with Drag-and-Drop",
+                content: `Using our browser-based tool is intuitive and requires zero installation:
+1. **Upload**: Select your file. Each page will appear as a high-resolution, movable thumbnail.
+2. **Rearrange**: Simply click and hold a page thumbnail, then move it to its new position. You'll see the other pages shift automatically to accommodate the change.
+3. **Save and Secure**: Once you're happy with the sequence, click 'Organize PDF'. The new file structure is generated in your browser's memory, ensuring your **private data never touches a server**.`
+            },
+            {
+                id: "batch-moving",
+                title: "Batch Reordering and Organization",
+                content: `For longer documents (like 50+ pages), manually moving one page at a time can be tedious. Our tool allows for **batch page organization**. You can select a range of pages and move them as a single block, making it simple to reorganize entire chapters or sections of a manual in one smooth motion.`
             }
         ],
 
         faq: [
             {
                 q: "Can I organize PDF pages on a phone?",
-                a: "Yes! Our organize tool supports touch interaction, so you can drag and drop pages on your iPhone or Android phone easily."
+                a: "Yes! Our organize tool supports multi-touch interaction. You can use your finger to tap and drag thumbnails on your iPhone, iPad, or Android device just as you would with a mouse."
+            },
+            {
+                q: "Is there a limit on how many pages I can reorder?",
+                a: "Since the tool runs locally on your device, the only limit is your computer's RAM. We've seen users reorder documents with hundreds of pages smoothly."
+            },
+            {
+                q: "Will the original file be deleted?",
+                a: "We never touch your original file. We create a modified copy in your browser's memory. Your original remains safely in its folder on your computer."
             }
         ],
 
         ctaTitle: "Fixed Your Document Order Now",
-        ctaButton: "Organize PDF",
-        ctaSubtext: "Fast, Free, and No Uploads."
+        ctaButton: "Organize PDF Pages",
+        ctaSubtext: "Fast, Free, and 100% Private. Canadian-made."
     },
     fr: {
         seo: {
@@ -51,28 +71,40 @@ This works perfectly on both desktop and mobile devices.`
             desc: "Organisez les pages PDF gratuitement. Apprenez comment réorganiser les pages d'un PDF, déplacer les pages et mélanger des documents en ligne en toute sécurité."
         },
         h1: "Comment Organiser et Réorganiser les Pages PDF",
-        subtitle: "La façon la plus simple de mélanger et déplacer les pages de votre document PDF par simple glisser-déposer.",
+        subtitle: "La façon la plus simple de mélanger et déplacer les pages de votre document PDF par simple glisser-déposer au Canada.",
 
-        intro: "Votre document n'est pas dans le bon ordre? Utilisez notre outil **gratuit d'organisation de PDF** pour réorganiser vos pages visuellement.",
+        intro: "Votre document n'est pas dans le bon ordre? Scans inversés? Utilisez notre outil **gratuit d'organisation de PDF** pour réorganiser vos pages visuellement sans jamais quitter votre navigateur.",
 
         sections: [
             {
                 id: "how-to",
                 title: "Étapes pour réorganiser votre PDF",
-                content: `L'utilisation de notre outil pour **réorganiser les pages PDF gratuitement** est intuitive.`
+                content: `C'est 100% visuel et sécurisé :
+1. **Importez** : Sélectionnez votre fichier. Chaque page apparaît comme une icône.
+2. **Glissez-déposez** : Déplacez les pages à la position souhaitée avec votre souris ou votre doigt.
+3. **Enregistrez** : Téléchargez le nouveau document ordonné.`
+            },
+            {
+                id: "privacy",
+                title: "Confidentialité Garantie",
+                content: `Contrairement aux sites qui traitent vos fichiers sur leurs serveurs, pdfcanada.ca fait tout le travail **sur votre ordinateur**. Vos documents confidentiels ne nous sont jamais envoyés.`
             }
         ],
 
         faq: [
             {
                 q: "Puis-je organiser sur mobile?",
-                a: "Oui, parfaitement."
+                a: "Oui, notre interface est optimisée pour le toucher sur iPhone et Android."
+            },
+            {
+                q: "Est-ce gratuit ?",
+                a: "Oui, c'est totalement gratuit et sans publicité."
             }
         ],
 
         ctaTitle: "Corrigez l'ordre maintenant",
-        ctaButton: "Organiser PDF",
-        ctaSubtext: "Rapide, gratuit et sans téléversement."
+        ctaButton: "Organiser les pages PDF",
+        ctaSubtext: "Rapide, gratuit et privé."
     }
 };
 

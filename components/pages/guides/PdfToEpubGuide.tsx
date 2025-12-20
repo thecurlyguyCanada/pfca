@@ -18,69 +18,59 @@ const guideContent = {
         },
         h1: "Convertir PDF en EPUB",
         subtitle: "Transformez vos PDF en ebooks pour liseuses",
-        intro: "Vous souhaitez lire vos documents PDF sur votre liseuse Kindle ou Kobo? Notre convertisseur gratuit transforme vos fichiers PDF en format EPUB, le standard des livres numériques. Profitez d'une meilleure expérience de lecture avec un texte qui s'adapte automatiquement à la taille de votre écran.",
+        intro: "Vous souhaitez lire vos documents PDF sur votre liseuse Kindle ou Kobo? Notre convertisseur gratuit transforme vos fichiers PDF en format EPUB, le standard des livres numériques. Profitez d'une meilleure expérience de lecture avec un texte qui s'adapte automatiquement à la taille de votre écran. Que vous lisiez un rapport d'affaires ou un roman, la conversion **PDF vers EPUB** est le meilleur moyen de ménager vos yeux sur les appareils à encre électronique.",
         whyTitle: "Pourquoi convertir PDF en EPUB?",
         whyReasons: [
-            "Lecture confortable sur liseuses (Kindle, Kobo, etc.)",
+            "Lecture confortable sur liseuses (Kindle, Kobo, etc.) sans zoomer",
             "Texte redimensionnable selon vos préférences",
-            "Navigation facile entre les chapitres",
-            "Moins fatigant pour les yeux",
-            "Synchronisation des signets entre appareils"
+            "Optimisé pour le mode sombre et la lecture nocturne",
+            "Navigation facile entre les chapitres via la table des matières",
+            "Adapté aux écrans e-ink : meilleure autonomie de batterie",
+            "Synchronisation des signets entre vos appareils mobiles"
         ],
-        howTitle: "Comment convertir un PDF en EPUB?",
+        howTitle: "PDF vs EPUB : L'expérience de lecture",
+        howSteps: "Sur un petit écran, un PDF nécessite souvent de zoomer et de se déplacer latéralement. En convertissant en EPUB, le texte devient 'fluide'. Il s'adapte à la largeur de votre écran, offrant une expérience similaire à celle d'un vrai livre numérique.",
         steps: [
             {
                 title: "Choisissez votre fichier PDF",
-                desc: "Sélectionnez le document PDF que vous souhaitez transformer en ebook. Notre outil accepte tous les types de PDF textuels."
+                desc: "Sélectionnez le document PDF textuel que vous souhaitez transformer en ebook."
             },
             {
-                title: "Analyse intelligente du contenu",
-                desc: "Notre système analyse la structure de votre document: paragraphes, titres, images. La conversion se fait entièrement dans votre navigateur."
+                title: "Analyse intelligente",
+                desc: "Notre système extrait le texte et la structure, puis les convertit en format EPUB fluide directement dans votre navigateur."
             },
             {
                 title: "Obtenez votre EPUB",
-                desc: "Téléchargez votre fichier EPUB et transférez-le sur votre liseuse via USB ou par courriel. Bonne lecture!"
+                desc: "Téléchargez votre fichier EPUB et transférez-le sur votre liseuse par USB ou courriel."
             }
         ],
         securityTitle: "Vos documents restent privés",
-        securityText: "La confidentialité de vos documents est notre priorité. Tout le traitement s'effectue localement sur votre appareil. Aucun fichier n'est envoyé sur nos serveurs. Vos PDF personnels, professionnels ou confidentiels restent entre vos mains.",
+        securityText: "La confidentialité est notre priorité. Tout le traitement s'effectue localement sur votre appareil. Aucun fichier n'est envoyé sur nos serveurs. Vos œuvres restent entre vos mains.",
         compatTitle: "Compatible avec toutes les liseuses",
-        compatText: "Le format EPUB est le standard universel des ebooks. Votre fichier converti fonctionnera sur:",
-        compatList: ["Amazon Kindle (avec conversion Calibre)", "Kobo", "Apple Books", "Google Play Books", "Tablettes Android", "Tous les lecteurs EPUB"],
+        compatText: "L'EPUB est le standard universel. Votre fichier fonctionnera sur :",
+        compatList: ["Amazon Kindle (via 'Send to Kindle')", "Kobo", "Apple Books", "Google Play Books", "Tablettes Android", "Calibre"],
         faq: [
             {
                 q: "Comment convertir un PDF en EPUB pour Kindle?",
-                a: "Utilisez notre outil pour convertir votre PDF en EPUB, puis utilisez le logiciel gratuit Calibre pour le convertir en format MOBI/AZW3 compatible Kindle. Vous pouvez aussi envoyer l'EPUB par courriel à votre Kindle."
+                a: "Convertissez votre PDF en EPUB ici, puis utilisez le service 'Send to Kindle' d'Amazon. Amazon accepte désormais nativement les fichiers EPUB."
             },
             {
-                q: "La conversion PDF vers EPUB est-elle gratuite?",
-                a: "Oui, notre service est entièrement gratuit. Pas d'inscription, pas de limite de fichiers, pas de frais cachés. C'est notre engagement envers les Canadiens."
+                q: "La conversion est-elle gratuite et sécurisée?",
+                a: "Oui, c'est entièrement gratuit et 'Local-First'. Vos données ne quittent jamais votre navigateur, ce qui est idéal pour les documents confidentiels."
             },
             {
-                q: "Puis-je convertir des PDF numérisés (scannés)?",
-                a: "Notre outil fonctionne mieux avec les PDF contenant du texte réel. Pour les documents numérisés, nous vous recommandons d'utiliser d'abord notre outil OCR pour extraire le texte."
-            },
-            {
-                q: "Comment garder la mise en page lors de la conversion?",
-                a: "Le format EPUB est 'fluide' par nature, ce qui signifie que le texte s'adapte à l'écran. Nous préservons la structure (titres, paragraphes) mais la mise en page exacte peut varier selon l'appareil de lecture."
-            },
-            {
-                q: "Combien de temps prend la conversion?",
-                a: "La plupart des conversions prennent quelques secondes. Les documents très longs peuvent prendre un peu plus de temps. Tout dépend de la puissance de votre ordinateur puisque le traitement est local."
-            },
-            {
-                q: "Mes images sont-elles conservées?",
-                a: "Oui, nous faisons de notre mieux pour inclure les images de votre PDF dans le fichier EPUB final. Les images complexes ou les graphiques peuvent nécessiter des ajustements."
+                q: "Puis-je convertir des PDF numérisés (scans)?",
+                a: "Pour les scans, nous recommandons d'utiliser d'abord notre outil OCR pour extraire le texte, sinon l'EPUB ne contiendra que des images."
             }
         ],
-        ctaTitle: "Convertissez votre PDF en EPUB maintenant",
+        ctaTitle: "Prêt à convertir votre PDF en EPUB?",
         ctaButton: "Commencer la conversion",
         tipsTitle: "Conseils pour une meilleure conversion",
         tips: [
-            "Utilisez des PDF avec du texte sélectionnable (pas des scans)",
-            "Les PDF bien structurés avec des titres donnent de meilleurs résultats",
-            "Évitez les PDF avec des mises en page complexes (colonnes multiples)",
-            "Vérifiez le résultat sur votre liseuse avant de supprimer l'original"
+            "Utilisez des PDF avec du texte sélectionnable",
+            "Une structure claire avec des titres donne de meilleurs résultats",
+            "Évitez les mises en page complexes à plusieurs colonnes",
+            "Vérifiez le résultat sur votre liseuse habituelle"
         ],
         relatedTitle: "Outils connexes",
         relatedTools: [
@@ -96,74 +86,64 @@ const guideContent = {
         },
         h1: "Convert PDF to EPUB",
         subtitle: "Transform your PDFs into ebooks for e-readers",
-        intro: "Want to read your PDF documents on your Kindle or Kobo e-reader? Our free converter transforms your PDF files into EPUB format, the standard for digital books. Enjoy a better reading experience with text that automatically adapts to your screen size.",
+        intro: "Want to read your PDF documents on your Kindle or Kobo e-reader? Our free converter transforms your PDF files into EPUB format, the standard for digital books. Enjoy a better reading experience with text that automatically adapts to your screen size. Whether you're catching up on a long business report or reading a self-published novel, converting **PDF to EPUB** is the best way to save your eyes and improve retention on e-ink devices.",
         whyTitle: "Why convert PDF to EPUB?",
         whyReasons: [
-            "Comfortable reading on e-readers (Kindle, Kobo, etc.)",
-            "Resizable text according to your preferences",
-            "Easy navigation between chapters",
-            "Less tiring for your eyes",
-            "Bookmark synchronization across devices"
+            "Comfortable reading on e-readers (Kindle, Kobo, etc.) without zooming",
+            "Resizable text and fonts according to your preferences",
+            "Optimized for Dark Mode and Night Reading on tablets",
+            "Easy navigation via generated Table of Contents",
+            "E-ink friendly: Better battery life and less screen refreshing",
+            "Bookmark and highlight synchronization across mobile apps"
         ],
-        howTitle: "How to convert PDF to EPUB?",
+        howTitle: "PDF vs. EPUB: The Reading Experience",
+        howSteps: "When you read a PDF on a small screen (like a phone or paper-white Kindle), you often have to pinch and zoom to read small text. By converting to EPUB, the text 'reflows'. This means the sentences adjust their length to fit your screen perfectly. It’s like turning a static photo of a book into a living, responsive document.",
         steps: [
             {
                 title: "Choose your PDF file",
-                desc: "Select the PDF document you want to transform into an ebook. Our tool accepts all types of text-based PDFs."
+                desc: "Select the PDF document you want to transform. Our engine works best with text-based PDFs (e.g., from Word or Google Docs)."
             },
             {
                 title: "Intelligent content analysis",
-                desc: "Our system analyzes your document's structure: paragraphs, headings, images. Conversion happens entirely in your browser."
+                desc: "Our script identifies headings, paragraphs, and images. It strips away fixed-page formatting to allow for a flexible ebook layout."
             },
             {
                 title: "Get your EPUB",
-                desc: "Download your EPUB file and transfer it to your e-reader via USB or email. Happy reading!"
+                desc: "Download your EPUB file. You can now 'Send to Kindle' via email or drag it onto your Kobo via USB."
             }
         ],
-        securityTitle: "Your documents stay private",
-        securityText: "The privacy of your documents is our priority. All processing happens locally on your device. No files are sent to our servers. Your personal, professional, or confidential PDFs stay in your hands.",
-        compatTitle: "Compatible with all e-readers",
-        compatText: "EPUB format is the universal ebook standard. Your converted file will work on:",
-        compatList: ["Amazon Kindle (with Calibre conversion)", "Kobo", "Apple Books", "Google Play Books", "Android tablets", "All EPUB readers"],
+        securityTitle: "Privacy for Authors and Readers",
+        securityText: "Whether you're an author protecting a new manuscript or a business leader reading a confidential report, privacy is paramount. pdfcanada.ca uses **local browser processing**. Your document is never uploaded to a server, ensuring your intellectual property remains 100% on your device at all times.",
+        compatTitle: "Compatible with Every Major Device",
+        compatText: "EPUB is the international standard for digital publishing. Your converted file will work seamlessly on:",
+        compatList: ["Amazon Kindle (using 'Send to Kindle')", "Rakuten Kobo", "PocketBook", "Apple Books (iPhone/iPad)", "Google Play Books", "Android tablets", "Calibre Ebook Management"],
         faq: [
             {
                 q: "How to convert PDF to EPUB for Kindle?",
-                a: "Use our tool to convert your PDF to EPUB, then use the free Calibre software to convert it to MOBI/AZW3 Kindle-compatible format. You can also email the EPUB to your Kindle."
+                a: "Convert your file to EPUB on our site, then use Amazon's 'Send to Kindle' service (email or web). Amazon now supports EPUB natively and will deliver it to your device in minutes."
             },
             {
-                q: "Is PDF to EPUB conversion free?",
-                a: "Yes, our service is completely free. No signup, no file limits, no hidden fees. That's our commitment to Canadians."
+                q: "Is PDF to EPUB conversion free and safe?",
+                a: "Yes. Our service is 100% free with no account required. It is 'Local-First,' meaning your data stays safe in your browser and is never stored on a cloud server."
             },
             {
-                q: "Can I convert scanned PDFs?",
-                a: "Our tool works best with PDFs containing real text. For scanned documents, we recommend using our OCR tool first to extract the text."
-            },
-            {
-                q: "How to keep the layout during conversion?",
-                a: "EPUB format is 'fluid' by nature, meaning text adapts to the screen. We preserve structure (headings, paragraphs) but exact layout may vary by reading device."
-            },
-            {
-                q: "How long does conversion take?",
-                a: "Most conversions take a few seconds. Very long documents may take slightly longer. It all depends on your computer's power since processing is local."
-            },
-            {
-                q: "Are my images preserved?",
-                a: "Yes, we do our best to include images from your PDF in the final EPUB file. Complex images or graphics may require adjustments."
+                q: "Can I convert scanned books to EPUB?",
+                a: "Scanned PDFs (photos of pages) don't have selection text. To convert these, you should first use our **OCR PDF tool** to extract the text, otherwise, the EPUB will just be a series of images."
             }
         ],
-        ctaTitle: "Convert your PDF to EPUB now",
-        ctaButton: "Start conversion",
-        tipsTitle: "Tips for better conversion",
+        ctaTitle: "Ready to Start Reading Your PDF as an Ebook?",
+        ctaButton: "Convert PDF to EPUB Now",
+        tipsTitle: "Ebook Optimization Tips",
         tips: [
-            "Use PDFs with selectable text (not scans)",
-            "Well-structured PDFs with headings give better results",
-            "Avoid PDFs with complex layouts (multiple columns)",
-            "Check the result on your e-reader before deleting the original"
+            "Use 'Clean' PDFs without background watermarks",
+            "Ensure your PDF has a logical heading structure (H1, H2)",
+            "Remove unnecessary headers/footers before converting",
+            "Review the EPUB in a viewer like 'Apple Books' before syncing to Kobo"
         ],
-        relatedTitle: "Related Tools",
+        relatedTitle: "More Tools for E-Readers",
         relatedTools: [
-            { name: "EPUB to PDF", desc: "Convert your ebooks to PDF", path: "/epub-to-pdf" },
-            { name: "OCR PDF", desc: "Make your scans searchable", path: "/ocr-pdf" },
+            { name: "EPUB to PDF", desc: "Turn ebooks into printable documents", path: "/epub-to-pdf" },
+            { name: "OCR PDF", desc: "Unlock text in scanned images", path: "/ocr-pdf" },
             { name: "Organize PDF", desc: "Rearrange pages", path: "/organize-pdf" }
         ]
     }
@@ -178,7 +158,7 @@ export const PdfToEpubGuide: React.FC<GuideProps> = ({ lang, onNavigate }) => {
             "@type": "HowTo",
             "name": t.h1,
             "description": t.seo.desc,
-            "step": t.steps.map((step, i) => ({
+            "step": t.steps.map((step: any, i: number) => ({
                 "@type": "HowToStep",
                 "position": i + 1,
                 "name": step.title,
@@ -188,7 +168,7 @@ export const PdfToEpubGuide: React.FC<GuideProps> = ({ lang, onNavigate }) => {
         {
             "@context": "https://schema.org",
             "@type": "FAQPage",
-            "mainEntity": t.faq.map(item => ({
+            "mainEntity": t.faq.map((item: any) => ({
                 "@type": "Question",
                 "name": item.q,
                 "acceptedAnswer": {
@@ -237,9 +217,9 @@ export const PdfToEpubGuide: React.FC<GuideProps> = ({ lang, onNavigate }) => {
 
                     {/* Why Section */}
                     <section>
-                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">{t.whyTitle}</h2>
+                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">{(t as any).whyTitle}</h2>
                         <ul className="space-y-3">
-                            {t.whyReasons.map((reason, i) => (
+                            {(t as any).whyReasons.map((reason: string, i: number) => (
                                 <li key={i} className="flex items-start gap-3">
                                     <CheckCircle className="text-green-500 shrink-0 mt-0.5" size={20} />
                                     <span>{reason}</span>
@@ -250,9 +230,9 @@ export const PdfToEpubGuide: React.FC<GuideProps> = ({ lang, onNavigate }) => {
 
                     {/* How To Steps */}
                     <section>
-                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">{t.howTitle}</h2>
+                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">{(t as any).howTitle}</h2>
                         <div className="space-y-4">
-                            {t.steps.map((step, i) => (
+                            {t.steps.map((step: any, i: number) => (
                                 <div key={i} className="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 flex gap-4">
                                     <div className="bg-canada-red text-white w-10 h-10 rounded-full flex items-center justify-center font-bold shrink-0 text-lg">
                                         {i + 1}
@@ -271,10 +251,10 @@ export const PdfToEpubGuide: React.FC<GuideProps> = ({ lang, onNavigate }) => {
                         <div className="flex items-start gap-4">
                             <Tablet className="text-blue-600 shrink-0" size={28} />
                             <div>
-                                <h2 className="text-xl font-bold text-blue-900 dark:text-blue-300 mb-2">{t.compatTitle}</h2>
-                                <MarkdownContent content={t.compatText} className="text-blue-800 dark:text-blue-400 mb-3" />
+                                <h2 className="text-xl font-bold text-blue-900 dark:text-blue-300 mb-2">{(t as any).compatTitle}</h2>
+                                <MarkdownContent content={(t as any).compatText} className="text-blue-800 dark:text-blue-400 mb-3" />
                                 <ul className="grid grid-cols-2 gap-2 text-sm text-blue-700 dark:text-blue-400">
-                                    {t.compatList.map((item, i) => (
+                                    {(t as any).compatList.map((item: string, i: number) => (
                                         <li key={i} className="flex items-center gap-2">
                                             <span className="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>
                                             {item}
@@ -290,17 +270,17 @@ export const PdfToEpubGuide: React.FC<GuideProps> = ({ lang, onNavigate }) => {
                         <div className="flex items-start gap-4">
                             <Shield className="text-green-600 shrink-0" size={28} />
                             <div>
-                                <h2 className="text-xl font-bold text-green-900 dark:text-green-300 mb-2">{t.securityTitle}</h2>
-                                <MarkdownContent content={t.securityText} className="text-green-800 dark:text-green-400" />
+                                <h2 className="text-xl font-bold text-green-900 dark:text-green-300 mb-2">{(t as any).securityTitle}</h2>
+                                <MarkdownContent content={(t as any).securityText} className="text-green-800 dark:text-green-400" />
                             </div>
                         </div>
                     </section>
 
                     {/* Tips Section */}
                     <section>
-                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">{t.tipsTitle}</h2>
+                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">{(t as any).tipsTitle}</h2>
                         <ul className="space-y-2">
-                            {t.tips.map((tip, i) => (
+                            {(t as any).tips.map((tip: string, i: number) => (
                                 <li key={i} className="flex items-start gap-3 p-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg">
                                     <span className="text-amber-600 font-bold">{i + 1}.</span>
                                     <span className="text-amber-800 dark:text-amber-300">{tip}</span>
@@ -312,12 +292,12 @@ export const PdfToEpubGuide: React.FC<GuideProps> = ({ lang, onNavigate }) => {
                     {/* CTA */}
                     <section className="bg-canada-red/5 dark:bg-canada-red/10 border border-canada-red/20 p-8 rounded-xl text-center">
                         <Zap className="text-canada-red mx-auto mb-4" size={40} />
-                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">{t.ctaTitle}</h2>
+                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">{(t as any).ctaTitle}</h2>
                         <button
                             onClick={() => onNavigate('TOOL_PAGE', '/pdf-to-epub')}
                             className="inline-flex items-center gap-2 bg-canada-red text-white px-8 py-3 rounded-lg font-bold hover:bg-red-700 transition-colors focus:outline-none focus:ring-2 focus:ring-canada-red focus:ring-offset-2"
                         >
-                            {t.ctaButton} <ArrowRight size={20} />
+                            {(t as any).ctaButton} <ArrowRight size={20} />
                         </button>
                     </section>
 
@@ -325,7 +305,7 @@ export const PdfToEpubGuide: React.FC<GuideProps> = ({ lang, onNavigate }) => {
                     <section>
                         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">FAQ</h2>
                         <div className="space-y-4">
-                            {t.faq.map((item, i) => (
+                            {t.faq.map((item: any, i: number) => (
                                 <details key={i} className="group bg-gray-50 dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
                                     <summary className="p-4 font-bold text-gray-900 dark:text-white cursor-pointer list-none flex justify-between items-center hover:text-canada-red transition-colors">
                                         {item.q}
@@ -341,9 +321,9 @@ export const PdfToEpubGuide: React.FC<GuideProps> = ({ lang, onNavigate }) => {
 
                     {/* Related Tools */}
                     <section>
-                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">{t.relatedTitle}</h2>
+                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">{(t as any).relatedTitle}</h2>
                         <div className="grid md:grid-cols-3 gap-4">
-                            {t.relatedTools.map((tool, i) => (
+                            {(t as any).relatedTools.map((tool: any, i: number) => (
                                 <button
                                     key={i}
                                     onClick={() => onNavigate('TOOL_PAGE', tool.path)}

@@ -81,60 +81,53 @@ const guideContent = {
         },
         h1: "Convert EPUB to PDF",
         subtitle: "The complete guide to transform your ebooks to PDF",
-        intro: "Looking to convert an EPUB file to PDF? Our free tool lets you transform your digital books to universal PDF format in just a few clicks. Whether you want to print an ebook or share it with someone who doesn't have an e-reader, we have the solution.",
+        intro: "Looking to convert an EPUB file to PDF? Our free tool lets you transform your digital books to universal PDF format in just a few clicks. Whether you're an author proofing their work, a student needing to print a textbook, or just someone who wants to share a guide with a friend who doesn't own a Kindle or Kobo, we have the ideal solution. Our **EPUB to PDF converter** works 100% locally, protecting your literary works from unauthorized cloud storage.",
         whyTitle: "Why convert EPUB to PDF?",
         whyReasons: [
-            "Universal compatibility with all devices",
-            "Easy printing of your ebooks",
-            "Simple sharing with colleagues and friends",
-            "Preservation of original layout",
-            "Reading on any computer or tablet"
+            "Universal compatibility with all devices (no special ebook reader apps needed)",
+            "Professional printing: PDFs preserve exact page counts and margins",
+            "Annotation: Easier to highlight and comment on PDFs in standard work environments",
+            "Consistency: Ensure your formatting looks identical for every recipient",
+            "Offline access: PDFs are easily stored and managed in standard file systems"
         ],
-        howTitle: "How to convert EPUB to PDF?",
+        howTitle: "The Anatomy of a Conversion: Reflowable to Fixed",
+        howDescription: "EPUB is a 'reflowable' format, meaning text wraps and scales based on screen size. PDF is 'fixed-layout,' meaning every element has a specific coordinate on a page. Our converter creates a virtual 'print' of your EPUB, choosing optimal font sizes and margins to ensure the resulting PDF is readable on both letter-sized paper and standard tablets.",
         steps: [
             {
                 title: "Select your EPUB file",
-                desc: "Click the 'Select File' button or drag and drop your .epub file directly onto the upload area."
+                desc: "Click the 'Select File' button or drag and drop your .epub file. We handle files up to 100MB thanks to our efficient local engine."
             },
             {
-                title: "Automatic conversion",
-                desc: "Our tool analyzes your ebook and converts each chapter into well-formatted PDF pages. Everything happens locally in your browser."
+                title: "Local Transformation",
+                desc: "Our tool parses the HTML inside the EPUB and renders it into a high-fidelity PDF structure. This happens in your browser's RAM via WebAssembly."
             },
             {
                 title: "Download your PDF",
-                desc: "Once conversion is complete, download your new PDF file ready to print or share."
+                desc: "Instantly download your new PDF. It's now ready for the CRA, for university submissions, or for your local print shop."
             }
         ],
-        securityTitle: "Security and Privacy",
-        securityText: "Unlike other online services, your files never leave your computer. All processing happens locally in your browser using our WebAssembly technology. No uploads to our servers.",
+        securityTitle: "Privacy-First Publishing",
+        securityText: "Your books reflect your knowledge and intellectual property. Unlike cloud-based converters that may keep copies of your files, pdfcanada.ca ensures that your sensitive documents never leave your machine. This is the only way to convert **private EPUBs to PDF** without risking data leaks.",
         faq: [
             {
-                q: "How to convert EPUB to PDF for free?",
-                a: "Use our free online tool. Simply upload your EPUB file and click 'Convert'. Your PDF will be ready in seconds, no signup or payment required."
+                q: "Does the PDF look exactly like the ebook?",
+                a: "Because EPUB is reflowable, the PDF will look like a 'printed' version of the ebook. We use standard book fonts and clear margins to ensure it remains professional and legible."
             },
             {
-                q: "Is EPUB to PDF conversion secure?",
-                a: "Absolutely! Our tool runs entirely in your browser. Your files are never sent to an external server. It's the most secure way to convert your ebooks."
+                q: "Can I convert password-protected EPUBs?",
+                a: "No. If a file has Digital Rights Management (DRM) or is encrypted, it cannot be converted by standard tools. Ensure your EPUB is DRM-free before processing."
             },
             {
-                q: "Can I convert multiple EPUB files to PDF?",
-                a: "Yes, you can convert as many files as you want, one at a time. There's no limit on the number of conversions."
-            },
-            {
-                q: "Is the layout preserved during conversion?",
-                a: "Our tool does its best to preserve the structure and layout of your ebook. Chapters, paragraphs, and images are kept in the final PDF."
-            },
-            {
-                q: "Does it work on mobile?",
-                a: "Yes! Our converter works on all devices: computer, tablet, and smartphone. You can convert your EPUBs to PDF directly from your iPhone or Android."
+                q: "What is the best way to print an EPUB?",
+                a: "Converting to PDF first is the best way. This ensures that the page numbers, headers, and images are locked in place before you send the job to your printer."
             }
         ],
         ctaTitle: "Ready to convert your EPUB to PDF?",
-        ctaButton: "Convert now",
-        relatedTitle: "Related Tools",
+        ctaButton: "Start PDF Conversion",
+        relatedTitle: "Advanced Document Tools",
         relatedTools: [
-            { name: "PDF to EPUB", desc: "Convert your PDFs to ebooks", path: "/pdf-to-epub" },
-            { name: "OCR PDF", desc: "Extract text from your scans", path: "/ocr-pdf" }
+            { name: "PDF to EPUB", desc: "Turn documents into reflowable ebooks", path: "/pdf-to-epub" },
+            { name: "OCR PDF", desc: "Make scanned documents searchable", path: "/ocr-pdf" }
         ]
     }
 };

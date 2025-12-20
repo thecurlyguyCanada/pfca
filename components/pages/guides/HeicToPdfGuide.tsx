@@ -19,76 +19,99 @@ const guideContent = {
         h1: "How to Convert HEIC to PDF Online for Free",
         subtitle: "The simplest, most secure way to transform your iPhone photos into professional PDF documents.",
 
-        intro: "Are you struggling with **HEIC files**? High Efficiency Image Coding (HEIC) is the standard format for photos on iPhones, but it can be a nightmare to share with Windows users or upload to government portals. Our **HEIC to PDF converter** is the ultimate solution. Whether you need to **convert HEIC to PDF on Windows**, **convert HEIC to PDF on Mac**, or simply want a **free HEIC to PDF converter** that respects your privacy, you're in the right place.",
+        intro: "Are you struggling with **HEIC files**? High Efficiency Image Coding (HEIC) is the standard format for photos on iPhones, but it can be a nightmare to share with Windows users, print at local shops, or upload to Canadian government portals like the CRA or IRCC. Our **HEIC to PDF converter** is the ultimate solution. Whether you need to **convert HEIC to PDF on Windows**, **convert HEIC to PDF on Mac**, or simply want a **free HEIC to PDF converter** that respects your privacy, you're in the right place.",
 
         sections: [
             {
                 id: "what-is-heic",
-                title: "What is HEIC and Why Convert to PDF?",
-                content: `HEIC is Apple's version of the High Efficiency Image File format. While it's great for saving storage space, it lacks the universal compatibility of a PDF. By choosing to **convert HEIC to PDF**, you ensure:
-- **Universal Viewing**: Anyone can open a PDF on any device.
-- **Professional Formatting**: Perfect for submitting receipts, IDs, or homework.
-- **Combined Files**: You can turn multiple photos into a single, multi-page PDF document.`
+                title: "What is HEIC and Why Convert it?",
+                content: `HEIC is Apple's version of the High Efficiency Image File format. While it's great for saving storage space on your phone, it lacks the universal compatibility of a PDF. 
+- **Universal Viewing**: Anyone can open a PDF on any device—no special codecs required.
+- **Professional Formatting**: Perfect for submitting receipts, IDs, or homework assignments.
+- **Combined Files**: You can turn multiple individual photos into a single, multi-page PDF document, making it much easier to organize your documentation.`
+            },
+            {
+                id: "compatibility",
+                title: "Compatibility: Windows, Mac, and Global Standards",
+                content: `If you're using a PC, you might notice that Windows doesn't natively open HEIC files without a paid extension from the Microsoft Store. By choosing to **convert HEIC to PDF online free**, you bypass these hurdles entirely. 
+
+Furthermore, many professional and legal institutions in Canada explicitly require documents in PDF format to ensure that formatting and signatures remain intact during transmission.`
             },
             {
                 id: "how-to",
-                title: "3 Easy Steps to Convert HEIC to PDF",
-                content: `Wondering **how to convert HEIC to PDF**? Our local-first tool makes it effortless:
-1. **Select Your Photos**: Click 'Select File' and pick your .HEIC images.
-2. **Arrange (Optional)**: If you've selected multiple, they will appear in order.
-3. **Convert and Save**: Click 'Convert to PDF' and your file will be generated instantly in your browser.
+                title: "How to Convert Multiple HEIC Photos to One PDF",
+                content: `Our local-first tool is designed for bulk processing:
+1. **Select Your Photos**: Click 'Select File' and pick as many .HEIC images as you need. Since we use **client-side processing**, there is no limit on file size.
+2. **Review Order**: Our interface shows you the thumbnails. Ensure they are in the order you want for your document.
+3. **Generate Locally**: Click 'Convert to PDF'. Our script handles the decompression and re-encapsulation into PDF layers right in your RAM.
 
-This is the most **secure HEIC to PDF converter online** because your photos never leave your device.`
+This is the most **secure HEIC to PDF converter** because your personal photos never leave your device.`
             }
         ],
 
         faq: [
             {
                 q: "How to convert HEIC to PDF on iPhone?",
-                a: "Just visit pdfcanada.ca on your iPhone, select your HEIC photos from your library, and our browser tool will convert them to a PDF instantly."
+                a: "Simply visit pdfcanada.ca on your mobile Safari browser, select your HEIC photos from your Photo Library, and our tool will generate a PDF that you can save directly to your Files app."
+            },
+            {
+                q: "Does converting HEIC to PDF lose quality?",
+                a: "Our converter preserves the high resolution of your original images. We translate the image data directly into the PDF container without aggressive compression."
             },
             {
                 q: "What is the best free HEIC to PDF converter?",
-                a: "pdfcanada.ca is the best choice for privacy-conscious users because we process the conversion locally. No uploads mean your private photos stay private."
+                a: "pdfcanada.ca is the top choice for privacy because we use **Local-First technology**. Unlike other sites that upload your photos to a server, we process them in your browser. This means your private photos stay private."
             },
             {
-                q: "Can I convert multiple HEIC to PDF at once?",
-                a: "Yes! You can select dozens of images and our tool will compile them into one high-quality PDF document."
+                q: "Can I convert HEIC to PDF on a Windows PC?",
+                a: "Yes! Our web-based tool works perfectly on any Windows browser (Chrome, Edge, Firefox), providing a free alternative to paid Microsoft Store extensions."
             }
         ],
 
-        ctaTitle: "Ready to Convert Your Photos?",
-        ctaButton: "Convert HEIC Now",
-        ctaSubtext: "100% Free. No Signup. Privacy Guaranteed."
+        ctaTitle: "Ready to Transform Your iPhone Photos?",
+        ctaButton: "Convert HEIC to PDF Now",
+        ctaSubtext: "100% Free. No Signup. Safe for sensitive documents."
     },
     fr: {
         seo: {
             title: "Convertir HEIC en PDF Gratuit | Photos iPhone vers PDF | pdfcanada.ca",
-            desc: "Convertissez HEIC en PDF gratuitement. Apprenez comment transformer vos photos iPhone (HEIC) en PDF sur Windows, Mac et Mobile."
+            desc: "Convertissez HEIC en PDF gratuitement. Apprenez comment transformer vos photos iPhone (HEIC) en PDF sur Windows, Mac et Mobile sans téléchargement."
         },
         h1: "Comment Convertir HEIC en PDF Gratuitement",
-        subtitle: "La façon la plus simple et sécurisée de transformer vos photos iPhone en documents PDF professionnels.",
+        subtitle: "La façon la plus simple et sécurisée de transformer vos photos iPhone en documents PDF professionnels au Canada.",
 
-        intro: "Vous avez des problèmes avec les fichiers **HEIC**? Notre **convertisseur HEIC en PDF** est la solution idéale. Que vous souhaitiez **convertir HEIC en PDF sur Windows** ou **Mac**, notre outil gratuit respecte votre vie privée.",
+        intro: "Vous avez des problèmes de compatibilité avec les fichiers **HEIC** de votre iPhone? Notre **convertisseur HEIC en PDF** est la solution idéale pour partager vos photos avec des utilisateurs Windows ou les soumettre à des portails officiels.",
 
         sections: [
             {
+                id: "what-is-heic",
+                title: "Pourquoi convertir HEIC en PDF ?",
+                content: `Le format HEIC est propre à Apple. En convertissant en PDF, vous assurez une lecture universelle sur n'importe quel ordinateur ou smartphone, sans logiciel supplémentaire.`
+            },
+            {
                 id: "how-to",
-                title: "3 étapes simples pour convertir HEIC en PDF",
-                content: `1. **Sélectionnez vos photos**\n2. **Organisez**\n3. **Convertissez**`
+                title: "3 étapes simples pour la conversion",
+                content: `C'est rapide et local :
+1. **Sélectionnez vos photos** : Importez vos fichiers .HEIC.
+2. **Organisez** : L'ordre des images sera l'ordre des pages.
+3. **Convertissez** : Cliquez pour générer le PDF instantanément dans votre navigateur.`
             }
         ],
 
         faq: [
             {
-                q: "Comment convertir sur iPhone?",
-                a: "Visitez pdfcanada.ca directement sur votre téléphone."
+                q: "Comment convertir sur iPhone ?",
+                a: "Utilisez Safari pour accéder à pdfcanada.ca, choisissez vos photos et enregistrez le PDF résultant."
+            },
+            {
+                q: "Est-ce sécurisé ?",
+                a: "Oui, car vos photos ne quittent jamais votre appareil. Tout le traitement est fait localement."
             }
         ],
 
-        ctaTitle: "Prêt à convertir vos photos?",
+        ctaTitle: "Prêt à convertir vos photos ?",
         ctaButton: "Convertir HEIC maintenant",
-        ctaSubtext: "100% Gratuit. Sans inscription."
+        ctaSubtext: "Gratuit, rapide et privé."
     }
 };
 

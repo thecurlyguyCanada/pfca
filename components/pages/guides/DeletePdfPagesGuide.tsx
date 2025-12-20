@@ -19,126 +19,120 @@ const guideContent = {
         h1: "The Ultimate Guide: How to Delete Pages from PDF",
         subtitle: "Master the art of removing unwanted, blank, or sensitive pages from your PDF documents instantly.",
 
-        intro: "Need to **delete pages from a PDF**? Whether you're trying to **remove pages from PDF** documents for work, school, or personal use, you've likely found that standard readers don't make it easy. Our guide and tool show you exactly **how do you delete pages from a PDF** quickly, securely, and for free. No software installation, no signups, and most importantly—no file uploads to risky servers.",
+        intro: "Need to **delete pages from a PDF**? Whether you're trying to **remove pages from PDF** documents for work, school, or personal use, you've likely found that standard readers don't make it easy. Our guide and tool show you exactly **how do you delete pages from a PDF** quickly, securely, and for free. No software installation, no signups, and most importantly—no file uploads to risky servers. This is especially critical for Canadians handling sensitive medical, legal, or financial documents.",
 
         sections: [
             {
                 id: "how-to",
                 title: "How to Delete Pages from a PDF (Step-by-Step)",
-                content: `If you're wondering **how do I delete pages from a PDF**, the process is simpler than you think. Using our local-first **pdf page remover**, follow these three steps:
+                content: `If you're wondering **how do I delete pages from a PDF**, our local-first **pdf page remover** makes it effortless:
 
-1. **Upload Your PDF File**: Click the 'Select File' button or drag and drop your document. Because we use WebAssembly, your file stays on your device.
-2. **Select Pages to Delete**: Click on the thumbnails of the pages you want to **remove from pdf**. You can **delete multiple pages from PDF** at once by clicking each one.
-3. **Download Your New PDF**: Click 'Remove Pages' and your clean document will download automatically.
+1. **Upload Your PDF File**: Click the 'Select File' button. Because we use WebAssembly, your file is processed in your device's RAM, never on our disks.
+2. **Select Pages to Delete**: As you hover over thumbnails, you'll see a red trash icon. Click on the pages you want to **remove from pdf**. Selected pages will be highlighted.
+3. **Download Your New PDF**: Click 'Remove Pages'. The tool instantly generates a new PDF excluding the selected pages and saves it to your downloads folder.
 
-This is the fastest way to **delete pdf page online** without any hassle.`
+This is the fastest way to **delete pdf page online** without any privacy compromises.`
             },
             {
-                id: "mobile-vs-desktop",
-                title: "Delete Pages from PDF on Any Device",
-                content: `Our tool is built to be universal. Whether you need to **delete pages from pdf on windows**, **delete pages from pdf on mac**, or you're on the go with a mobile device, we have you covered.
-
-- **On iPhone & Android**: You don't need a special app to **delete pages from pdf android** or iOS. Simply visit pdfcanada.ca in your mobile browser and use the same intuitive interface to **remove page from pdf**.
-- **On Desktop**: For those working on complex documents, our interface allows you to see every detail before you **delete unwanted pages from pdf**.`
+                id: "privacy-pii",
+                title: "Removing Sensitive Information (PII)",
+                content: `Deleting pages is often about security. 
+- **Remove Signature Pages**: If you're sharing a contract but want to keep the signature page private, simply delete that specific page.
+- **Data Minimization**: For AODA or CRA submissions, only send the pages required. **Permanently delete pages from PDF** that contain social insurance numbers or private bank details before sharing.
+- **Local vs Cloud**: Other tools upload your file to a server, where a copy may exist for hours. pdfcanada.ca ensures that if you delete a page, it stays deleted and was never seen by anyone else.`
             },
             {
-                id: "long-tail-wins",
-                title: "Specific Scenarios: Scanned, Blank, and Single Pages",
-                content: `Sometimes you need more than just general deletion. Here are some of the most common "easy win" tasks our users perform:
-
-- **Delete Blank Page from PDF**: Scanners often add unnecessary blank pages. Quickly identify and **remove blank page from pdf** to make your document look professional.
-- **Delete Scanned Pages from PDF**: If a scan went wrong, you don't need to re-scan the whole thing. Just **delete scanned pages from pdf** that are blurry or crooked.
-- **Delete One Page from PDF**: Sometimes you just need to **delete last page from pdf** or **delete first page from pdf** to remove a cover note or appendix.
-- **Permanently Delete Pages from PDF**: Unlike "hidden" deletions in some editors, our tool creates a new file that **permanently deletes pages from pdf**, ensuring they cannot be recovered by the recipient.`
+                id: "scenarios",
+                title: "Common Fixes: Blank and Scanned Pages",
+                content: `
+- **Delete Blank Page from PDF**: Often, scanners add an extra page at the end. Use our tool to **remove blank page from pdf** in seconds.
+- **Split and Clean**: If you have a 100-page document but only need the middle 10, it's easier to **delete multiple pages from PDF** at the start and end than to manually re-type the content.
+- **Delete Last Page from PDF**: Many documents have an unnecessary 'Notes' page at the end. **Delete last page from pdf** to keep your files lean.`
             },
             {
-                id: "why-local",
-                title: "Why Use a Free PDF Page Remover Online?",
-                content: `You might ask, "Why should I use this **pdf page deleter** instead of other sites?" Most "free" sites are actually **remove pdf pages online** services that harvest your data. 
-
-As a **delete pages from pdf canada**-based service, we prioritize your privacy. Using a **free pdf page remover** that runs locally means your sensitive data (like tax forms or contracts) is never seen by us or anyone else. It's the most **secure and private** way to **delete pages in pdf** documents.`
+                id: "device-guide",
+                title: "Platform Specific Deletion",
+                content: `
+- **Windows/Mac**: Simply drag-and-drop. Our interface is optimized for high-resolution monitors to help you see fine text before you **delete pdf pages**.
+- **Android/iPhone**: No need to download 'PDF Eraser' apps that might contain malware. Our site works as a **free pdf page remover** directly in your mobile browser.`
             }
         ],
 
         faq: [
             {
                 q: "How can I delete pages from a PDF for free?",
-                a: "You can use pdfcanada.ca. It is a 100% free tool that allows you to delete pdf pages online free of charge. No signup is required."
+                a: "You can use pdfcanada.ca. It is a 100% free tool that allows you to delete pdf pages online free. No signup, no email, no strings attached."
             },
             {
-                q: "Can I remove selected pages from pdf and keep them in order?",
-                a: "Yes! Our tool keeps the remaining pages in their original order. If you need to reorder them, you can use our 'Organize PDF' tool after deleting."
+                q: "Does deleting a page reduce file size?",
+                a: "Yes! By choosing to **remove pages from pdf**, the resulting file will be smaller, making it easier to email or upload to government portals."
             },
             {
-                q: "How to delete pages in a pdf document on a Mac?",
-                a: "Simply open Safari or Chrome on your Mac, visit our site, and use the feature. It works exactly like the Windows version."
+                q: "Can I undo a deletion?",
+                a: "Since the tool creates a *new* file, your original file remains untouched on your computer. If you make a mistake, just start again with the original!"
             },
             {
-                q: "Is it possible to delete multiple pages from pdf at once?",
-                a: "Absolutely. You can select as many pages as you want. They will be highlighted with a red trash icon before you finalize the removal."
+                q: "How to delete pages in a pdf on a Mac without Preview?",
+                a: "While Preview can do basic deletions, our tool is often faster for batch deletions and works the same way across all browsers."
             }
         ],
 
-        ctaTitle: "Ready to Remove PDF Pages?",
-        ctaButton: "Delete Pages Now",
-        ctaSubtext: "Free, fast, and secure. No signup required.",
+        ctaTitle: "Ready to Clean Up Your Document?",
+        ctaButton: "Remove PDF Pages Now",
+        ctaSubtext: "100% Secure. 100% Local. 🇨🇦 Made.",
 
         supportingSections: [
             {
-                title: "Common Mistakes When Deleting PDF Pages",
-                content: "The biggest mistake is not checking the page numbers. Because thumbnails can look similar, always zoom in or preview the page before you **delete pdf pages**. Another mistake is using cloud-based tools for sensitive documents—always stick to local-first processing."
+                title: "Pro Tip: Verify Before Deletion",
+                content: "When you **delete pages from pdf**, always double-check the 'Selection' count at the bottom of our tool. It will tell you exactly how many pages are being removed to ensure you don't accidentally lose a critical page."
             }
         ]
     },
     fr: {
         seo: {
             title: "Supprimer des Pages PDF Gratuit | Enlever Pages PDF en Ligne | pdfcanada.ca",
-            desc: "Apprenez comment supprimer des pages d'un PDF gratuitement en ligne. Le guide ultime pour enlever des pages de documents PDF sur Windows, Mac, iPhone et Android."
+            desc: "Apprenez comment supprimer des pages d'un PDF gratuitement en ligne. Le guide ultime pour enlever des pages de documents PDF au Canada en toute sécurité."
         },
-        h1: "Le Guide Ultime : Comment Supprimer des Pages d'un PDF",
-        subtitle: "Maîtrisez l'art de retirer les pages indésirables, vierges ou sensibles de vos documents PDF instantanément.",
+        h1: "Comment Supprimer des Pages d'un PDF au Canada",
+        subtitle: "Retirez les pages inutiles ou confidentielles de vos documents PDF instantanément et localement.",
 
-        intro: "Besoin de **supprimer des pages d'un PDF**? Que vous essayiez d'**enlever des pages d'un PDF** pour le travail, l'école ou un usage personnel, vous avez probablement constaté que les lecteurs standard ne facilitent pas la tâche. Notre guide vous montre exactement **comment supprimer des pages d'un document PDF** rapidement et en toute sécurité.",
+        intro: "Besoin de **supprimer des pages d'un PDF**? Pour les documents juridiques ou fiscaux canadiens, la sécurité est primordiale. Notre outil vous permet d'**enlever des pages d'un PDF** sans jamais envoyer vos fichiers sur un serveur externe.",
 
         sections: [
             {
                 id: "how-to",
-                title: "Comment Supprimer des Pages d'un PDF (Étape par Étape)",
-                content: `Si vous vous demandez **comment supprimer des pages d'un PDF**, le processus est plus simple que vous ne le pensez. En utilisant notre **outil de suppression de pages PDF** local, suivez ces trois étapes :
-                
-1. **Téléversez Votre Fichier PDF** : Cliquez sur 'Choisir un fichier'. Comme nous utilisons WebAssembly, votre fichier reste sur votre appareil.
-2. **Sélectionnez les Pages à Supprimer** : Cliquez sur les miniatures des pages que vous souhaitez **enlever du PDF**.
-3. **Téléchargez Votre Nouveau PDF** : Cliquez sur 'Supprimer' et votre document sera téléchargé automatiquement.`
+                title: "3 Étapes pour Supprimer des Pages",
+                content: `1. **Sélectionnez le fichier** : Votre document reste privé sur votre ordinateur.
+2. **Cliquez sur les pages** : Choisissez les pages à retirer (marquées d'une icône rouge).
+3. **Téléchargez** : Obtenez votre version épurée immédiatement.`
             },
             {
-                id: "mobile-vs-desktop",
-                title: "Supprimer des Pages PDF sur N'importe Quel Appareil",
-                content: `Notre outil est universel. Que vous ayez besoin de **supprimer des pages PDF sur Windows**, **Mac**, ou que vous soyez en déplacement avec un appareil mobile.
-                
-- **Sur iPhone et Android** : Pas besoin d'application spéciale. Ouvrez simplement pdfcanada.ca dans votre navigateur mobile.
-- **Sur Ordinateur** : Pour les documents complexes, notre interface vous permet de voir chaque détail avant de **supprimer les pages indésirables**.`
+                id: "scenarios-fr",
+                title: "Cas d'utilisation courants",
+                content: `- **Supprimer une page vierge** : Nettoyez vos scans.
+- **Protéger la vie privée** : Retirez les pages contenant des informations sensibles avant le partage.`
             }
         ],
 
         faq: [
             {
-                q: "Comment puis-je supprimer des pages d'un PDF gratuitement ?",
-                a: "Vous pouvez utiliser pdfcanada.ca. C'est un outil 100% gratuit qui vous permet de supprimer des pages PDF en ligne sans frais et sans inscription."
+                q: "Est-ce gratuit ?",
+                a: "Oui, totalement gratuit, sans filigrane et sans inscription."
             },
             {
-                q: "Puis-je supprimer plusieurs pages à la fois ?",
-                a: "Absolument. Vous pouvez sélectionner autant de pages que vous le souhaitez. Elles seront marquées d'une icône de corbeille rouge."
+                q: "Est-ce sécurisé ?",
+                a: "Absolument. Tout se passe dans votre navigateur. Personne d'autre ne voit vos documents."
             }
         ],
 
-        ctaTitle: "Prêt à supprimer des pages PDF ?",
+        ctaTitle: "Prêt à nettoyer votre document ?",
         ctaButton: "Supprimer les pages maintenant",
-        ctaSubtext: "Gratuit, rapide et sécurisé. Aucune inscription requise.",
+        ctaSubtext: "Gratuit, rapide et local.",
 
         supportingSections: [
             {
-                title: "Erreurs courantes lors de la suppression de pages PDF",
-                content: "L'erreur la plus fréquente est de ne pas vérifier les numéros de page. Vérifiez toujours la miniature avant de valider la suppression."
+                title: "Conseil de Pro",
+                content: "Vérifiez toujours le nombre de pages sélectionnées avant de cliquer sur le bouton final."
             }
         ]
     }

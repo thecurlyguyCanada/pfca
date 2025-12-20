@@ -75,23 +75,44 @@ const guideContent = {
         },
         h1: "Comment optimiser vos PDF pour les moteurs de recherche",
         subtitle: "Ne laissez pas vos documents cachés. Apprenez les secrets de l'indexation des PDF.",
-        intro: "Saviez-vous que Google traite les PDF comme des pages Web ordinaires? En suivant les meilleures pratiques SEO pour PDF, vous pouvez garantir que vos rapports et guides se classent bien.",
+        intro: "Saviez-vous que Google traite les PDF comme des pages Web ordinaires? Si vous avez du contenu précieux piégé dans un document, vous manquez du trafic organique. En suivant les **meilleures pratiques SEO pour PDF**, vous pouvez garantir que vos rapports, livres blancs et guides se classent aux côtés (ou même au-dessus) de vos pages Web.",
         sections: [
             {
                 id: "metadata",
                 title: "1. La puissance des métadonnées PDF",
-                content: "Les moteurs de recherche utilisent les métadonnées internes du PDF. Assurez-vous que le titre est descriptif."
+                content: `Les moteurs de recherche utilisent les métadonnées internes.
+- **Titre** : C'est l'élément le plus important. Utilisez vos mots-clés principaux.
+- **Auteur** : Indiquez votre marque pour renforcer l'autorité.
+- **Sujet** : Agit comme une méta-description pour votre document.`
+            },
+            {
+                id: "tech-fr",
+                title: "2. Structure et Lisibilité",
+                content: `Google ne peut pas classer ce qu'il ne peut pas lire. 
+- **L'OCR est essentiel** : Utilisez notre **outil OCR PDF** pour rendre le texte scanné lisible par les machines.
+- **Hiérarchie** : Utilisez des titres logiques pour aider les algorithmes à comprendre le sujet traité.`
+            },
+            {
+                id: "mobile-fr",
+                title: "3. Performance et Mobile",
+                content: `L'expérience utilisateur est un facteur de classement.
+- **Taille du fichier** : Un PDF trop lourd est lent sur mobile. Visez moins de 5 Mo.
+- **Nom de fichier** : Utilisez des tirets et des minuscules (ex: \`guide-seo-2026.pdf\`).`
             }
         ],
         faq: [
             {
                 q: "Google peut-il indexer les PDF protégés par mot de passe?",
-                a: "Non. Si un document est verrouillé, les robots ne peuvent pas explorer le contenu."
+                a: "Non. Si un document est verrouillé, les robots ne peuvent pas explorer le contenu. Assurez-vous que vos PDF publics sont déverrouillés."
+            },
+            {
+                q: "Le texte alternatif (Alt-text) fonctionne-t-il dans les PDF?",
+                a: "Oui, tout comme sur le Web, les moteurs de recherche utilisent le texte alternatif des images pour comprendre le contexte visuel."
             }
         ],
         ctaTitle: "Prêt à optimiser?",
         ctaButton: "Nettoyer les pages PDF",
-        ctaSubtext: "La suppression des pages inutiles aide à garder votre document rapide."
+        ctaSubtext: "La suppression des pages inutiles aide à garder votre document rapide et efficace."
     }
 };
 

@@ -742,6 +742,8 @@ function App() {
             { title: "Make PDF Searchable (OCR)", view: 'GUIDE_OCR', path: '/guides/ocr-pdf', icon: ScanLine },
             { title: "Create Fillable Forms", view: 'GUIDE_FILLABLE', path: '/guides/make-pdf-fillable', icon: PenTool },
             { title: "Organize & Reorder Pages", view: 'GUIDE_ORGANIZE', path: '/guides/organize-pdf', icon: LayoutGrid },
+            { title: "Convert EPUB to PDF", view: 'GUIDE_EPUB_TO_PDF', path: '/guides/convertir-epub-en-pdf', icon: FileText },
+            { title: "Convert PDF to EPUB", view: 'GUIDE_PDF_TO_EPUB', path: '/guides/convertir-pdf-en-epub', icon: Tablet },
             { title: "Accessibility (AODA/WCAG)", view: 'GUIDE_ACCESSIBILITY', path: '/guides/pdf-accessibility-canada', icon: Eye },
             { title: "PDF SEO Optimization", view: 'GUIDE_SEO', path: '/guides/pdf-seo-guide', icon: BarChart },
           ].map((guide, i) => (
