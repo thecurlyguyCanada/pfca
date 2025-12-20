@@ -6,7 +6,7 @@
   <!-- Home Page -->
   <url>
     <loc>https://pdfcanada.ca/</loc>
-    <lastmod>2025-12-18</lastmod>
+    <lastmod>2025-12-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://pdfcanada.ca/"/>
@@ -25,7 +25,7 @@
 
   <url>
     <loc>https://pdfcanada.ca/fr/</loc>
-    <lastmod>2025-12-18</lastmod>
+    <lastmod>2025-12-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://pdfcanada.ca/"/>
@@ -263,7 +263,7 @@
   <!-- SEO Guide Pages -->
   <url>
     <loc>https://pdfcanada.ca/guides/ultimate-pdf-guide</loc>
-    <lastmod>2025-12-18</lastmod>
+    <lastmod>2025-12-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://pdfcanada.ca/guides/ultimate-pdf-guide"/>
