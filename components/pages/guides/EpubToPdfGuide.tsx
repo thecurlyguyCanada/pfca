@@ -14,120 +14,158 @@ const guideContent = {
     fr: {
         seo: {
             title: "Convertir EPUB en PDF Gratuit | epub en pdf | pdfcanada.ca",
-            desc: "Convertir epub en pdf facilement et gratuitement. Notre outil en ligne transforme vos fichiers EPUB en PDF en quelques secondes. Traitement local et sécurisé."
+            desc: "Le guide ultime pour convertir vos EPUB en PDF au Canada. Apprenez à transformer vos ebooks en documents PDF professionnels pour l'impression ou le partage."
         },
-        h1: "Convertir EPUB en PDF",
-        subtitle: "Le guide complet pour transformer vos ebooks en PDF",
-        intro: "Vous cherchez comment convertir un fichier EPUB en PDF? Notre outil gratuit vous permet de transformer vos livres numériques en format PDF universel en quelques clics. Que vous souhaitiez imprimer un ebook ou le partager avec quelqu'un qui n'a pas de liseuse, nous avons la solution.",
-        whyTitle: "Pourquoi convertir EPUB en PDF?",
+        h1: "Le Guide Ultime : Convertir un EPUB en PDF",
+        subtitle: "Transformez vos livres numériques en documents universels, sécurisés et prêts pour l'impression.",
+        intro: "Vous cherchez comment convertir un fichier **EPUB en PDF**? Notre outil gratuit vous permet de transformer vos livres numériques en format PDF universel en quelques clics. Que vous soyez un étudiant devant imprimer un manuel numérique pour ses cours ou un professionnel ayant besoin de partager un rapport au format ebook avec des collègues, nous avons la solution. Contrairement aux services basés sur le cloud, notre **convertisseur EPUB vers PDF** traite tout本地ment, garantissant une confidentialité totale.",
+        whyTitle: "Pourquoi convertir un ebook en PDF ?",
         whyReasons: [
-            "Compatibilité universelle avec tous les appareils",
-            "Facilité d'impression de vos ebooks",
-            "Partage simplifié avec collègues et amis",
-            "Conservation de la mise en page originale",
-            "Lecture sur n'importe quel ordinateur ou tablette"
+            "Compatibilité universelle : Les PDF s'ouvrent sur tous les appareils sans application spéciale.",
+            "Impression parfaite : Contrairement aux EPUB, les PDF conservent une mise en page fixe adaptée au papier (Lettre ou A4).",
+            "Annotation facilitée : Les outils de commentaires sont plus robustes sur PDF pour le travail collaboratif.",
+            "Conservation de la mise en page : Vos polices, images et tableaux resteront exactement là où vous les avez placés.",
+            "Partage sécurisé : Idéal pour les soumissions académiques ou gouvernementales au Canada."
         ],
-        howTitle: "Comment convertir un EPUB en PDF?",
+        howTitle: "Anatomie de la Conversion : Du Reflowable au Fixe",
+        howDescription: "Le format EPUB est 'reflowable', ce qui signifie que le texte s'ajuste à la taille de l'écran. Le PDF est un format 'fixe'. Notre moteur de conversion effectue un rendu virtuel de votre livre pour créer une mise en page élégante et lisible sur n'importe quel support.",
+        sections: [
+            {
+                id: "formatting",
+                title: "Mise en page et polices",
+                content: `Lors de la conversion de **EPUB à PDF**, nous utilisons des algorithmes avancés pour :
+- **Optimiser les marges** : Pour une lecture confortable sur tablette ou papier.
+- **Convertir les liens** : Vos tables des matières numériques deviennent des index PDF cliquables.
+- **Gérer les images** : Les illustrations sont intégrées en haute résolution pour ne pas perdre en qualité lors d'un zoom.`
+            },
+            {
+                id: "printing",
+                title: "Optimisation pour l'impression",
+                content: `Si vous prévoyez d'imprimer votre ebook, le passage par le format PDF est indispensable. Nos fichiers sont compatibles avec les standards d'impression canadiens, garantissant que vos têtes de chapitre et numéros de page ne bougeront pas.`
+            }
+        ],
         steps: [
             {
                 title: "Sélectionnez votre fichier EPUB",
-                desc: "Cliquez sur le bouton 'Choisir un fichier' ou glissez-déposez votre fichier .epub directement sur la zone de téléversement."
+                desc: "Glissez-déposez votre fichier .epub. Nous supportons les fichiers jusqu'à 100 Mo pour vos manuscrits les plus volumineux."
             },
             {
-                title: "Conversion automatique",
-                desc: "Notre outil analyse votre ebook et convertit chaque chapitre en pages PDF bien formatées. Tout se passe localement dans votre navigateur."
+                title: "Transformation locale",
+                desc: "Notre technologie WebAssembly analyse le code HTML interne de l'EPUB et génère un PDF haute-fidélité directement dans votre navigateur."
             },
             {
                 title: "Téléchargez votre PDF",
-                desc: "Une fois la conversion terminée, téléchargez votre nouveau fichier PDF prêt à être imprimé ou partagé."
+                desc: "Récupérez votre document instantanément. Il est prêt pour le partage, l'archivage ou l'impression."
             }
         ],
-        securityTitle: "Sécurité et confidentialité",
-        securityText: "Contrairement à d'autres services en ligne, vos fichiers ne quittent jamais votre ordinateur. Tout le traitement se fait localement dans votre navigateur grâce à notre technologie WebAssembly. Aucun téléversement sur nos serveurs.",
+        securityTitle: "Confidentialité et Propriété Intellectuelle",
+        securityText: "Vos œuvres littéraires sont précieuses. En utilisant pdfcanada.ca, votre livre ne quitte jamais votre appareil. C'est la solution la plus sûre pour les auteurs et chercheurs soucieux de la protection de leurs données personnelles au Canada.",
         faq: [
             {
-                q: "Comment convertir un fichier EPUB en PDF gratuitement?",
-                a: "Utilisez notre outil en ligne gratuit. Il suffit de téléverser votre fichier EPUB et de cliquer sur 'Convertir'. Votre PDF sera prêt en quelques secondes, sans inscription ni paiement."
+                q: "Comment convertir un fichier EPUB en PDF gratuitement ?",
+                a: "Il suffit d'utiliser notre outil en ligne. Le processus est 100% gratuit, sans filigrane et sans limite de pages. Tout le traitement se fait sur votre ordinateur."
             },
             {
-                q: "Est-ce que la conversion EPUB vers PDF est sécurisée?",
-                a: "Absolument! Notre outil fonctionne entièrement dans votre navigateur. Vos fichiers ne sont jamais envoyés sur un serveur externe. C'est la méthode la plus sécurisée pour convertir vos ebooks."
+                q: "Est-ce que la conversion conserve les images ?",
+                a: "Oui, notre outil préserve toutes les images, illustrations et tableaux présents dans le fichier EPUB original en optimisant leur résolution pour le format PDF."
             },
             {
-                q: "Puis-je convertir plusieurs fichiers EPUB en PDF?",
-                a: "Oui, vous pouvez convertir autant de fichiers que vous le souhaitez, un à la fois. Il n'y a aucune limite sur le nombre de conversions."
+                q: "Puis-je convertir des livres avec DRM ?",
+                a: "Non. Si votre livre est protégé par un verrou numérique (Digital Rights Management), notre outil ne pourra pas y accéder. Assurez-vous que votre fichier est libre de droits ou sans DRM."
             },
             {
-                q: "La mise en page est-elle conservée lors de la conversion?",
-                a: "Notre outil fait de son mieux pour préserver la structure et la mise en page de votre ebook. Les chapitres, paragraphes et images sont conservés dans le PDF final."
-            },
-            {
-                q: "Fonctionne-t-il sur mobile?",
-                a: "Oui! Notre convertisseur fonctionne sur tous les appareils: ordinateur, tablette et smartphone. Vous pouvez convertir vos EPUB en PDF directement depuis votre iPhone ou Android."
+                q: "Quelle taille de papier est utilisée ?",
+                a: "Par défaut, notre convertisseur utilise le format Lettre (standard au Canada et aux États-Unis), ce qui est idéal pour l'impression locale."
             }
         ],
-        ctaTitle: "Prêt à convertir votre EPUB en PDF?",
-        ctaButton: "Convertir maintenant",
-        relatedTitle: "Outils connexes",
+        ctaTitle: "Prêt à transformer votre livre ?",
+        ctaButton: "Convertir en PDF maintenant",
+        relatedTitle: "Outils de lecture recommandés",
         relatedTools: [
-            { name: "PDF vers EPUB", desc: "Convertissez vos PDF en ebooks", path: "/pdf-to-epub" },
-            { name: "OCR PDF", desc: "Extrayez le texte de vos scans", path: "/ocr-pdf" }
+            { name: "PDF vers EPUB", desc: "Créez des ebooks à partir de documents", path: "/pdf-to-epub" },
+            { name: "OCR PDF", desc: "Rendez vos scans consultables", path: "/ocr-pdf" },
+            { name: "Supprimer des pages", desc: "Nettoyez vos documents PDF", path: "/delete-pdf-pages" }
         ]
     },
     en: {
         seo: {
-            title: "Convert EPUB to PDF Free | Online Converter | pdfcanada.ca",
-            desc: "Convert EPUB to PDF easily and for free. Our online tool transforms your EPUB files into PDF in seconds. Local and secure processing."
+            title: "Convert EPUB to PDF Free | Professional Online Converter | pdfcanada.ca",
+            desc: "Expert guide on converting EPUB to PDF for owners of Kindle, Kobo, and reMarkable. High-fidelity rendering with total privacy and no uploads."
         },
-        h1: "Convert EPUB to PDF",
-        subtitle: "The complete guide to transform your ebooks to PDF",
-        intro: "Looking to convert an EPUB file to PDF? Our free tool lets you transform your digital books to universal PDF format in just a few clicks. Whether you're an author proofing their work, a student needing to print a textbook, or just someone who wants to share a guide with a friend who doesn't own a Kindle or Kobo, we have the ideal solution. Our **EPUB to PDF converter** works 100% locally, protecting your literary works from unauthorized cloud storage.",
-        whyTitle: "Why convert EPUB to PDF?",
+        h1: "The Definitive Guide: Converting EPUB to PDF",
+        subtitle: "Transform your digital library into a stable, printable, and universally accessible format.",
+        intro: "Need to convert an **EPUB to PDF** for professional use or printing? While EPUB is fantastic for e-readers, the PDF format remains king for formal submissions, high-quality printing, and corporate documentation. Whether you are a student preparing materials for a Canadian university or a self-published author proofreading your latest manuscript, our **free online EPUB to PDF converter** provides a professional-grade result without the security risks of cloud-based competitors. We process everything locally in your browser memory.",
+        whyTitle: "The Case for PDF over EPUB",
         whyReasons: [
-            "Universal compatibility with all devices (no special ebook reader apps needed)",
-            "Professional printing: PDFs preserve exact page counts and margins",
-            "Annotation: Easier to highlight and comment on PDFs in standard work environments",
-            "Consistency: Ensure your formatting looks identical for every recipient",
-            "Offline access: PDFs are easily stored and managed in standard file systems"
+            "Fixed Layout: Ensure every table, image, and page number stays exactly where you intended (ideal for textbooks).",
+            "Universal Printing: PDFs are natively supported by every print shop and local printer across Canada.",
+            "Cross-Platform Stability: A PDF looks the same on an iPhone, a Windows PC, and a Linux workstation.",
+            "Advanced Annotation: Use industry-standard tools to sign, mark up, and highlight documents.",
+            "Accessibility (WCAG): Properly structured PDFs are easier to optimize for screen readers in professional settings."
         ],
-        howTitle: "The Anatomy of a Conversion: Reflowable to Fixed",
-        howDescription: "EPUB is a 'reflowable' format, meaning text wraps and scales based on screen size. PDF is 'fixed-layout,' meaning every element has a specific coordinate on a page. Our converter creates a virtual 'print' of your EPUB, choosing optimal font sizes and margins to ensure the resulting PDF is readable on both letter-sized paper and standard tablets.",
+        howTitle: "The Science of High-Fidelity Conversion",
+        howDescription: "EPUB files are essentially simplified websites (HTML/CSS) zipped into a container. To convert **EPUB to PDF** accurately, our engine performs a full layout calculation, determines appropriate page breaks, and embeds fonts to ensure the resulting document is a stable snapshot of your ebook.",
+        sections: [
+            {
+                id: "layout-logic",
+                title: "Preserving Book Structure",
+                content: `Our converter doesn't just 'scrape' text; it respects the logic of your book:
+- **Table of Contents**: Internal links are preserved, creating a clickable navigation sidebar in your PDF viewer.
+- **Font Substitution**: If an EPUB has un-embedded fonts, we use high-quality open-source alternatives to maintain readability.
+- **Chapter Breaks**: Every new chapter starts on a fresh PDF page, maintaining the rhythm of the original book.`
+            },
+            {
+                id: "professional-use",
+                title: "Legal and Academic Submissions",
+                content: `Many institutional portals in Canada do not accept EPUB files due to their variable page counts. Converting to PDF provides a fixed reference (e.g., 'See page 42') that is essential for citations, legal filings, and government forms.`
+            },
+            {
+                id: "media-handling",
+                title: "Images, Tables, and Math",
+                content: `Complex EPUBs containing SVG diagrams or mathematical formulas (MathML) require a sophisticated engine. Our local-first approach uses modern browser rendering to ensure these elements remain sharp and accurate in the final PDF export.`
+            }
+        ],
         steps: [
             {
                 title: "Select your EPUB file",
-                desc: "Click the 'Select File' button or drag and drop your .epub file. We handle files up to 100MB thanks to our efficient local engine."
+                desc: "Choose your .epub file. We support both EPUB 2 and EPUB 3 standards, including those with complex embedded media."
             },
             {
-                title: "Local Transformation",
-                desc: "Our tool parses the HTML inside the EPUB and renders it into a high-fidelity PDF structure. This happens in your browser's RAM via WebAssembly."
+                title: "Privacy-Protected Rendering",
+                desc: "Our WebAssembly engine processes the conversion in a sandboxed environment on your device. Your intellectual property never touches our servers."
             },
             {
-                title: "Download your PDF",
-                desc: "Instantly download your new PDF. It's now ready for the CRA, for university submissions, or for your local print shop."
+                title: "Finalize and Download",
+                desc: "Click download to save your new PDF. It is optimized for standard 8.5x11 inch paper by default."
             }
         ],
-        securityTitle: "Privacy-First Publishing",
-        securityText: "Your books reflect your knowledge and intellectual property. Unlike cloud-based converters that may keep copies of your files, pdfcanada.ca ensures that your sensitive documents never leave your machine. This is the only way to convert **private EPUBs to PDF** without risking data leaks.",
+        securityTitle: "Secure Local Processing (No Uploads)",
+        securityText: "At pdfcanada.ca, we believe in 'Data Sovereignty'. Most online converters sell your reading data or keep copies of your manuscripts. Our tool runs strictly in your computer's RAM. When you close the tab, your file is gone. This is the **most secure way to convert EPUB to PDF** in Canada.",
         faq: [
             {
-                q: "Does the PDF look exactly like the ebook?",
-                a: "Because EPUB is reflowable, the PDF will look like a 'printed' version of the ebook. We use standard book fonts and clear margins to ensure it remains professional and legible."
+                q: "Why do some images look blurry after conversion?",
+                a: "If the original EPUB contains low-resolution images optimized for small screens, they may appear soft when scaled to a full PDF page. Our tool attempts to maximize sharpness during the rendering phase."
             },
             {
-                q: "Can I convert password-protected EPUBs?",
-                a: "No. If a file has Digital Rights Management (DRM) or is encrypted, it cannot be converted by standard tools. Ensure your EPUB is DRM-free before processing."
+                q: "Will my bookmarks and highlights be converted?",
+                a: "Standard internal EPUB bookmarks (Table of Contents) are converted to PDF Bookmarks. However, personal highlights made within a specific e-reader app (like iBooks or Kindle) are not part of the file itself and cannot be converted."
             },
             {
-                q: "What is the best way to print an EPUB?",
-                a: "Converting to PDF first is the best way. This ensures that the page numbers, headers, and images are locked in place before you send the job to your printer."
+                q: "Is there a limit on file size?",
+                a: "We support files up to 100MB. Larger files may take a few more seconds to process as they require more of your device's CPU and RAM."
+            },
+            {
+                q: "Does it work with reMarkable or Kindle Scribe?",
+                a: "Yes! Converting EPUB to PDF is the primary way to get a stable layout for writing notes or 'inking' on devices like the reMarkable paper tablet."
             }
         ],
-        ctaTitle: "Ready to convert your EPUB to PDF?",
-        ctaButton: "Start PDF Conversion",
-        relatedTitle: "Advanced Document Tools",
+        ctaTitle: "Upgrade Your Library Today",
+        ctaButton: "Convert EPUB to PDF",
+        relatedTitle: "Complementary Document Tools",
         relatedTools: [
-            { name: "PDF to EPUB", desc: "Turn documents into reflowable ebooks", path: "/pdf-to-epub" },
-            { name: "OCR PDF", desc: "Make scanned documents searchable", path: "/ocr-pdf" }
+            { name: "PDF to EPUB", desc: "Turn fixed documents into reflowable ebooks", path: "/pdf-to-epub" },
+            { name: "OCR PDF", desc: "Extract text from image-based scans", path: "/ocr-pdf" },
+            { name: "Organize PDF", desc: "Rearrange your book's page order", path: "/organize-pdf" }
         ]
     }
 };
@@ -201,15 +239,25 @@ export const EpubToPdfGuide: React.FC<GuideProps> = ({ lang, onNavigate }) => {
                     {/* Why Section */}
                     <section>
                         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">{t.whyTitle}</h2>
-                        <ul className="space-y-3">
+                        <ul className="space-y-4 mb-8">
                             {t.whyReasons.map((reason, i) => (
                                 <li key={i} className="flex items-start gap-3">
-                                    <CheckCircle className="text-green-500 shrink-0 mt-0.5" size={20} />
+                                    <CheckCircle className="text-canada-red shrink-0 mt-0.5" size={20} />
                                     <span>{reason}</span>
                                 </li>
                             ))}
                         </ul>
                     </section>
+
+                    {/* New Detailed Sections */}
+                    <div className="grid md:grid-cols-2 gap-12 border-t border-gray-100 dark:border-gray-800 pt-12">
+                        {t.sections.map((section) => (
+                            <div key={section.id} className="space-y-4">
+                                <h3 className="text-xl font-bold text-gray-900 dark:text-white">{section.title}</h3>
+                                <MarkdownContent content={section.content} className="text-gray-600 dark:text-gray-400" />
+                            </div>
+                        ))}
+                    </div>
 
                     {/* How To Steps */}
                     <section>
